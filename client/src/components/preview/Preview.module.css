@@ -1,0 +1,210 @@
+.container {
+  width: 100%;
+  height: var(--preview-height);
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  background-color: rgb(var(--top-color));
+  z-index: 1;
+  overflow: hidden;
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+      90deg,
+      rgba(var(--top-color), 1) 60%,
+      rgba(var(--top-color), 0) 75%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(var(--top-color), 1) 8%,
+      rgba(var(--top-color), 0) 15%
+    );
+
+  position: absolute;
+  z-index: 2;
+  display: flex;
+}
+
+.description {
+  display: grid;
+  margin-left: 3.5em;
+  grid-template-rows: repeat(7, 1fr);
+  row-gap: 0.3em;
+}
+
+.title {
+  grid-row: 1;
+  font-size: 1.3em;
+}
+
+.numbers {
+  grid-row: 2;
+  width: 65%;
+  font-size: 0.9em;
+  display: flex;
+}
+
+.plot {
+  grid-row: 3;
+  width: 60%;
+  height: 4em;
+  font-size: 0.8em;
+  overflow: hidden;
+}
+
+.row {
+  grid-row: 4;
+  font-size: 0.85em;
+  display: flex;
+}
+
+.col1 > p {
+  color: rgb(var(--secondary-text));
+}
+
+.col1, .col2 {
+  display: grid;
+  grid-template-rows: repeat(3, 1em);
+  row-gap: 0.3em;
+}
+.col2{
+  margin-left: 1em;
+}
+
+
+.rating > p,
+.runtime > p,
+.year > p,
+.awards > p {
+  font-size: 0.85em;
+  color: rgb(var(--secondary-text));
+}
+
+.rating,
+.runtime,
+.year,
+.awards {
+  display: flex;
+}
+
+.runtime,
+.year,
+.awards {
+  margin-left: 2em;
+}
+
+.calendar,
+.hourglass,
+.rotten,
+.tomatoes,
+.oscar {
+  height: 1.2em;
+  width: 1.2em;
+  background-repeat: no-repeat;
+  margin-right: 0.5em;
+  background-size: 1.1em;
+}
+
+.calendar {
+  background-image: url("../../assets/icons/calendar.png");
+}
+
+.hourglass {
+  background-image: url("../../assets/icons/hourglass.png");
+}
+
+.rotten {
+  background-image: url("../../assets/icons/rotten_tomatoes_59.png");
+}
+.tomatoes {
+  background-image: url("../../assets/icons/rotten_tomatoes_60.png");
+}
+
+.oscar {
+  background-image: url("../../assets/icons/oscar.png");
+}
+
+.oscarCounter {
+  display: flex;
+  color: rgb(var(--secondary-text));
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.oscar {
+  height: 1.2em;
+  width: 1.2em;
+  background-size: 1.2em;
+  background-image: url("../../assets/icons/oscar.png");
+}
+
+.btns {
+  display: flex;
+  position: absolute;
+  margin-top: 11.5em;
+}
+
+.play1Btn,
+.play2Btn {
+  font-size: 0.8em;
+  border-style: none;
+  border-radius: var(--chip-radius);
+  background-color: rgb(var(--menu-color));
+  width: 7em;
+  height: var(--button-height);
+  cursor: pointer;
+}
+
+.play2Btn {
+  margin-left: 5em;
+}
+
+.videoWall {
+  position: absolute;
+  width: 40%;
+  height: 105%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.trailer {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  object-fit: fill;
+}
+
+.videoWall > img {
+  width: 13em;
+  aspect-ratio: 2/3;
+}
+
+.volBtn,
+.muteBtn {
+  border-style: none;
+  border-radius: 2.5em;
+  background-color: rgb(var(--back-color));
+  top: 1em;
+  right: 1em;
+  width: 2.5em;
+  height: 2.5em;
+  cursor: pointer;
+  position: absolute;
+  background-image: url("../../assets/icons/icon_volume_0.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px;
+  transition: 0.2s;
+  opacity: 0.7;
+}
+
+.volBtn {
+  background-image: url("../../assets/icons/icon_volume_0.png");
+}
+
+.muteBtn {
+  background-image: url("../../assets/icons/icon_volume_100.png");
+}

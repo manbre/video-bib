@@ -1,0 +1,94 @@
+.container {
+  background-color: black;
+  height: var(--bar-size);
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+.dragBar {
+  width: 100%;
+  height: var(--bar-size);
+  -webkit-app-region: drag;
+}
+
+.logo {
+  width: calc(var(--bar-size) - 10px);
+  height: calc(var(--bar-size) - 10px);
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+
+.buttonsBar {
+  width: fit-content;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.minBtn,
+.maxBtn,
+.restoreBtn,
+.closeBtn {
+  width: 3em;
+  height: var(--button-height);
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+
+.openMenuBtn,
+.closeMenuBtn {
+  width: 4em;
+  height: var(--button-height);
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+
+
+.minBtn:hover,
+.maxBtn:hover,
+.restoreBtn:hover,
+.openMenuBtn:hover,
+.closeMenuBtn:hover {
+  background-color: rgb(var(--menu-color));
+}
+
+.closeBtn:hover {
+  background-color: #e81123;
+}
+
+.openMenuBtn {
+  background-image: url("../../assets/icons/icon_arrowDown.png");
+}
+
+.closeMenuBtn {
+  background-image: url("../../assets/icons/icon_arrowUp.png");
+}
+
+.minBtn {
+  background-image: url("../../assets/icons/icon_min.png");
+}
+
+.maxBtn {
+  background-image: url("../../assets/icons/icon_max.png");
+}
+
+.restoreBtn {
+  background-image: url("../../assets/icons/icon_restore.png");
+}
+
+.closeBtn {
+  background-image: url("../../assets/icons/icon_close.png");
+}

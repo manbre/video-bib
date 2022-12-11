@@ -1,0 +1,10 @@
+.container{
+    height: 100%;
+    width: 100%;
+}
+
+.video{
+    position: absolute;
+    z-index: 1;
+}
+

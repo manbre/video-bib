@@ -1,0 +1,211 @@
+.container {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: black;
+  cursor: pointer;
+}
+.player {
+  height: 100%;
+  width: 100%;
+  left: 0;
+  display: grid;
+  position: relative;
+  z-index: 2;
+  grid-template-rows: repeat(10, auto);
+  grid-template-columns: repeat(10, auto);
+  opacity: 0;
+  transition-delay: 0.5s;
+}
+
+.container:hover .player {
+  opacity: 1;
+}
+
+.top {
+  margin-top: 10px;
+  grid-row: 1/2;
+  grid-column: 1/11;
+  z-index: 3;
+  opacity: 0.4;
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+}
+.title {
+  grid-column: 6 / 8;
+  font-size: 30px;
+  justify-self: center;
+}
+
+.controls {
+  grid-column: 9 / 10;
+  display: flex;
+  justify-content: flex-end;
+}
+.volumeOver,
+.volumeMute,
+.volumeUnder,
+.screenButton,
+.closeButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40px;
+  transition: 0.2s;
+  cursor: pointer;
+  opacity: 0.4;
+}
+
+.volumeOver:hover,
+.volumeMute:hover,
+.volumeUnder:hover,
+.screenButton:hover,
+.closeButton:hover {
+  opacity: 1;
+}
+
+.volumeOver {
+  background-image: url("../../assets/icons/icon_volume_100.png");
+}
+
+.volumeUnder {
+  background-image: url("../../assets/icons/icon_volume_50.png");
+}
+
+.volumeMute {
+  background-image: url("../../assets/icons/icon_volume_0.png");
+}
+
+.volumeOver,
+.volumeMute,
+.volumeUnder,
+.screenButton {
+  margin-right: 30px;
+}
+
+.closeButton {
+  margin-left: 30px;
+}
+
+.controls input {
+  width: 90px;
+  height: 3px;
+  margin-right: 50px;
+  margin-top: 20px;
+}
+
+.volume {
+  background-image: url("../../assets/icons/icon_volume_100.png");
+}
+
+.screenButton {
+  background-image: url("../../assets/icons/icon_fullscreen.png");
+  background-size: 30px;
+}
+
+.closeButton {
+  background-image: url("../../assets/icons/icon_left.png");
+}
+
+.mid {
+  grid-row: 3/8;
+  grid-column: 3/9;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.rewind,
+.pause,
+.play,
+.forward {
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  transition: 0.2s;
+  cursor: pointer;
+  margin: 25px;
+  opacity: 0.2;
+}
+
+.rewind:hover,
+.pause:hover,
+.play:hover,
+.forward:hover {
+  opacity: 0.8;
+}
+
+.rewind {
+  width: 15%;
+  height: 90%;
+  background-image: url("../../assets/icons/icon_rewind.png");
+}
+
+.pause {
+  width: 20%;
+  height: 90%;
+  background-image: url("../../assets/icons/pause_button.png");
+}
+
+.play {
+  width: 20%;
+  height: 90%;
+  background-image: url("../../assets/icons/play_button.png");
+}
+
+.forward {
+  width: 15%;
+  height: 90%;
+  background-image: url("../../assets/icons/icon_forward.png");
+}
+
+.progress {
+  grid-row: 10/10;
+  grid-column: 1/11;
+  z-index: 3;
+  opacity: 0.4;
+  margin-bottom: 40px;
+  width: 95%;
+  justify-self: center;
+}
+
+.progress input {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+}
+
+.bottom {
+  grid-row: 10/11;
+  grid-column: 1/11;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  opacity: 0.4;
+}
+.time {
+  margin-left: 20px;
+  margin-top: 25px;
+}
+
+.nextButton {
+  margin-right: 20px;
+  margin-top: 25px;
+  background: transparent;
+  border: none;
+  height: 20px;
+  width: 100px;
+  font-size: 17px;
+  z-index: 3;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.nextButton:hover {
+  opacity: 1;
+}

@@ -1,0 +1,48 @@
+{
+  "name": "video-bib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --config webpack.common.js --watch",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.5",
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.3",
+    "electron": "^20.0.3",
+    "electron-redux": "^1.5.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-player": "^2.9.0",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
+    "redux": "^4.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.1",
+    "video-react": "^0.15.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/runtime": "^7.18.9",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^4.3.0",
+    "dotenv-webpack": "^8.0.1",
+    "electron-reload": "^1.5.0",
+    "file-loader": "^6.2.0",
+    "react-error-overlay": "6.0.9",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^3.3.12"
+  }
+}

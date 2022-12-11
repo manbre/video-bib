@@ -1,0 +1,109 @@
+.container {
+  background-color: rgb(var(--menu-color));
+  height: 100%;
+  width: 21em;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.folderChoice {
+  display: flex;
+  background-color: rgb(var(--top-color));
+  border: 2px solid rgb(var(--back-color));
+  width: 100%;
+  min-height: 2.5em;
+  padding-top: 0.5em;
+  padding-left: 1em;
+  top: 0;
+  position: sticky;
+  z-index: 2;
+}
+
+.folderInput {
+  background-color: rgb(var(--back-color));
+  border-style: none;
+  pointer-events: none;
+  margin-left: 1em;
+  height: 1.5em;
+  width: 16em;
+}
+
+.folderBtn {
+  border-style: none;
+  background-color: rgb(var(--back-color));
+  background-image: url("../../assets/icons/icon_input_file.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.2em;
+  width: 2.5em;
+  height: 1.5em;
+  margin-left: 0.5em;
+  cursor: pointer;
+}
+
+.tabBar {
+  display: flex;
+  background-color: rgb(var(--back-color));
+  height: var(--bar-size);
+  justify-content: flex-end;
+  top: 0;
+  position: sticky;
+}
+
+.tabBar > button {
+  padding: 0.5em;
+  border-style: none;
+  border-top-left-radius: var(--chip-radius);
+  border-top-right-radius: var(--chip-radius);
+  background-color: rgb(var(--top-color));
+  cursor: pointer;
+}
+
+.btns {
+  width: 21em;
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(var(--top-color));
+  border: 3px solid rgb(var(--back-color));
+  padding-top: 0.5em;
+  justify-content: space-around;
+  position: absolute;
+  padding-bottom: 0.5em;
+  bottom: 0;
+  position: absolute;
+  z-index: 2;
+}
+
+.deleteBtn {
+  border-radius: var(--chip-radius);
+  border-style: none;
+  background-color: rgb(var(--back-color));
+  background-image: url("../../assets/icons/icon_delete.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.2em;
+  width: 3em;
+  height: 2em;
+  cursor: pointer;
+}
+
+.fillBtn {
+  border-radius: var(--chip-radius);
+  border-style: none;
+  background-color: rgb(var(--secondary-text));
+  color: rgb(var(--back-color));
+  width: 4em;
+  height: 2em;
+  cursor: pointer;
+}
+
+.submitBtn {
+  border-radius: var(--chip-radius);
+  border-style: none;
+  background-color: rgb(var(--back-color));
+  color: rgb(var(--secondary-text));
+  width: 8em;
+  height: 2em;
+  cursor: pointer;
+}

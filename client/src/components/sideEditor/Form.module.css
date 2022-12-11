@@ -1,0 +1,107 @@
+.container {
+  background-color: rgb(var(--menu-color));
+  height: 100%;
+  min-width: 22em;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5em;
+}
+
+.form {
+  width: 95%;
+  padding-bottom: 5em;
+  padding-left: 1em;
+  overflow-x: hidden;
+}
+
+.row {
+  padding-top: 0.3em;
+  width: 100%;
+  display: flex;
+  padding-right: 1em;
+}
+
+input {
+  border-style: none;
+  background-color: rgb(var(--top-color));
+  padding-left: 0.5em;
+  height: 1.4em;
+}
+
+.topLeft {
+  display: flex;
+  flex-direction: column;
+  width: 17em;
+  margin-right: 0.2em;
+}
+
+label {
+  color: rgb(var(--secondary-text));
+  font-size: 0.85em;
+}
+
+label > .tag {
+  font-size: 0.7em;
+  color: rgb(var(--secondary-text));
+}
+
+.topRight {
+  display: flex;
+  flex-direction: column;
+  width: 4em;
+  margin-left: 1em;
+}
+
+.mid {
+  display: flex;
+  flex-direction: column;
+  width: 19em;
+  margin-top: -0.3em;
+}
+
+.mid > .inputPlot {
+  height: 3.5em;
+  width: 22em;
+  background-color: rgb(var(--top-color));
+  border-style: none;
+  resize: none;
+  overflow-y: scroll;
+}
+
+.poster {
+  height: calc(var(--preview-card-height) * 1.1);
+  width: calc(var(--preview-card-width) * 1.1);
+}
+.poster > img {
+  width: 7em;
+  aspect-ratio: 2/3;
+  object-fit: fill;
+}
+
+.bottomRight {
+  display: flex;
+  flex-direction: column;
+  width: 17em;
+  margin-left: 0.5em;
+}
+
+.bottomRight > .line {
+  display: flex;
+}
+
+.bottomRight > .line > input {
+  width: 85%;
+}
+
+.bottomRight > .line > .sourceBtn {
+  border-style: none;
+  background-color: rgb(var(--top-color));
+  background-image: url("../../assets/icons/icon_input_file.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.2em;
+  width: 2.5em;
+  height: 1.3em;
+  margin-left: 0.5em;
+  cursor: pointer;
+}

@@ -1,0 +1,48 @@
+
+
+.container {
+  position: absolute;
+  right: 1em;
+}
+
+.bar {
+  background-color: rgb(var(--menu-color));
+  border-radius: var(--chip-radius);
+  width: fit-content;
+  height: 25px;
+  display: flex;
+}
+
+.marker {
+  height: 25px;
+  width: 65px;
+  border-radius: var(--chip-radius);
+  background-color: rgb(var(--secondary-text));
+  transition-property: margin;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in;
+  position: absolute;
+  z-index: 0;
+  align-self: center;
+}
+.seriesButton,
+.movieButton {
+  border: none;
+  border-radius: var(--button-radius);
+  height: --button-height;
+  width: 65px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  font-size: 12px;
+}
+
+.seriesButton {
+  margin-left: 10px;
+}
+
+.movieButton:focus .marker {
+  margin-left: 80px;
+}

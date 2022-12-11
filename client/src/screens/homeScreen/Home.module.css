@@ -1,0 +1,120 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(var(--back-color));
+}
+
+.content {
+  height: 100%;
+  display: flex;
+}
+
+
+#editor {
+  /*   background-color: var(--menu-color); */
+  height: 100vh;
+}
+.tabBar {
+  /*   background-color: var(--back-color); */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tab {
+  /*   background-color: var(--back-color); */
+  border-style: none;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.tab:active {
+  /*   background-color: var(--menu-color); */
+}
+
+.center {
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden; /*!important! for trailer "overflow"*/
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+.navBars {
+  background:  linear-gradient(0deg, rgba(var(--back-color), 1) 87%, rgba(var(--top-color), 1) 96%);
+  height: var(--bar-size);
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+  border-left: 1px solid var(--back-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+
+
+
+
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.closeBtn {
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 1em;
+  margin-left: 1em;
+  position: absolute;
+  z-index: 3;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.5em;
+  transition: 0.2s;
+  cursor: pointer;
+  background-image: url("../../assets/icons/icon_close.png");
+}
+
+.preview{
+  background: /* linear-gradient(
+    90deg,
+    rgba(18, 18, 18, 1) 53%,
+    rgba(18, 18, 18, 0) 63%
+  ), */
+  linear-gradient(0deg, rgba(var(--back-color), 1) 3%, rgba(var(--top-color), 0) 6%);
+  min-height: var(--preview-height);
+  position: relative;
+  z-index: 3;
+}
+
+.cluster {
+  width: 100%;
+  padding-top: 0.5em;
+  padding-bottom: 3em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.light {
+  background-color: aqua;
+  right: 0;
+  top: 0;
+  width: 50rem;
+  height: 21rem;
+  position: absolute;
+  z-index: -1;
+}

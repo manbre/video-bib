@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+}
+
+.input {
+  border-style: none;
+  height: 2em;
+  width: 20em;
+  background-color: rgb(var(--top-color));
+  border: 1px solid rgb(var(--menu-color));
+  border-radius: var(--chip-radius);
+}
+
+.input:focus {
+  border: 1px solid rgb(var(--secondary-text));
+}

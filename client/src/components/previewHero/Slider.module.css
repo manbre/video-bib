@@ -1,0 +1,46 @@
+.container{
+    position: relative;
+    display: flex;
+    height: 14em;
+    width: 33em;
+    outline: 1px solid green;
+}
+
+.slider{
+    outline: 1px solid red;
+    margin-left: 1em;
+    margin-top: 1em;
+    height: 13em;
+    width: 31.5em;
+    display: flex;
+    overflow: hidden;
+}
+
+.prev,
+.next {
+  background-color: var(--back-color);
+  height: 1.4em;
+  width: 1em;
+  position: relative;
+  z-index: 2;
+  text-decoration: none;
+  font-size: 1.5em;
+  color: white;
+  opacity: 0.95;
+}
+
+.prev {
+  justify-self: flex-start;
+  text-align: left;
+  padding-left: 0.1em;
+}
+
+.next {
+  text-align: right;
+  padding-right: 0.1em;
+}
+
+.prev:active,
+.next:active {
+  transform: translateY(1px);
+}
