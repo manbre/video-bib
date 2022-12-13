@@ -161,7 +161,9 @@ const FormMovie = (props) => {
   };
 
   const emptyInput = () => {
-    let fields = document.getElementsByTagName("input");
+    let fields = document
+      .getElementById("movie_form")
+      .getElementsByTagName("input");
     for (let i = 0; i < fields.length; i++) {
       fields[i].value = "";
     }
@@ -193,7 +195,7 @@ const FormMovie = (props) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.form}>
+      <div id="movie_form" className={styles.form}>
         <div className={styles.row}>
           <div className={styles.topLeft}>
             <label>

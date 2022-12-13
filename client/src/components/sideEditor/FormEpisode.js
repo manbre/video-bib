@@ -41,12 +41,10 @@ const FormEpisode = (props) => {
   const [useDeleteVideo] = useDeleteEpisodeMutation();
   const [useCopyFiles] = useCopyEpisodeFilesMutation();
 
-
   const { data: OMDBData } = useGetOMDBDataQuery({
     title: series,
     year: year,
   });
-
 
   useEffect(() => {
     !selectedVideo && OMDBData && setPoster(OMDBData.Poster);
@@ -75,15 +73,15 @@ const FormEpisode = (props) => {
   }, [selectedVideo]);
 
   const takeOMDBData = () => {
-      let data = OMDBData;
-      setSeries(data.Title.replace(":", " - "));
-      setDirector(data.Director);
-      setGenre(data.Genre);
-      setActors(data.Actors);
-      setPlot(data.Plot);
-      setYear(data.Year);
-      setRuntime(data.Runtime.slice(0, 2));
-      setPoster(data.Poster);
+    let data = OMDBData;
+    setSeries(data.Title.replace(":", " - "));
+    setDirector(data.Director);
+    setGenre(data.Genre);
+    setActors(data.Actors);
+    setPlot(data.Plot);
+    setYear(data.Year);
+    setRuntime(data.Runtime.slice(0, 2));
+    setPoster(data.Poster);
   };
 
   const createVideo = () => {
@@ -156,7 +154,9 @@ const FormEpisode = (props) => {
   };
 
   const emptyInput = () => {
-    let fields = document.getElementsByTagName("input");
+    let fields = document
+      .getElementById("episode_form")
+      .getElementsByTagName("input");
     for (let i = 0; i < fields.length; i++) {
       fields[i].value = "";
     }
@@ -185,7 +185,7 @@ const FormEpisode = (props) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.form}>
+      <div id="episode_form" className={styles.form}>
         <div className={styles.row}>
           <div className={styles.topLeft}>
             <label>
