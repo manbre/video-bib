@@ -154,14 +154,12 @@ const createNewEpisode = async (req, res) => {
     //
     plot: req.body.plot,
     //
-    poster: req.body.poster
-      ? series + season + number + episode + "_poster.jpg"
-      : null,
+    poster: req.body.poster ? series + "_S" + season + "_poster.jpg" : null,
     german: req.body.german
-      ? series + season + number + episode + "_german.mp4"
+      ? series + "_" + season + number + episode + "_german.mp4"
       : null,
     english: req.body.english
-      ? series + season + number + episode + "_english.mp4"
+      ? series + "_" + season + number + episode + "_english.mp4"
       : null,
   })
     .catch((err) => {
@@ -204,14 +202,12 @@ const updateEpisode = async (req, res) => {
       //
       plot: req.body.plot,
       //
-      poster: req.body.poster
-        ? series + season + number + episode + "_poster.jpg"
-        : null,
+      poster: req.body.poster ? series + "_S" + season + "_poster.jpg" : null,
       german: req.body.german
-        ? series + season + number + episode + "_german.mp4"
+        ? series + "_" + season + number + episode + "_german.mp4"
         : null,
       english: req.body.english
-        ? series + season + number + episode + "_english.mp4"
+        ? series + "_" + season + number + episode + "_english.mp4"
         : null,
     },
     {
