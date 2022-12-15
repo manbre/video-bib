@@ -66,10 +66,26 @@ const FormMovie = (props) => {
         setRating(selectedVideo.rating),
         setRuntime(selectedVideo.runtime),
         //
-        setPoster(selectedVideo.poster),
-        setTrailer(selectedVideo.trailer),
-        setGerman(selectedVideo.german),
-        setEnglish(selectedVideo.english);
+        setPoster(
+          selectedVideo.poster
+            ? selectedSource + "\\" + selectedVideo.poster
+            : null
+        ),
+        setTrailer(
+          selectedVideo.trailer
+            ? selectedSource + "\\" + selectedVideo.trailer
+            : null
+        ),
+        setGerman(
+          selectedVideo.german
+            ? selectedSource + "\\" + selectedVideo.german
+            : null
+        ),
+        setEnglish(
+          selectedVideo.english
+            ? selectedSource + "\\" + selectedVideo.english
+            : null
+        );
     }
   }, [selectedVideo]);
 
@@ -118,22 +134,23 @@ const FormMovie = (props) => {
     useUpdateVideo({
       id: selectedVideo.id,
       //
-      title: title,
-      series: series,
-      director: director,
-      genre: genre,
-      actors: actors,
-      plot: plot,
+      ...(selectedVideo.title != title ? { title: title } : {}),
+      ...(selectedVideo.series != series ? { series: series } : {}),
+      ...(selectedVideo.director != director ? { director: director } : {}),
+      ...(selectedVideo.genre != genre ? { genre: genre } : {}),
       //
-      year: year,
-      awards: awards,
-      rating: rating,
-      runtime: runtime,
+      ...(selectedVideo.year != year ? { year: year } : {}),
+      ...(selectedVideo.awards != awards ? { awards: awards } : {}),
+      ...(selectedVideo.rating != rating ? { rating: rating } : {}),
+      ...(selectedVideo.runtime != runtime ? { runtime: runtime } : {}),
       //
-      poster: poster,
-      trailer: trailer,
-      german: german,
-      english: english,
+      ...(selectedVideo.actors != actors ? { actors: actors } : {}),
+      ...(selectedVideo.plot != plot ? { plot: plot } : {}),
+      //
+      ...(selectedVideo.poster != poster ? { poster: poster } : {}),
+      ...(selectedVideo.trailer != trailer ? { trailer: trailer } : {}),
+      ...(selectedVideo.german != german ? { german: german } : {}),
+      ...(selectedVideo.english != english ? { english: english } : {}),
     });
     copyFiles();
   };
@@ -145,9 +162,7 @@ const FormMovie = (props) => {
 
   const copyFiles = () => {
     useCopyFiles({
-      //
-      title: title,
-      //
+      id: selectedVideo ? selectedVideo.id : null,
       poster: poster,
       trailer: trailer,
       german: german,

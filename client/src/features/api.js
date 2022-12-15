@@ -17,11 +17,11 @@ export const api = createApi({
     //----------------------------------------------
     getAllMovieGenres: builder.query({
       query: () => "/movies/genres",
-      providesTags: ["Movies"],
+      providesTags: ["Movie"],
     }),
     getAllEpisodeGenres: builder.query({
       query: () => "/episodes/genres",
-      providesTags: ["Episodes"],
+      providesTags: ["Episode"],
     }),
     //----------------------------------------------
     //Preview Hero
