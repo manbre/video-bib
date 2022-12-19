@@ -105,7 +105,7 @@ const Editor = () => {
         <button
           className={styles.deleteBtn}
           onClick={() =>
-            editorType
+            editorType == 1
               ? movieEditor.current.deleteVideo()
               : episodeEditor.current.deleteVideo()
           }
@@ -114,7 +114,7 @@ const Editor = () => {
           id="fillBtn"
           className={styles.fillBtn}
           onClick={() =>
-            editorType
+            editorType == 1
               ? movieEditor.current.takeOMDBData()
               : episodeEditor.current.takeOMDBData()
           }

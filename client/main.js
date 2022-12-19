@@ -17,7 +17,7 @@ function createWindow() {
     height: 768,
     minWidth: 940,
     minHeight: 560,
-    frame: false, //comment out for dev tools
+   /*  frame: false, */ //comment out for dev tools
     icon: __dirname + "./src/assets/images/logo.png",
     webPreferences: {
       nodeIntegration: false,

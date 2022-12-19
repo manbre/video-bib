@@ -8,7 +8,7 @@ var location = fs.readFileSync("location.txt", "utf-8");
  * @res all genres
  */
 const getAllGenres = async (req, res) => {
-  let genres = await Movies.findAll({}).catch((err) => {
+  let genres = await Movies.findAll().catch((err) => {
     res.send(err);
   });
   let a = [];
@@ -129,10 +129,10 @@ const createNewMovie = async (req, res) => {
     actors: req.body.actors,
     plot: req.body.plot,
     //
-    poster: req.body.poster ? "poster_" + id + ".jpg" : null,
-    trailer: req.body.trailer ? "trailer_" + id + ".mp4" : null,
-    german: req.body.german ? "german_" + id + ".mp4" : null,
-    english: req.body.english ? "english_" + id + ".mp4" : null,
+    poster: req.body.poster ? id + "_poster.jpg" : null,
+    trailer: req.body.trailer ? id + "_trailer.mp4" : null,
+    german: req.body.german ? id + "_german.mp4" : null,
+    english: req.body.english ? id + "_english.mp4" : null,
   })
     .catch((err) => {
       res.send(err);
@@ -161,14 +161,13 @@ const updateMovie = async (req, res) => {
       ...(req.body.actors ? { director: req.body.actors } : {}),
       ...(req.body.plot ? { plot: req.body.plot } : {}),
       //
-      ...(req.body.poster ? { poster: "poster_" + req.body.id + ".jpg" } : {}),
-      ...(req.body.trailer
-        ? { trailer: "trailer_" + req.body.id + ".mp4" }
-        : {}),
-      ...(req.body.german ? { german: "german_" + req.body.id + ".mp4" } : {}),
-      ...(req.body.english
-        ? { english: "english_" + req.body.id + ".mp4" }
-        : {}),
+      ...(req.body.poster ? { poster: req.body.id + "_poster.jpg" } : {}),
+      ...(req.body.trailer ? { trailer: req.body.id + "_trailer.mp4" } : {}),
+      ...(req.body.german ? { german: req.body.id + "_german.mp4" } : {}),
+      ...(req.body.english ? { english: req.body.id + "_english.mp4" } : {}),
+      //
+      ...(req.body.elapsed_time ? { elapsed_time: req.body.elapsed_time } : {}),
+      ...(req.body.last_viewed ? { last_viewed: req.body.last_viewed } : {}),
     },
     {
       where: { id: req.body.id },
@@ -209,34 +208,35 @@ const copyMovieFiles = async (req, res) => {
   const latest = await Movies.findOne({
     order: [["id", "DESC"]],
   });
-  const id = req.body.id ? req.body.id : latest ? latest.id + 1 : 1;
+  var id = req.body.id ? req.body.id : latest ? latest.id + 1 : 1;
   if (req.body.poster) {
     //download poster from OMDB api
     if (req.body.poster.includes("http")) {
-      let file = fs.createWriteStream(location + "/poster_" + id + ".jpg");
+      let file = fs.createWriteStream(location + "/" + id + "_poster.jpg");
       https.get(req.body.poster, function (response) {
         response.pipe(file);
         file.on("finish", function () {
           file.close();
         });
+        console.log("poster has been downloaded to location!");
       });
     } else {
-      //copy and rename poster to directory dir
+      //copy and rename poster to location
       fs.copyFile(
         req.body.poster,
-        location + "/poster_" + id + ".jpg",
+        location + "/" + id + "_poster.jpg",
         (err) => {
           if (err) throw err;
-          console.log("poster has been copied to location " + location + "!");
+          console.log("poster has been copied to location!");
         }
       );
     }
   }
   if (req.body.trailer) {
-    //copy and rename trailer to directory dir
+    //copy and rename trailer to location
     fs.copyFile(
       req.body.trailer,
-      location + "/trailer_" + id + ".mp4",
+      location + "/" + id + "_trailer.mp4",
       (err) => {
         if (err) throw err;
         console.log("trailer has been copied to location!");
@@ -244,17 +244,17 @@ const copyMovieFiles = async (req, res) => {
     );
   }
   if (req.body.german) {
-    //copy and rename german video to directory dir
-    fs.copyFile(req.body.german, location + "/german_" + id + ".mp4", (err) => {
+    //copy and rename german video to location
+    fs.copyFile(req.body.german, location + "/" + id + "_german.mp4", (err) => {
       if (err) throw err;
       console.log("german has been copied to location!");
     });
   }
   if (req.body.english) {
-    //copy and rename german video to directory dir
+    //copy and rename german video to location
     fs.copyFile(
       req.body.english,
-      location + "/english_" + id + ".mp4",
+      location + "/" + id + "_english.mp4",
       (err) => {
         if (err) throw err;
         console.log("english has been copied to directory!");

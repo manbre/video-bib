@@ -16,11 +16,6 @@
       90deg,
       rgba(var(--top-color), 1) 60%,
       rgba(var(--top-color), 0) 75%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(var(--top-color), 1) 8%,
-      rgba(var(--top-color), 0) 15%
     );
 
   position: absolute;
@@ -32,12 +27,12 @@
   display: grid;
   margin-left: 3.5em;
   grid-template-rows: repeat(7, 1fr);
-  row-gap: 0.3em;
+  row-gap: 0.5em;
 }
 
 .title {
   grid-row: 1;
-  font-size: 1.3em;
+  font-size: 1.7em;
 }
 
 .numbers {
@@ -49,10 +44,14 @@
 
 .plot {
   grid-row: 3;
-  width: 60%;
-  height: 4em;
+  max-width: 60%;
+  min-height: 3.7em;
   font-size: 0.8em;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .row {
@@ -142,9 +141,9 @@
 }
 
 .btns {
+  grid-row: 5;
   display: flex;
-  position: absolute;
-  margin-top: 11.5em;
+  margin-top: 2em;
 }
 
 .play1Btn,
@@ -165,7 +164,6 @@
 .videoWall {
   position: absolute;
   width: 40%;
-  height: 105%;
   overflow: hidden;
   z-index: -1;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import VideoControl from "../../components/videoControl/VideoControl";
@@ -8,10 +8,10 @@ import { useParams } from "react-router-dom";
 import styles from "./WatchScreen.module.css";
 
 const WatchScreen = () => {
-  const { videoData } = useParams();
-  const { title } = useParams();
+  const { isContinue } = useParams();
   const video = React.createRef();
   const selectedSource = useSelector((state) => state.source.source);
+  const selectedVideo = useSelector((state) => state.video.video);
 
   const [playing, setPlaying] = useState(true);
   const [seek, setSeek] = useState(0);
@@ -22,29 +22,24 @@ const WatchScreen = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [duration, setDuration] = useState(0);
 
-  document.body.onkeypress = function (e) {
-    if (e.which == 32) {
-      e.preventDefault();
-      if (playing) {
-        setPlaying(false);
-      } else {
-        setPlaying(true);
-      }
-    }
-  };
+  useEffect(() => {
+    isContinue == 1 && selectedVideo
+      ? handleForward(selectedVideo.elapsed_time)
+      : null;
+  }, []);
 
   const handleVolumeChange = (e) => {
     setVolume(e.target.value / 100), setVolumeBar(e.target.value);
   };
 
-  const handleForward = () => {
-    setSeek(seek + 10);
-    video.current.seekTo(seek + 10);
+  const handleForward = (sec) => {
+    setSeek(seek + sec);
+    video.current.seekTo(seek + sec);
   };
 
-  const handleRewind = () => {
-    setSeek(seek - 10);
-    video.current.seekTo(seek - 10);
+  const handleRewind = (sec) => {
+    setSeek(seek - sec);
+    video.current.seekTo(seek - sec);
   };
 
   const handleOnProgress = (e) => {
@@ -90,7 +85,9 @@ const WatchScreen = () => {
     <div className={styles.container}>
       <Player
         className={styles.video}
-        url={`file:///${selectedSource}//${videoData}`}
+        url={`file:///${selectedSource}//${
+          selectedVideo ? selectedVideo.german : ""
+        }`}
         width="100%"
         height="100%"
         volume={volume}
@@ -100,7 +97,7 @@ const WatchScreen = () => {
         onProgress={handleOnProgress}
       ></Player>
       <VideoControl
-        title={title}
+        title={selectedVideo ? selectedVideo.title : ""}
         seek={seek}
         time={time}
         timeTotal={timeTotal}
@@ -110,8 +107,8 @@ const WatchScreen = () => {
         togglePlay={togglePlay}
         handleSeekChange={handleSeekChange}
         handleVolumeChange={handleVolumeChange}
-        handleForward={handleForward}
-        handleRewind={handleRewind}
+        handleForward={() => handleForward(10)}
+        handleRewind={() => handleRewind(10)}
       ></VideoControl>
     </div>
   );

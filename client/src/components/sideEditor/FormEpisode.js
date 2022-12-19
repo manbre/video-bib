@@ -110,22 +110,22 @@ const FormEpisode = (props) => {
     useUpdateVideo({
       id: selectedVideo.id,
       //
-      series: series,
-      title: title,
-      director: director,
-      genre: genre,
-      actors: actors,
-      plot: plot,
+      ...(series != selectedVideo.series ? { series: series } : {}),
+      ...(title != selectedVideo.title ? { title: title } : {}),
+      ...(director != selectedVideo.director ? { director: director } : {}),
+      ...(genre != selectedVideo.genre ? { genre: genre } : {}),
+      ...(actors != selectedVideo.actors ? { actors: actors } : {}),
+      ...(plot != selectedVideo.plot ? { plot: plot } : {}),
       //
-      year: year,
-      season: season,
-      episode: episode,
-      runtime: runtime,
-      intro: intro,
+      ...(year != selectedVideo.year ? { year: year } : {}),
+      ...(season != selectedVideo.season ? { season: season } : {}),
+      ...(episode != selectedVideo.episode ? { episode: episode } : {}),
+      ...(runtime != selectedVideo.runtime ? { runtime: runtime } : {}),
+      ...(intro != selectedVideo.intro ? { intro: intro } : {}),
       //
-      poster: poster,
-      german: german,
-      english: english,
+      ...(poster != selectedVideo.poster ? { poster: poster } : {}),
+      ...(german != selectedVideo.german ? { german: german } : {}),
+      ...(english != selectedVideo.english ? { english: english } : {}),
     });
     copyFiles();
   };
@@ -136,16 +136,22 @@ const FormEpisode = (props) => {
   };
 
   const copyFiles = () => {
-    useCopyFiles({
-      series: series,
-      //
-      season: season,
-      episode: episode,
-      //
-      poster: poster,
-      german: german,
-      english: english,
-    });
+    if (selectedVideo) {
+      useCopyFiles({
+        id: selectedVideo ? selectedVideo.id : null,
+        //
+        poster: poster != selectedVideo.poster ? poster : null,
+        german: german != selectedVideo.german ? german : null,
+        english: english != selectedVideo.english ? english : null,
+      });
+    } else {
+      useCopyFiles({
+        id: null,
+        poster: poster,
+        german: german,
+        english: english,
+      });
+    }
   };
 
   const uploadVideo = () => {
@@ -154,12 +160,22 @@ const FormEpisode = (props) => {
   };
 
   const emptyInput = () => {
-    let fields = document
-      .getElementById("episode_form")
-      .getElementsByTagName("input");
-    for (let i = 0; i < fields.length; i++) {
-      fields[i].value = "";
-    }
+    setSeries(""),
+      setTitle(""),
+      setDirector(""),
+      setGenre(""),
+      setActors(""),
+      setPlot(""),
+      //
+      setYear(""),
+      setSeason(""),
+      setEpisode(""),
+      setRuntime(""),
+      setIntro(""),
+      //
+      setPoster(""),
+      setGerman(""),
+      setEnglish("");
   };
 
   const handleFileChange = (e) => {

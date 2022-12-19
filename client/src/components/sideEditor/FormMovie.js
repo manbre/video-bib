@@ -27,10 +27,10 @@ const FormMovie = (props) => {
   const [actors, setActors] = useState("");
   const [plot, setPlot] = useState("");
   //
-  const [poster, setPoster] = useState("");
-  const [trailer, setTrailer] = useState("");
-  const [german, setGerman] = useState("");
-  const [english, setEnglish] = useState("");
+  const [poster, setPoster] = useState(null);
+  const [trailer, setTrailer] = useState(null);
+  const [german, setGerman] = useState(null);
+  const [english, setEnglish] = useState(null);
   //
   const dispatch = useDispatch();
   const selectedVideo = useSelector((state) => state.video.video);
@@ -66,26 +66,10 @@ const FormMovie = (props) => {
         setRating(selectedVideo.rating),
         setRuntime(selectedVideo.runtime),
         //
-        setPoster(
-          selectedVideo.poster
-            ? selectedSource + "\\" + selectedVideo.poster
-            : null
-        ),
-        setTrailer(
-          selectedVideo.trailer
-            ? selectedSource + "\\" + selectedVideo.trailer
-            : null
-        ),
-        setGerman(
-          selectedVideo.german
-            ? selectedSource + "\\" + selectedVideo.german
-            : null
-        ),
-        setEnglish(
-          selectedVideo.english
-            ? selectedSource + "\\" + selectedVideo.english
-            : null
-        );
+        setPoster(selectedVideo.poster),
+        setTrailer(selectedVideo.trailer),
+        setGerman(selectedVideo.german),
+        setEnglish(selectedVideo.english);
     }
   }, [selectedVideo]);
 
@@ -104,7 +88,6 @@ const FormMovie = (props) => {
     );
     setRating(data.Ratings[1].Value.substring(0, 2));
     setRuntime(data.Runtime.slice(0, 3));
-    console.log(data.Runtime.slice(0, 3));
     setPoster(data.Poster);
   };
 
@@ -134,23 +117,23 @@ const FormMovie = (props) => {
     useUpdateVideo({
       id: selectedVideo.id,
       //
-      ...(selectedVideo.title != title ? { title: title } : {}),
-      ...(selectedVideo.series != series ? { series: series } : {}),
-      ...(selectedVideo.director != director ? { director: director } : {}),
-      ...(selectedVideo.genre != genre ? { genre: genre } : {}),
+      ...(title != selectedVideo.title ? { title: title } : {}),
+      ...(series != selectedVideo.series ? { series: series } : {}),
+      ...(director != selectedVideo.director ? { director: director } : {}),
+      ...(genre != selectedVideo.genre ? { genre: genre } : {}),
       //
-      ...(selectedVideo.year != year ? { year: year } : {}),
-      ...(selectedVideo.awards != awards ? { awards: awards } : {}),
-      ...(selectedVideo.rating != rating ? { rating: rating } : {}),
-      ...(selectedVideo.runtime != runtime ? { runtime: runtime } : {}),
+      ...(year != selectedVideo.year ? { year: year } : {}),
+      ...(awards != selectedVideo.awards ? { awards: awards } : {}),
+      ...(rating != selectedVideo.rating ? { rating: rating } : {}),
+      ...(runtime != selectedVideo.runtime ? { runtime: runtime } : {}),
       //
-      ...(selectedVideo.actors != actors ? { actors: actors } : {}),
-      ...(selectedVideo.plot != plot ? { plot: plot } : {}),
+      ...(actors != selectedVideo.actors ? { actors: actors } : {}),
+      ...(plot != selectedVideo.plot ? { plot: plot } : {}),
       //
-      ...(selectedVideo.poster != poster ? { poster: poster } : {}),
-      ...(selectedVideo.trailer != trailer ? { trailer: trailer } : {}),
-      ...(selectedVideo.german != german ? { german: german } : {}),
-      ...(selectedVideo.english != english ? { english: english } : {}),
+      ...(poster != selectedVideo.poster ? { poster: poster } : {}),
+      ...(trailer != selectedVideo.trailer ? { trailer: trailer } : {}),
+      ...(german != selectedVideo.german ? { german: german } : {}),
+      ...(english != selectedVideo.english ? { english: english } : {}),
     });
     copyFiles();
   };
@@ -161,13 +144,23 @@ const FormMovie = (props) => {
   };
 
   const copyFiles = () => {
-    useCopyFiles({
-      id: selectedVideo ? selectedVideo.id : null,
-      poster: poster,
-      trailer: trailer,
-      german: german,
-      english: english,
-    });
+    if (selectedVideo) {
+      useCopyFiles({
+        id: selectedVideo ? selectedVideo.id : null,
+        poster: poster != selectedVideo.poster ? poster : null,
+        trailer: trailer != selectedVideo.trailer ? trailer : null,
+        german: german != selectedVideo.german ? german : null,
+        english: english != selectedVideo.english ? english : null,
+      });
+    } else {
+      useCopyFiles({
+        id: null,
+        poster: poster,
+        trailer: trailer,
+        german: german,
+        english: english,
+      });
+    }
   };
 
   const uploadVideo = () => {
@@ -176,12 +169,22 @@ const FormMovie = (props) => {
   };
 
   const emptyInput = () => {
-    let fields = document
-      .getElementById("movie_form")
-      .getElementsByTagName("input");
-    for (let i = 0; i < fields.length; i++) {
-      fields[i].value = "";
-    }
+    setTitle(""),
+      setSeries(""),
+      setDirector(""),
+      setGenre(""),
+      setActors(""),
+      setPlot(""),
+      //
+      setYear(""),
+      setAwards(""),
+      setRating(""),
+      setRuntime(""),
+      //
+      setPoster(""),
+      setTrailer(""),
+      setGerman(""),
+      setEnglish("");
   };
 
   const handleFileChange = (e) => {
@@ -252,7 +255,7 @@ const FormMovie = (props) => {
             ></input>
             <label>Awards</label>
             <input
-              type="number"
+              type="text"
               value={awards}
               onChange={(e) => setAwards(e.target.value)}
             ></input>

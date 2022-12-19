@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 import CardSlider from "../cardSlider/CardSlider";
 
 const Preview = () => {
-  const selected = useSelector((state) => state.video.video);
+  const selectedVideo = useSelector((state) => state.video.video);
   const viewType = useSelector((state) => state.view.viewType);
   const selectedSource = useSelector((state) => state.source.source);
   const navigate = useNavigate();
 
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   //
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
@@ -29,39 +29,39 @@ const Preview = () => {
   useEffect(() => {
     switch (viewType) {
       case 1:
-        setTitle(selected.title);
-        setYear(selected.year);
-        setDirector(selected.director);
-        setGenre(selected.genre);
-        setActors(selected.actors);
-        setPlot(selected.plot);
-        setRuntime(selected.runtime);
-        setPoster(selected.poster);
+        setTitle(selectedVideo.title);
+        setYear(selectedVideo.year);
+        setDirector(selectedVideo.director);
+        setGenre(selectedVideo.genre);
+        setActors(selectedVideo.actors);
+        setPlot(selectedVideo.plot);
+        setRuntime(selectedVideo.runtime);
+        setPoster(selectedVideo.poster);
         //
-        setTrailer(selected.trailer);
-        setRating(selected.rating);
-        setAwards(selected.awards);
+        setTrailer(selectedVideo.trailer);
+        setRating(selectedVideo.rating);
+        setAwards(selectedVideo.awards);
         break;
       case 2:
-        setTitle(selected.title);
-        setYear(selected.year);
-        setDirector(selected.director);
-        setGenre(selected.genre);
-        setActors(selected.actors);
-        setPlot(selected.plot);
-        setRuntime(selected.runtime);
-        setPoster(selected.poster);
+        setTitle(selectedVideo.title);
+        setYear(selectedVideo.year);
+        setDirector(selectedVideo.director);
+        setGenre(selectedVideo.genre);
+        setActors(selectedVideo.actors);
+        setPlot(selectedVideo.plot);
+        setRuntime(selectedVideo.runtime);
+        setPoster(selectedVideo.poster);
         break;
     }
-  }, [selected]);
+  }, [selectedVideo]);
 
   useEffect(() => {
     if (trailer && viewType == 1) {
       const elements = document.getElementsByClassName(`${styles.trailer}`);
-      elements[0].muted = true;
-      setIsMuted(true);
+      elements[0].muted = false;
+      setIsMuted(false);
     }
-  }, [selected]);
+  }, [selectedVideo]);
 
   const toggleMute = () => {
     const elements = document.getElementsByClassName(`${styles.trailer}`);
@@ -74,8 +74,8 @@ const Preview = () => {
     }
   };
 
-  const playVideo = () => {
-    navigate(`/watch/${selected.title}/${selected.german}`);
+  const playVideo = (isContinue) => {
+    navigate(`/watch/${isContinue}`);
   };
 
   return (
@@ -128,8 +128,13 @@ const Preview = () => {
             </div>
           </div>
           <div className={styles.btns}>
-            <button className={styles.play1Btn}>Continue</button>
-            <button className={styles.play2Btn} onClick={() => playVideo()}>
+            <button
+              className={styles.play1Btn}
+              onClick={() => playVideo(1)}
+            >
+              Continue
+            </button>
+            <button className={styles.play2Btn} onClick={() => playVideo(0)}>
               Play
             </button>
           </div>
@@ -147,7 +152,6 @@ const Preview = () => {
             className={styles.trailer}
             autoPlay
             loop
-            muted
             src={`file:///${selectedSource}//${trailer}`}
           ></video>
         ) : viewType == 1 ? (

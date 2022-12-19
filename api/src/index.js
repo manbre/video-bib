@@ -28,8 +28,8 @@ app.use("/episodes", episodeRoute);
 app.use("/location/write/:location", location.writeLocationTxt);
 app.use("/location/read", location.readLocationTxt);
 //
-/* app.use("/omdb/:title", omdbAPI.getOMDBData); */
 app.use("/omdb/:title/:year", omdbAPI.getOMDBData);
+app.use("/omdb/:title", omdbAPI.getOMDBData);
 
 const onStart = () => {
   console.log(`api is running on port ${PORT}`);

@@ -1,18 +1,42 @@
 import React from "react";
 import styles from "./VideoControl.module.css";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../topBar/TopBar";
 import { selectGenre } from "../../features/video";
+import {
+  useUpdateMovieMutation,
+  useUpdateEpisodeMutation,
+} from "../../features/api";
 
 import { useNavigate } from "react-router-dom";
 
 const VideoControl = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const selectedVideo = useSelector((state) => state.video.video);
+  const viewType = useSelector((state) => state.view.viewType);
+  const [useUpdateMovie] = useUpdateMovieMutation();
+  const [useUpdateEpisode] = useUpdateEpisodeMutation;
 
   const handleClick = () => {
     dispatch(selectGenre("0"));
     navigate("/");
+    switch (viewType) {
+      case 1:
+        useUpdateMovie({
+          id: selectedVideo.id,
+          elapsed_time: props.seek,
+          last_viewed: new Date(),
+        });
+        break;
+      case 2:
+        useUpdateEpisode({
+          id: selectedVideo.id,
+          elapsed_time: props.seek,
+          last_viewed: new Date(),
+        });
+        break;
+    }
   };
   return (
     <div className={styles.container}>
@@ -27,8 +51,10 @@ const VideoControl = (props) => {
           <div className={styles.controls}>
             {props.volume > 50 ? (
               <button className={styles.volumeOver}></button>
-            ) : (
+            ) : props.volume > 0 ? (
               <button className={styles.volumeUnder}></button>
+            ) : (
+              <button className={styles.volumeMute}></button>
             )}
             <input
               className={styles.volumeRange}
@@ -63,7 +89,7 @@ const VideoControl = (props) => {
           <input
             className={styles.seekRange}
             type="range"
-            min={0}
+            min="0"
             max={props.duration}
             onChange={props.handleSeekChange}
             value={props.seek}

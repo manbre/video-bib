@@ -6,7 +6,7 @@ import styles from "./VideoCard.module.css";
 import { selectVideo } from "../../features/video";
 
 const VideoCard = ({ video, index }) => {
-  const selected = useSelector((state) => state.video.video);
+  const selectedVideo = useSelector((state) => state.video.video);
   const viewType = useSelector((state) => state.view.viewType);
   const dispatch = useDispatch();
 
@@ -20,15 +20,17 @@ const VideoCard = ({ video, index }) => {
   }, []);
 
   useEffect(() => {
-    if (!selected) {
+    if (!selectedVideo) {
       var elements = document.getElementsByClassName(`${styles.container}`);
       var posters = document.getElementsByClassName(`${styles.poster}`);
+      var infos = document.getElementsByClassName(`${styles.info}`);
       for (let i = 0; i < elements.length; i++) {
         elements[i].style = "border: none;";
         posters[i].style = "z-index: 2;";
+        infos[i].style = " translateY(0.5em);";
       }
     }
-  }, [selected]);
+  }, [selectedVideo]);
 
   const markSelected = () => {
     var elements = document.getElementsByClassName(`${styles.container}`);
@@ -36,14 +38,14 @@ const VideoCard = ({ video, index }) => {
     var infos = document.getElementsByClassName(`${styles.info}`);
     elements[index].style = "outline: 4px solid white; transform: scaleY(1.1);";
     posters[index].style = "transform: scaleY(0.9) translateY(-10px);";
-    infos[index].style = "  transform: scaleY(0.9) translateY(1em);";
+    infos[index].style = "  transform: scaleY(0.9) translateY(0.5em);";
     dispatch(selectVideo(video));
 
     for (let i = 0; i < elements.length; i++) {
       if (i != index) {
         elements[i].style = "border: none;";
         posters[i].style = "z-index: 2;";
-        infos[i].style = " translateY(1em);";
+        infos[i].style = " translateY(0.5em);";
       }
     }
   };
@@ -74,7 +76,16 @@ const VideoCard = ({ video, index }) => {
         />
       </div>
       <div className={styles.info}>
-        <div className={styles.top}>
+        <div className={styles.title}>
+          {viewType == 1 ? (
+            <p>{getTitle()}</p>
+          ) : (
+            <p>
+              {video.series} - Season {video.season}
+            </p>
+          )}
+        </div>
+        <div className={styles.bottom}>
           <div className={styles.year}>
             <p>{video.year}</p>
           </div>
@@ -86,7 +97,6 @@ const VideoCard = ({ video, index }) => {
             <p>{video.runtime} min</p>
           </div>
         </div>
-        <div className={styles.title}>{getTitle()}</div>
       </div>
     </div>
   );

@@ -165,20 +165,23 @@
 }
 
 .progress {
+  padding: 0.3em;
   grid-row: 10/10;
   grid-column: 1/11;
   z-index: 3;
   opacity: 0.4;
   margin-bottom: 40px;
-  width: 95%;
+  width: 100%;
   justify-self: center;
 }
 
-.progress input {
-  width: 100%;
+.progress .seekRange{
   height: 3px;
-  cursor: pointer;
+  width:100%;
+  background: rgb(var(--primary-text));
 }
+
+
 
 .bottom {
   grid-row: 10/11;

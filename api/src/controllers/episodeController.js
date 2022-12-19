@@ -135,7 +135,10 @@ const getOneEpisodeById = async (req, res) => {
  * @req episode
  */
 const createNewEpisode = async (req, res) => {
-  let number = req.body.season < 10 ? 0 : null;
+  const latest = await Episodes.findOne({
+    order: [["id", "DESC"]],
+  });
+  const id = latest ? latest.id + 1 : 1;
   let series = req.body.series;
   let season = req.body.season;
   let episode = req.body.episode;
@@ -154,13 +157,9 @@ const createNewEpisode = async (req, res) => {
     //
     plot: req.body.plot,
     //
-    poster: req.body.poster ? series + "_S" + season + "_poster.jpg" : null,
-    german: req.body.german
-      ? series + "_" + season + number + episode + "_german.mp4"
-      : null,
-    english: req.body.english
-      ? series + "_" + season + number + episode + "_english.mp4"
-      : null,
+    poster: req.body.poster ? id + "_poster.jpg" : null,
+    german: req.body.german ? id + "_german.mp4" : null,
+    english: req.body.english ? id + "_english.mp4" : null,
   })
     .catch((err) => {
       res.send(err);
@@ -180,35 +179,27 @@ const createNewEpisode = async (req, res) => {
  * @req episode
  */
 const updateEpisode = async (req, res) => {
-  let number = req.body.season < 10 ? 0 : null;
-  let series = req.body.series;
-  let season = req.body.season;
-  let episode = req.body.episode;
-  //
-  let title = req.body.title;
   await Episodes.update(
     {
-      series: series,
-      title: title,
-      director: req.body.director,
-      genre: req.body.genre,
-      actors: req.body.actors,
+      ...(req.body.series ? { series: req.body.series } : {}),
+      ...(req.body.title ? { title: req.body.title } : {}),
+      ...(req.body.director ? { director: req.body.director } : {}),
+      ...(req.body.genre ? { genre: req.body.genre } : {}),
+      ...(req.body.actors ? { director: req.body.actors } : {}),
+      ...(req.body.plot ? { plot: req.body.plot } : {}),
       //
-      year: req.body.year,
-      season: season,
-      episode: episode,
-      runtime: req.body.runtime,
-      intro: req.body.intro,
+      ...(req.body.year ? { year: req.body.year } : {}),
+      ...(req.body.season ? { season: req.body.season } : {}),
+      ...(req.body.episode ? { episode: req.body.episode } : {}),
+      ...(req.body.runtime ? { runtime: req.body.runtime } : {}),
+      ...(req.body.intro ? { intro: req.body.intro } : {}),
       //
-      plot: req.body.plot,
+      ...(req.body.poster ? { poster: req.body.id + "_poster.jpg" } : {}),
+      ...(req.body.german ? { german: req.body.id + "_german.mp4" } : {}),
+      ...(req.body.english ? { english: req.body.id + "_english.mp4" } : {}),
       //
-      poster: req.body.poster ? series + "_S" + season + "_poster.jpg" : null,
-      german: req.body.german
-        ? series + "_" + season + number + episode + "_german.mp4"
-        : null,
-      english: req.body.english
-        ? series + "_" + season + number + episode + "_english.mp4"
-        : null,
+      ...(req.body.elapsed_time ? { elapsed_time: req.body.elapsed_time } : {}),
+      ...(req.body.last_viewed ? { last_viewed: req.body.last_viewed } : {}),
     },
     {
       where: { id: req.body.id },
@@ -247,61 +238,43 @@ const deleteEpisode = async (req, res) => {
  * @res copy files to directory
  */
 const copyEpisodeFiles = async (req, res) => {
-  let number = req.body.season < 10 ? 0 : null;
-  //
-  let series = req.body.series;
-  let season = req.body.season;
-  let episode = req.body.episode;
-  //
-  let poster = req.body.poster;
-  let german = req.body.german;
-  let english = req.body.english;
+  const latest = await Episodes.findOne({
+    order: [["id", "DESC"]],
+  });
+  var id = req.body.id ? req.body.id : latest ? latest.id + 1 : 1;
   //
   if (poster) {
     //download and rename poster from OMDB api
     if (poster.includes("http")) {
-      var file = fs.createWriteStream(
-        location + "\\" + series + season + number + episode + "_poster.jpg"
-      );
+      var file = fs.createWriteStream(location + "/" + id + "_poster.jpg");
       https.get(poster, function (response) {
         response.pipe(file);
         file.on("finish", function () {
           file.close();
         });
+        console.log("poster has been downloaded to location!");
       });
     } else {
       //copy and rename poster to directory dir
-      fs.copyFile(
-        poster,
-        location + "\\" + series + season + number + episode + "_poster.jpg",
-        (err) => {
-          if (err) throw err;
-          console.log("poster has been copied to directory!");
-        }
-      );
+      fs.copyFile(poster, location + "/" + id + "_poster.jpg", (err) => {
+        if (err) throw err;
+        console.log("poster has been copied to directory!");
+      });
     }
   }
   if (german) {
     //copy and rename german video to directory dir
-    fs.copyFile(
-      german,
-      location + "\\" + series + season + number + episode + "_german.mp4",
-      (err) => {
-        if (err) throw err;
-        console.log("german has been copied to directory!");
-      }
-    );
+    fs.copyFile(german, location + "/" + id + "_german.mp4", (err) => {
+      if (err) throw err;
+      console.log("german has been copied to directory!");
+    });
   }
   if (english) {
     //copy and rename german video to directory dir
-    fs.copyFile(
-      english,
-      location + "\\" + series + season + number + episode + "_english.mp4",
-      (err) => {
-        if (err) throw err;
-        console.log("english has been copied to directory!");
-      }
-    );
+    fs.copyFile(english, location + "/" + id + "_english.mp4", (err) => {
+      if (err) throw err;
+      console.log("english has been copied to directory!");
+    });
   }
 };
 

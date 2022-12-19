@@ -9,7 +9,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/" exact element={<HomeScreen/>} />
-          <Route path="/watch/:title/:videoData" element={<WatchScreen />} />
+          <Route path="/watch/:isContinue" element={<WatchScreen />} />
         </Routes>
       </div>
     </Router>
