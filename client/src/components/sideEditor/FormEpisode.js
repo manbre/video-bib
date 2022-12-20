@@ -128,6 +128,7 @@ const FormEpisode = (props) => {
       ...(english != selectedVideo.english ? { english: english } : {}),
     });
     copyFiles();
+    dispatch(selectVideo(null));
   };
 
   const deleteVideo = () => {
@@ -176,6 +177,13 @@ const FormEpisode = (props) => {
       setPoster(""),
       setGerman(""),
       setEnglish("");
+      //
+      let fields = document
+      .getElementById("episode_form")
+      .getElementsByTagName("input");
+    for (let i = 0; i < fields.length; i++) {
+      fields[i].value = "";
+    }
   };
 
   const handleFileChange = (e) => {

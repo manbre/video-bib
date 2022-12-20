@@ -24,11 +24,6 @@ const CardSlider = () => {
     selectVideo(episodes[0]);
   }, [episodes]);
 
-  useEffect(() => {
-    console.log(index);
-    /*  dispatch(selectVideo(index)) */
-  }, [index, episodes]);
-
   const nextSlide = () => {
     index < episodes.length - 1 ? setIndex(index + 1) : setIndex(0);
     index < episodes.length - 1

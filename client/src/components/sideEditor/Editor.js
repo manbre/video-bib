@@ -5,6 +5,7 @@ import styles from "./Editor.module.css";
 import FormMovie from "./FormMovie";
 import FormEpisode from "./FormEpisode";
 import { selectSource } from "../../features/source";
+import { selectVideo } from "../../features/video";
 import {
   useGetLocationQuery,
   useWriteLocationMutation,
@@ -59,7 +60,7 @@ const Editor = () => {
           "background-color: rgb(var(--menu-color)); color: rgb(var(--primary-text));";
         break;
     }
-    setSource(selectedSource);
+    dispatch(selectVideo(null));
   }, [editorType]);
 
   useEffect(() => {

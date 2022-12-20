@@ -78,6 +78,33 @@ const Preview = () => {
     navigate(`/watch/${isContinue}`);
   };
 
+  const getButtons = () => {
+    if (
+      selectedVideo.elapsed_time > 0 &&
+      (selectedVideo.german || selectedVideo.english)
+    ) {
+      return (
+        <div className={styles.btns}>
+          <button className={styles.play1Btn} onClick={() => playVideo(1)}>
+            Continue
+          </button>
+
+          <button className={styles.play2Btn} onClick={() => playVideo(0)}>
+            Play
+          </button>
+        </div>
+      );
+    } else if (selectedVideo.german || selectedVideo.english) {
+      return (
+        <div className={styles.btns}>
+          <button className={styles.play2Btn} onClick={() => playVideo(0)}>
+            Play
+          </button>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.overlay}>
@@ -127,17 +154,7 @@ const Preview = () => {
               <p>{genre}</p>
             </div>
           </div>
-          <div className={styles.btns}>
-            <button
-              className={styles.play1Btn}
-              onClick={() => playVideo(1)}
-            >
-              Continue
-            </button>
-            <button className={styles.play2Btn} onClick={() => playVideo(0)}>
-              Play
-            </button>
-          </div>
+          {getButtons()}
         </div>
         {viewType == 1 && trailer ? (
           <button

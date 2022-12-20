@@ -8,9 +8,8 @@ import { selectVideo } from "../../features/video";
 const VideoCard = ({ video, index }) => {
   const selectedVideo = useSelector((state) => state.video.video);
   const viewType = useSelector((state) => state.view.viewType);
-  const dispatch = useDispatch();
-
   const selectedSource = useSelector((state) => state.source.source);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     var elements = document.getElementsByClassName(`${styles.progress}`);

@@ -23,10 +23,19 @@ const WatchScreen = () => {
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
+    console.log(getConvertedIntro(3.55));
+    console.log(selectedVideo);
     isContinue == 1 && selectedVideo
-      ? handleForward(selectedVideo.elapsed_time)
+      ? handleForward(getConvertedIntro(selectedVideo.intro))
       : null;
   }, []);
+
+  //only for episode
+  const getConvertedIntro = (intro) => {
+    let integer = Math.floor(intro);
+    let decimal = (intro - integer) / 0.6;
+    return (integer + decimal) * 60;
+  };
 
   const handleVolumeChange = (e) => {
     setVolume(e.target.value / 100), setVolumeBar(e.target.value);
@@ -86,7 +95,7 @@ const WatchScreen = () => {
       <Player
         className={styles.video}
         url={`file:///${selectedSource}//${
-          selectedVideo ? selectedVideo.german : ""
+          selectedVideo ? selectedVideo.english : ""
         }`}
         width="100%"
         height="100%"

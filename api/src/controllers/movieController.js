@@ -129,10 +129,10 @@ const createNewMovie = async (req, res) => {
     actors: req.body.actors,
     plot: req.body.plot,
     //
-    poster: req.body.poster ? id + "_poster.jpg" : null,
-    trailer: req.body.trailer ? id + "_trailer.mp4" : null,
-    german: req.body.german ? id + "_german.mp4" : null,
-    english: req.body.english ? id + "_english.mp4" : null,
+    poster: req.body.poster ? "m" + id + "_poster.jpg" : null,
+    trailer: req.body.trailer ? "m" + id + "_trailer.mp4" : null,
+    german: req.body.german ? "m" + id + "_german.mp4" : null,
+    english: req.body.english ? "m" + id + "_english.mp4" : null,
   })
     .catch((err) => {
       res.send(err);
@@ -161,10 +161,14 @@ const updateMovie = async (req, res) => {
       ...(req.body.actors ? { director: req.body.actors } : {}),
       ...(req.body.plot ? { plot: req.body.plot } : {}),
       //
-      ...(req.body.poster ? { poster: req.body.id + "_poster.jpg" } : {}),
-      ...(req.body.trailer ? { trailer: req.body.id + "_trailer.mp4" } : {}),
-      ...(req.body.german ? { german: req.body.id + "_german.mp4" } : {}),
-      ...(req.body.english ? { english: req.body.id + "_english.mp4" } : {}),
+      ...(req.body.poster ? { poster: "m" + req.body.id + "_poster.jpg" } : {}),
+      ...(req.body.trailer
+        ? { trailer: "m" + req.body.id + "_trailer.mp4" }
+        : {}),
+      ...(req.body.german ? { german: "m" + req.body.id + "_german.mp4" } : {}),
+      ...(req.body.english
+        ? { english: "m" + req.body.id + "_english.mp4" }
+        : {}),
       //
       ...(req.body.elapsed_time ? { elapsed_time: req.body.elapsed_time } : {}),
       ...(req.body.last_viewed ? { last_viewed: req.body.last_viewed } : {}),
@@ -212,7 +216,7 @@ const copyMovieFiles = async (req, res) => {
   if (req.body.poster) {
     //download poster from OMDB api
     if (req.body.poster.includes("http")) {
-      let file = fs.createWriteStream(location + "/" + id + "_poster.jpg");
+      let file = fs.createWriteStream(location + "/m" + id + "_poster.jpg");
       https.get(req.body.poster, function (response) {
         response.pipe(file);
         file.on("finish", function () {
@@ -224,7 +228,7 @@ const copyMovieFiles = async (req, res) => {
       //copy and rename poster to location
       fs.copyFile(
         req.body.poster,
-        location + "/" + id + "_poster.jpg",
+        location + "/m" + id + "_poster.jpg",
         (err) => {
           if (err) throw err;
           console.log("poster has been copied to location!");
@@ -236,7 +240,7 @@ const copyMovieFiles = async (req, res) => {
     //copy and rename trailer to location
     fs.copyFile(
       req.body.trailer,
-      location + "/" + id + "_trailer.mp4",
+      location + "/m" + id + "_trailer.mp4",
       (err) => {
         if (err) throw err;
         console.log("trailer has been copied to location!");
@@ -245,16 +249,20 @@ const copyMovieFiles = async (req, res) => {
   }
   if (req.body.german) {
     //copy and rename german video to location
-    fs.copyFile(req.body.german, location + "/" + id + "_german.mp4", (err) => {
-      if (err) throw err;
-      console.log("german has been copied to location!");
-    });
+    fs.copyFile(
+      req.body.german,
+      location + "/m" + id + "_german.mp4",
+      (err) => {
+        if (err) throw err;
+        console.log("german has been copied to location!");
+      }
+    );
   }
   if (req.body.english) {
     //copy and rename german video to location
     fs.copyFile(
       req.body.english,
-      location + "/" + id + "_english.mp4",
+      location + "/m" + id + "_english.mp4",
       (err) => {
         if (err) throw err;
         console.log("english has been copied to directory!");

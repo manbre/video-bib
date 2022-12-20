@@ -92,6 +92,7 @@ const FormMovie = (props) => {
   };
 
   const createVideo = () => {
+    copyFiles();
     useCreateVideo({
       title: title,
       series: series ? series : title,
@@ -110,10 +111,10 @@ const FormMovie = (props) => {
       german: german,
       english: english,
     });
-    copyFiles();
   };
 
   const updateVideo = () => {
+    copyFiles();
     useUpdateVideo({
       id: selectedVideo.id,
       //
@@ -135,7 +136,7 @@ const FormMovie = (props) => {
       ...(german != selectedVideo.german ? { german: german } : {}),
       ...(english != selectedVideo.english ? { english: english } : {}),
     });
-    copyFiles();
+    dispatch(selectVideo(null));
   };
 
   const deleteVideo = () => {
@@ -185,6 +186,13 @@ const FormMovie = (props) => {
       setTrailer(""),
       setGerman(""),
       setEnglish("");
+      //
+    let fields = document
+      .getElementById("movie_form")
+      .getElementsByTagName("input");
+    for (let i = 0; i < fields.length; i++) {
+      fields[i].value = "";
+    }
   };
 
   const handleFileChange = (e) => {

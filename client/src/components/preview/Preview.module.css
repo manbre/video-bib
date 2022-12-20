@@ -143,7 +143,8 @@
 .btns {
   grid-row: 5;
   display: flex;
-  margin-top: 2em;
+  justify-content: flex-start;
+  margin-top: 0.6em;
 }
 
 .play1Btn,
@@ -157,8 +158,8 @@
   cursor: pointer;
 }
 
-.play2Btn {
-  margin-left: 5em;
+.play1Btn {
+  margin-right: 5em;
 }
 
 .videoWall {

@@ -93,7 +93,7 @@ const getSeasonsByGenre = async (req, res) => {
   let seasons = [];
   if (req.params.genre == "All" || req.params.genre == "0") {
     seasons = await Episodes.findAll({
-      group: ["season"],
+      group: ["series", "season"],
       order: [[sequelize.literal("series", "season"), "ASC"]],
     }).catch((err) => {
       res.send(err);
@@ -107,7 +107,7 @@ const getSeasonsByGenre = async (req, res) => {
           "%" + req.params.genre + "%"
         ),
       },
-      group: ["season"],
+      group: ["series", "season"],
       order: [[sequelize.literal("series, season"), "ASC"]],
     }).catch((err) => {
       res.send(err);
@@ -157,9 +157,9 @@ const createNewEpisode = async (req, res) => {
     //
     plot: req.body.plot,
     //
-    poster: req.body.poster ? id + "_poster.jpg" : null,
-    german: req.body.german ? id + "_german.mp4" : null,
-    english: req.body.english ? id + "_english.mp4" : null,
+    poster: req.body.poster ? "e" + id + "_poster.jpg" : null,
+    german: req.body.german ? "e" + id + "_german.mp4" : null,
+    english: req.body.english ? "e" + id + "_english.mp4" : null,
   })
     .catch((err) => {
       res.send(err);
@@ -194,9 +194,11 @@ const updateEpisode = async (req, res) => {
       ...(req.body.runtime ? { runtime: req.body.runtime } : {}),
       ...(req.body.intro ? { intro: req.body.intro } : {}),
       //
-      ...(req.body.poster ? { poster: req.body.id + "_poster.jpg" } : {}),
-      ...(req.body.german ? { german: req.body.id + "_german.mp4" } : {}),
-      ...(req.body.english ? { english: req.body.id + "_english.mp4" } : {}),
+      ...(req.body.poster ? { poster: "e" + req.body.id + "_poster.jpg" } : {}),
+      ...(req.body.german ? { german: "e" + req.body.id + "_german.mp4" } : {}),
+      ...(req.body.english
+        ? { english: "e" + req.body.id + "_english.mp4" }
+        : {}),
       //
       ...(req.body.elapsed_time ? { elapsed_time: req.body.elapsed_time } : {}),
       ...(req.body.last_viewed ? { last_viewed: req.body.last_viewed } : {}),
@@ -211,7 +213,7 @@ const updateEpisode = async (req, res) => {
           "episode with title" +
           req.body.title +
           "of series " +
-          series +
+          req.body.series +
           " has been updated successfully.",
       });
     })
@@ -243,11 +245,11 @@ const copyEpisodeFiles = async (req, res) => {
   });
   var id = req.body.id ? req.body.id : latest ? latest.id + 1 : 1;
   //
-  if (poster) {
+  if (req.body.poster) {
     //download and rename poster from OMDB api
-    if (poster.includes("http")) {
-      var file = fs.createWriteStream(location + "/" + id + "_poster.jpg");
-      https.get(poster, function (response) {
+    if (req.body.poster.includes("http")) {
+      var file = fs.createWriteStream(location + "/e" + id + "_poster.jpg");
+      https.get(req.body.poster, function (response) {
         response.pipe(file);
         file.on("finish", function () {
           file.close();
@@ -256,25 +258,37 @@ const copyEpisodeFiles = async (req, res) => {
       });
     } else {
       //copy and rename poster to directory dir
-      fs.copyFile(poster, location + "/" + id + "_poster.jpg", (err) => {
-        if (err) throw err;
-        console.log("poster has been copied to directory!");
-      });
+      fs.copyFile(
+        req.body.poster,
+        location + "/e" + id + "_poster.jpg",
+        (err) => {
+          if (err) throw err;
+          console.log("poster has been copied to directory!");
+        }
+      );
     }
   }
-  if (german) {
+  if (req.body.german) {
     //copy and rename german video to directory dir
-    fs.copyFile(german, location + "/" + id + "_german.mp4", (err) => {
-      if (err) throw err;
-      console.log("german has been copied to directory!");
-    });
+    fs.copyFile(
+      req.body.german,
+      location + "/e" + id + "_german.mp4",
+      (err) => {
+        if (err) throw err;
+        console.log("german has been copied to directory!");
+      }
+    );
   }
-  if (english) {
+  if (req.body.english) {
     //copy and rename german video to directory dir
-    fs.copyFile(english, location + "/" + id + "_english.mp4", (err) => {
-      if (err) throw err;
-      console.log("english has been copied to directory!");
-    });
+    fs.copyFile(
+      req.body.english,
+      location + "/e" + id + "_english.mp4",
+      (err) => {
+        if (err) throw err;
+        console.log("english has been copied to directory!");
+      }
+    );
   }
 };
 

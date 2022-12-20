@@ -16,7 +16,7 @@ const VideoControl = (props) => {
   const selectedVideo = useSelector((state) => state.video.video);
   const viewType = useSelector((state) => state.view.viewType);
   const [useUpdateMovie] = useUpdateMovieMutation();
-  const [useUpdateEpisode] = useUpdateEpisodeMutation;
+  const [useUpdateEpisode] = useUpdateEpisodeMutation();
 
   const handleClick = () => {
     dispatch(selectGenre("0"));
