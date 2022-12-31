@@ -13,7 +13,7 @@ import VideoCard from "../../components/videoCard/VideoCard";
 import SideEditor from "../../components/sideEditor/Editor";
 import SpinLoader from "../../components/spinLoader/SpinLoader";
 import { selectVideo } from "../../features/video";
-import { selectCard } from "../../features/view";
+import { markCard } from "../../features/view";
 
 import {
   useGetMoviesByTitleQuery,
@@ -53,7 +53,7 @@ const Home = () => {
     let index = selectedVideo
       ? videos.findIndex((video) => video.id === selectedVideo.id)
       : null;
-    dispatch(selectCard(index));
+    dispatch(markCard(index));
   }, [selectedVideo]);
 
   useEffect(() => {

@@ -12,6 +12,7 @@ const WatchScreen = () => {
   const video = React.createRef();
   const selectedSource = useSelector((state) => state.source.source);
   const selectedVideo = useSelector((state) => state.video.video);
+  const selectedAudio = useSelector((state) => state.video.audio);
 
   const [playing, setPlaying] = useState(true);
   const [seek, setSeek] = useState(0);
@@ -22,10 +23,21 @@ const WatchScreen = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [duration, setDuration] = useState(0);
 
+
   useEffect(() => {
-    isContinue == 1 && selectedVideo
-      ? handleForward(getConvertedIntro(selectedVideo.intro))
-      : null;
+    /*      ? handleForward(getConvertedIntro(selectedVideo.intro)) */
+
+    if (isContinue == 1 && selectedVideo) {
+      handleForward(selectedVideo.elapsed_time);
+    }
+  }, []);
+
+  useEffect(() => {
+    /*      ? handleForward(getConvertedIntro(selectedVideo.intro)) */
+
+    if (isContinue == 1 && selectedVideo) {
+      handleForward(selectedVideo.elapsed_time);
+    }
   }, []);
 
   //only for episode
@@ -93,7 +105,13 @@ const WatchScreen = () => {
       <Player
         className={styles.video}
         url={`file:///${selectedSource}//${
-          selectedVideo ? selectedVideo.english : ""
+          selectedVideo
+            ? selectedAudio == 1
+              ? selectedVideo.german
+              : selectedAudio == 2
+              ? selectedVideo.english
+              : ""
+            : ""
         }`}
         width="100%"
         height="100%"

@@ -53,8 +53,7 @@ const FormMovie = (props) => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(isLoad(false));
-      window.location.reload();
-      dispatch(toggleType(1));
+      window.location.reload().then(dispatch(toggleType(1)));
     }
   }, [isSuccess]);
 

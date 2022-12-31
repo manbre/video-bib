@@ -5,7 +5,7 @@ import styles from "./ToggleBar.module.css";
 import { toggleType } from "../../features/view";
 import { selectVideo } from "../../features/video";
 import { selectGenre } from "../../features/video";
-import { toggleEditorType } from "../../features/view";
+import { isLoad } from "../../features/view";
 
 const ToggleBar = () => {
   const dispatch = useDispatch();

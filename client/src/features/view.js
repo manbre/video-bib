@@ -22,7 +22,7 @@ export const viewSlice = createSlice({
     isLoad: (state, action) => {
       state.isLoad = action.payload;
     },
-    selectCard: (state, action) => {
+    markCard: (state, action) => {
       state.card = action.payload;
     },
   },
@@ -33,6 +33,6 @@ export const {
   toggleType,
   toggleEditorType,
   isLoad,
-  selectCard,
+  markCard,
 } = viewSlice.actions;
 export default viewSlice.reducer;

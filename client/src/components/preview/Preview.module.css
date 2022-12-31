@@ -164,6 +164,28 @@
   margin-right: 5em;
 }
 
+.audios{
+  margin-top: 0.5em;
+  display: flex;
+  width: 4em;
+  justify-content: space-between;
+}
+
+.german, .english{
+  height: 1.5em;
+  width: 1.5em;
+  background-size: 1.5em;
+  cursor: pointer;
+}
+
+.german {
+  background-image: url("../../assets/icons/german.png");
+}
+
+.english {
+  background-image: url("../../assets/icons/english.png");
+}
+
 .videoWall {
   position: absolute;
   width: 45%;

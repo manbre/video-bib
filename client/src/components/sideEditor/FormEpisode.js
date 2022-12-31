@@ -51,8 +51,7 @@ const FormEpisode = (props) => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(isLoad(false));
-      window.location.reload();
-      dispatch(toggleType(2));
+      window.location.reload().then(dispatch(toggleType(2)));
     }
   }, [isSuccess]);
 

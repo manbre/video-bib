@@ -1,15 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import styles from "./Preview.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CardSlider from "../cardSlider/CardSlider";
+import { selectAudio } from "../../features/video";
 
 const Preview = () => {
   const selectedVideo = useSelector((state) => state.video.video);
   const viewType = useSelector((state) => state.view.viewType);
   const selectedSource = useSelector((state) => state.source.source);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isMuted, setIsMuted] = useState(false);
   //
@@ -63,6 +65,14 @@ const Preview = () => {
     }
   }, [selectedVideo]);
 
+  useEffect(() => {
+    selectedVideo.german
+      ? takeAudio(1)
+      : selectedVideo.english
+      ? takeAudio(2)
+      : null;
+  }, [selectedVideo]);
+
   const toggleMute = () => {
     const elements = document.getElementsByClassName(`${styles.trailer}`);
     if (elements[0].muted) {
@@ -99,6 +109,25 @@ const Preview = () => {
           </button>
         </div>
       );
+    }
+  };
+
+  const takeAudio = (audio) => {
+    let german = document.getElementsByClassName(`${styles.german}`);
+    let english = document.getElementsByClassName(`${styles.english}`);
+    switch (audio) {
+      case 1:
+        german[0].style =
+          "border-bottom: 2px solid white; transform: scale(1.2)";
+        selectedVideo.english ? (english[0].style = "border: none;") : null;
+        dispatch(selectAudio(1));
+        break;
+      case 2:
+        english[0].style =
+          "border-bottom: 2px solid white; transform: scale(1.2)";
+        selectedVideo.german ? (german[0].style = "border: none;") : null;
+        dispatch(selectAudio(2));
+        break;
     }
   };
 
@@ -152,6 +181,24 @@ const Preview = () => {
             </div>
           </div>
           {getButtons()}
+          <div className={styles.audios}>
+            {selectedVideo.german ? (
+              <label
+                className={styles.german}
+                onClick={() => takeAudio(1)}
+              ></label>
+            ) : (
+              ""
+            )}
+            {selectedVideo.english ? (
+              <label
+                className={styles.english}
+                onClick={() => takeAudio(2)}
+              ></label>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
         {viewType == 1 && trailer ? (
           <button
