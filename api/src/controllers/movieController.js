@@ -36,7 +36,9 @@ const getAllGenres = async (req, res) => {
  * @res all movies
  */
 const getAllMovies = async (req, res) => {
-  let movies = await Movies.findAll().catch((err) => {
+  let movies = await Movies.findAll({
+    order: [[sequelize.literal("series, year"), "ASC"]],
+  }).catch((err) => {
     res.send(err);
   });
   res.send(movies);
@@ -92,21 +94,6 @@ const getMoviesByGenre = async (req, res) => {
 };
 
 /**
- * @req id
- * @res one movie by id
- */
-const getOneMovieById = async (req, res) => {
-  let movie = await Movies.findAll({
-    where: {
-      id: sequelize.where(sequelize.col("id"), req.params.id),
-    },
-  }).catch((err) => {
-    res.send(err);
-  });
-  res.send(movie);
-};
-
-/**
  * @req movie
  */
 const createNewMovie = async (req, res) => {
@@ -135,10 +122,15 @@ const createNewMovie = async (req, res) => {
     english: req.body.english ? "m" + id + "_english.mp4" : null,
   })
     .catch((err) => {
+      res.status(500).send({
+        message: "error while inserting movie with title " + req.body.title,
+      });
       res.send(err);
     })
     .then(() => {
-      res.send("movie with title " + req.body.title + " has been inserted.");
+      res.status(200).send({
+        message: "movie inserted with title " + req.body.title,
+      });
     });
 };
 
@@ -184,7 +176,7 @@ const updateMovie = async (req, res) => {
       res.send(err);
     })
     .then(() => {
-      res.send({
+      res.status(200).send({
         message:
           "movie with title" +
           req.body.title +
@@ -195,13 +187,14 @@ const updateMovie = async (req, res) => {
 
 /**
  * @req id
- * @res delete movie by id
  */
 const deleteMovie = async (req, res) => {
   await Movies.destroy({ where: { id: req.params.id } }).catch((err) => {
     res.send(err);
   });
-  res.send("movie with id " + req.params.id + " has been removed.");
+  res.status(200).send({
+    message: "movie with id " + req.params.id + " has been removed.",
+  });
 };
 
 /**
@@ -209,12 +202,18 @@ const deleteMovie = async (req, res) => {
  * @res copy files to directory
  */
 const copyMovieFiles = async (req, res) => {
+  //
   const latest = await Movies.findOne({
     order: [["id", "DESC"]],
   });
   var id = req.body.id ? req.body.id : latest ? latest.id + 1 : 1;
+  var isPosterReady = req.body.poster ? false : true;
+  var isTrailerReady = req.body.trailer ? false : true;
+  var isGermanReady = req.body.german ? false : true;
+  var isEnglishReady = req.body.english ? false : true;
+  //
   if (req.body.poster) {
-    //download poster from OMDB api
+    //download poster from OMDB api to location
     if (req.body.poster.includes("http")) {
       let file = fs.createWriteStream(location + "/m" + id + "_poster.jpg");
       https.get(req.body.poster, function (response) {
@@ -222,20 +221,43 @@ const copyMovieFiles = async (req, res) => {
         file.on("finish", function () {
           file.close();
         });
-        console.log("poster has been downloaded to location!");
+        isPosterReady = true;
+        console.log("poster ready");
+        if (
+          isPosterReady &&
+          isTrailerReady &&
+          isGermanReady &&
+          isEnglishReady
+        ) {
+          res.status(200).send({
+            message: "copy files finished",
+          });
+        }
       });
     } else {
-      //copy and rename poster to location
+      //copy poster to location
       fs.copyFile(
         req.body.poster,
         location + "/m" + id + "_poster.jpg",
         (err) => {
           if (err) throw err;
-          console.log("poster has been copied to location!");
+          isPosterReady = true;
+          console.log("poster ready");
+          if (
+            isPosterReady &&
+            isTrailerReady &&
+            isGermanReady &&
+            isEnglishReady
+          ) {
+            res.status(200).send({
+              message: "copy files finished",
+            });
+          }
         }
       );
     }
   }
+  //
   if (req.body.trailer) {
     //copy and rename trailer to location
     fs.copyFile(
@@ -243,10 +265,22 @@ const copyMovieFiles = async (req, res) => {
       location + "/m" + id + "_trailer.mp4",
       (err) => {
         if (err) throw err;
-        console.log("trailer has been copied to location!");
+        isTrailerReady = true;
+        console.log("trailer ready");
+        if (
+          isPosterReady &&
+          isTrailerReady &&
+          isGermanReady &&
+          isEnglishReady
+        ) {
+          res.status(200).send({
+            message: "copy files finished",
+          });
+        }
       }
     );
   }
+  //
   if (req.body.german) {
     //copy and rename german video to location
     fs.copyFile(
@@ -254,18 +288,41 @@ const copyMovieFiles = async (req, res) => {
       location + "/m" + id + "_german.mp4",
       (err) => {
         if (err) throw err;
-        console.log("german has been copied to location!");
+        isGermanReady = true;
+        console.log("german ready");
+        if (
+          isPosterReady &&
+          isTrailerReady &&
+          isGermanReady &&
+          isEnglishReady
+        ) {
+          res.status(200).send({
+            message: "copy files finished",
+          });
+        }
       }
     );
   }
+  //
   if (req.body.english) {
-    //copy and rename german video to location
+    //copy and rename english video to location
     fs.copyFile(
       req.body.english,
       location + "/m" + id + "_english.mp4",
       (err) => {
         if (err) throw err;
-        console.log("english has been copied to directory!");
+        isEnglishReady = true;
+        console.log("english ready");
+        if (
+          isPosterReady &&
+          isTrailerReady &&
+          isGermanReady &&
+          isEnglishReady
+        ) {
+          res.status(200).send({
+            message: "copy files finished",
+          });
+        }
       }
     );
   }
@@ -277,7 +334,6 @@ module.exports = {
   getAllMovies,
   getMoviesByTitle,
   getMoviesByGenre,
-  getOneMovieById,
   //
   createNewMovie,
   updateMovie,

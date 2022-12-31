@@ -23,8 +23,6 @@ const WatchScreen = () => {
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    console.log(getConvertedIntro(3.55));
-    console.log(selectedVideo);
     isContinue == 1 && selectedVideo
       ? handleForward(getConvertedIntro(selectedVideo.intro))
       : null;

@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Form.module.css";
 import { selectVideo } from "../../features/video";
+import { selectGenre } from "../../features/video";
+import { isLoad } from "../../features/view";
+import { toggleType } from "../../features/view";
 import {
   useGetOMDBDataQuery,
   useCreateNewMovieMutation,
@@ -40,12 +43,20 @@ const FormMovie = (props) => {
   const [useCreateVideo] = useCreateNewMovieMutation();
   const [useUpdateVideo] = useUpdateMovieMutation();
   const [useDeleteVideo] = useDeleteMovieMutation();
-  const [useCopyFiles] = useCopyMovieFilesMutation();
+  const [useCopyFiles, { isSuccess }] = useCopyMovieFilesMutation();
 
   const { data: OMDBData } = useGetOMDBDataQuery({
     title: title,
     year: year,
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(isLoad(false));
+      window.location.reload();
+      dispatch(toggleType(1));
+    }
+  }, [isSuccess]);
 
   useEffect(() => {
     !selectedVideo && OMDBData && setPoster(OMDBData.Poster);
@@ -111,6 +122,7 @@ const FormMovie = (props) => {
       german: german,
       english: english,
     });
+    emptyInput();
   };
 
   const updateVideo = () => {
@@ -136,6 +148,7 @@ const FormMovie = (props) => {
       ...(german != selectedVideo.german ? { german: german } : {}),
       ...(english != selectedVideo.english ? { english: english } : {}),
     });
+    emptyInput();
     dispatch(selectVideo(null));
   };
 
@@ -146,14 +159,30 @@ const FormMovie = (props) => {
 
   const copyFiles = () => {
     if (selectedVideo) {
+      if (
+        poster != selectedVideo.poster ||
+        trailer != selectedVideo.trailer ||
+        german != selectedVideo.german ||
+        english != selectedVideo.english
+      ) {
+        dispatch(isLoad(true));
+      }
       useCopyFiles({
-        id: selectedVideo ? selectedVideo.id : null,
+        id: selectedVideo.id,
         poster: poster != selectedVideo.poster ? poster : null,
         trailer: trailer != selectedVideo.trailer ? trailer : null,
         german: german != selectedVideo.german ? german : null,
         english: english != selectedVideo.english ? english : null,
       });
     } else {
+      if (
+        poster != null ||
+        trailer != null ||
+        german != null ||
+        english != null
+      ) {
+        dispatch(isLoad(true));
+      }
       useCopyFiles({
         id: null,
         poster: poster,
@@ -162,11 +191,6 @@ const FormMovie = (props) => {
         english: english,
       });
     }
-  };
-
-  const uploadVideo = () => {
-    createVideo();
-    emptyInput();
   };
 
   const emptyInput = () => {
@@ -186,7 +210,7 @@ const FormMovie = (props) => {
       setTrailer(""),
       setGerman(""),
       setEnglish("");
-      //
+    //
     let fields = document
       .getElementById("movie_form")
       .getElementsByTagName("input");
@@ -214,7 +238,7 @@ const FormMovie = (props) => {
 
   props.childRef.current = {
     takeOMDBData: takeOMDBData,
-    uploadVideo: uploadVideo,
+    uploadVideo: createVideo,
     updateVideo: updateVideo,
     deleteVideo: deleteVideo,
   };
@@ -305,9 +329,11 @@ const FormMovie = (props) => {
           <label className={styles.poster}>
             <img
               src={
-                selectedVideo && poster
-                  ? `file:///${selectedSource}//${poster}`
-                  : `${poster}`
+                selectedVideo
+                  ? selectedVideo.poster == poster
+                    ? `file:///${selectedSource}//${poster}`
+                    : poster
+                  : poster
               }
               onError={(event) =>
                 (event.target.src = require("../../assets/images/placeholder.jpg").default)

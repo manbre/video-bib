@@ -59,8 +59,8 @@ label > .tag {
 }
 
 .mid > .inputPlot {
-  height: 3.5em;
-  width: 22em;
+  height: 4em;
+  width: 100%;
   background-color: rgb(var(--top-color));
   border-style: none;
   resize: none;

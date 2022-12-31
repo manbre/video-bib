@@ -3,14 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 export const videoSlice = createSlice({
   name: "video",
 
-  initialState: { video: null, type: "Movies", genre: "All", title: "" },
+  initialState: {
+    video: null,
+    genre: "All",
+    title: "",
+  },
 
   reducers: {
     selectVideo: (state, action) => {
       state.video = action.payload;
-    },
-    selectType: (state, action) => {
-      state.type = action.payload;
     },
     selectGenre: (state, action) => {
       state.genre = action.payload;
@@ -21,10 +22,5 @@ export const videoSlice = createSlice({
   },
 });
 
-export const {
-  selectVideo,
-  selectType,
-  selectGenre,
-  selectTitle,
-} = videoSlice.actions;
+export const { selectVideo, selectGenre, selectTitle } = videoSlice.actions;
 export default videoSlice.reducer;

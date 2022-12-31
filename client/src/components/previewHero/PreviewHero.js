@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import styles from "./PreviewHero.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectVideo } from "../../features/video";
+import { selectCard } from "../../features/view";
+import { selectGenre } from "../../features/video";
 import {
   useGetAllMoviesQuery,
   useGetAllSeasonsQuery,
@@ -12,8 +14,9 @@ const PreviewHero = () => {
   const [videos, setVideos] = useState([]);
   const viewType = useSelector((state) => state.view.viewType);
   const selectedSource = useSelector((state) => state.source.source);
-  const { data: movies } = useGetAllMoviesQuery();
-  const { data: seasons } = useGetAllSeasonsQuery();
+  const isLoad = useSelector((state) => state.view.isLoad);
+  const { data: movies, isSuccess: moviesSuccess } = useGetAllMoviesQuery();
+  const { data: seasons, isSuccess: seasonsSuccess } = useGetAllSeasonsQuery();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,7 +47,11 @@ const PreviewHero = () => {
         <div className={styles.firstHalf}>
           <span id="first">
             {videos.map((video) => (
-              <div className={styles.frame} key={video.id}>
+              <div
+                className={styles.frame}
+                key={video.id}
+                onClick={() => getVideo(video)}
+              >
                 <img
                   src={`file:///${selectedSource}//${video.poster}`}
                   onError={(event) =>
@@ -53,7 +60,6 @@ const PreviewHero = () => {
                   onLoad={(event) =>
                     (event.target.style.display = "inline-block")
                   }
-                  onClick={() => getVideo(video)}
                 />
               </div>
             ))}
@@ -62,7 +68,11 @@ const PreviewHero = () => {
         <div className={styles.secondHalf}>
           <span id="second">
             {videos.map((video) => (
-              <div className={styles.frame} key={video.id}>
+              <div
+                className={styles.frame}
+                key={video.id}
+                onClick={() => getVideo(video)}
+              >
                 <img
                   src={`file:///${selectedSource}//${video.poster}`}
                   onError={(event) =>
@@ -71,7 +81,6 @@ const PreviewHero = () => {
                   onLoad={(event) =>
                     (event.target.style.display = "inline-block")
                   }
-                  onClick={() => getVideo(video)}
                 />
               </div>
             ))}

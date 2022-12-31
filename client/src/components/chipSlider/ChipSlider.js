@@ -20,7 +20,7 @@ const ChipSlider = () => {
   const [genres, setGenres] = useState([]);
 
   const dispatch = useDispatch();
-  const selectedGenres = useSelector((state) => state.video.genre);
+  const selectedGenre = useSelector((state) => state.video.genre);
   const viewType = useSelector((state) => state.view.viewType);
   const { data: movieGenres } = useGetAllMovieGenresQuery();
   const { data: episodeGenres } = useGetAllEpisodeGenresQuery();
@@ -45,10 +45,10 @@ const ChipSlider = () => {
   }, [viewType, movieGenres, episodeGenres]);
 
   useEffect(() => {
-    if (selectedGenres == "All") {
+    if (selectedGenre == "All") {
       document.getElementById("all").click();
     }
-  }, [selectedGenres]);
+  }, [selectedGenre]);
 
   useEffect(() => {
     var container = document.getElementById("container");

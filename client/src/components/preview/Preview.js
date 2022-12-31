@@ -79,10 +79,7 @@ const Preview = () => {
   };
 
   const getButtons = () => {
-    if (
-      selectedVideo.elapsed_time > 0 &&
-      (selectedVideo.german || selectedVideo.english)
-    ) {
+    if (selectedVideo.elapsed_time > 0) {
       return (
         <div className={styles.btns}>
           <button className={styles.play1Btn} onClick={() => playVideo(1)}>
@@ -94,7 +91,7 @@ const Preview = () => {
           </button>
         </div>
       );
-    } else if (selectedVideo.german || selectedVideo.english) {
+    } else {
       return (
         <div className={styles.btns}>
           <button className={styles.play2Btn} onClick={() => playVideo(0)}>

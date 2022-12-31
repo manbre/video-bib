@@ -4,50 +4,40 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./VideoCard.module.css";
 import { selectVideo } from "../../features/video";
+import { selectCard } from "../../features/view";
 
-const VideoCard = ({ video, index }) => {
-  const selectedVideo = useSelector((state) => state.video.video);
+const VideoCard = ({ video }) => {
+  const selectedCard = useSelector((state) => state.view.card);
   const viewType = useSelector((state) => state.view.viewType);
   const selectedSource = useSelector((state) => state.source.source);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    var elements = document.getElementsByClassName(`${styles.progress}`);
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].style = "width: 30%;";
+    var elements = document.getElementsByClassName(`${styles.container}`);
+    var posters = document.getElementsByClassName(`${styles.poster}`);
+    var infos = document.getElementsByClassName(`${styles.info}`);
+    if (selectedCard != null && elements[selectedCard]) {
+      elements[selectedCard].style =
+        "outline: 4px solid white; transform: scaleY(1.1);";
+      posters[selectedCard].style = "transform: scaleY(0.9) translateY(-10px);";
+      infos[selectedCard].style = "  transform: scaleY(0.9) translateY(0.5em);";
+      //
+      for (let i = 0; i < elements.length; i++) {
+        if (i != selectedCard) {
+          elements[i].style = "border: none;";
+          posters[i].style = "z-index: 2;";
+          infos[i].style = " translateY(0.5em);";
+        }
+      }
     }
-  }, []);
-
-  useEffect(() => {
-    if (!selectedVideo) {
-      var elements = document.getElementsByClassName(`${styles.container}`);
-      var posters = document.getElementsByClassName(`${styles.poster}`);
-      var infos = document.getElementsByClassName(`${styles.info}`);
+    if (selectedCard == null) {
       for (let i = 0; i < elements.length; i++) {
         elements[i].style = "border: none;";
         posters[i].style = "z-index: 2;";
         infos[i].style = " translateY(0.5em);";
       }
     }
-  }, [selectedVideo]);
-
-  const markSelected = () => {
-    var elements = document.getElementsByClassName(`${styles.container}`);
-    var posters = document.getElementsByClassName(`${styles.poster}`);
-    var infos = document.getElementsByClassName(`${styles.info}`);
-    elements[index].style = "outline: 4px solid white; transform: scaleY(1.1);";
-    posters[index].style = "transform: scaleY(0.9) translateY(-10px);";
-    infos[index].style = "  transform: scaleY(0.9) translateY(0.5em);";
-    dispatch(selectVideo(video));
-
-    for (let i = 0; i < elements.length; i++) {
-      if (i != index) {
-        elements[i].style = "border: none;";
-        posters[i].style = "z-index: 2;";
-        infos[i].style = " translateY(0.5em);";
-      }
-    }
-  };
+  }, [selectedCard]);
 
   const getTitle = () => {
     switch (viewType) {
@@ -64,7 +54,10 @@ const VideoCard = ({ video, index }) => {
   };
 
   return (
-    <div className={styles.container} onClick={markSelected}>
+    <div
+      className={styles.container}
+      onClick={() => dispatch(selectVideo(video))}
+    >
       <div className={styles.poster}>
         <img
           src={`file:///${selectedSource}//${video.poster}`}
@@ -75,15 +68,7 @@ const VideoCard = ({ video, index }) => {
         />
       </div>
       <div className={styles.info}>
-        <div className={styles.title}>
-          {viewType == 1 ? (
-            <p>{getTitle()}</p>
-          ) : (
-            <p>
-              {video.series} - Season {video.season}
-            </p>
-          )}
-        </div>
+        <div className={styles.title}>{getTitle()}</div>
         <div className={styles.bottom}>
           <div className={styles.year}>
             <p>{video.year}</p>

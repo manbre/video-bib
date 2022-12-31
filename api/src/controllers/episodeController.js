@@ -39,7 +39,7 @@ const getAllGenres = async (req, res) => {
  */
 const getAllSeasons = async (req, res) => {
   let seasons = await Episodes.findAll({
-    group: ["season"],
+    group: ["series", "season"],
     order: [[sequelize.literal("series", "season"), "ASC"]],
   }).catch((err) => {
     res.send(err);
@@ -49,7 +49,7 @@ const getAllSeasons = async (req, res) => {
 
 /**
  * @req series
- * @res all seasons (sample episode) by series
+ * @res seasons (sample episode) by series
  */
 const getSeasonsBySeries = async (req, res) => {
   let seasons = await Episodes.findAll({
@@ -117,21 +117,6 @@ const getSeasonsByGenre = async (req, res) => {
 };
 
 /**
- * @req id
- * @res one episode by id
- */
-const getOneEpisodeById = async (req, res) => {
-  let episode = await Episodes.findAll({
-    where: {
-      id: sequelize.where(sequelize.col("id"), req.params.id),
-    },
-  }).catch((err) => {
-    res.send(err);
-  });
-  res.send(episode);
-};
-
-/**
  * @req episode
  */
 const createNewEpisode = async (req, res) => {
@@ -162,16 +147,19 @@ const createNewEpisode = async (req, res) => {
     english: req.body.english ? "e" + id + "_english.mp4" : null,
   })
     .catch((err) => {
+      res.status(500).send({
+        message: "error while inserting episode with title " + req.body.title,
+      });
       res.send(err);
     })
     .then(() => {
-      res.send(
-        "episode with title " +
+      res.status(200).send({
+        message:
+          "episode inserted with title " +
           req.body.title +
           "of series " +
-          series +
-          " has been inserted."
-      );
+          series,
+      });
     });
 };
 
@@ -207,8 +195,14 @@ const updateEpisode = async (req, res) => {
       where: { id: req.body.id },
     }
   )
+    .catch((err) => {
+      res.status(500).send({
+        message: "error while updating episode with title " + req.body.title,
+      });
+      console.log(err);
+    })
     .then(() => {
-      res.send({
+      res.status(200).send({
         message:
           "episode with title" +
           req.body.title +
@@ -216,12 +210,6 @@ const updateEpisode = async (req, res) => {
           req.body.series +
           " has been updated successfully.",
       });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "error while updating episode with title " + req.body.title,
-      });
-      console.log(err);
     });
 };
 
@@ -244,6 +232,9 @@ const copyEpisodeFiles = async (req, res) => {
     order: [["id", "DESC"]],
   });
   var id = req.body.id ? req.body.id : latest ? latest.id + 1 : 1;
+  var isPosterReady = req.body.poster ? false : true;
+  var isGermanReady = req.body.german ? false : true;
+  var isEnglishReady = req.body.english ? false : true;
   //
   if (req.body.poster) {
     //download and rename poster from OMDB api
@@ -254,7 +245,13 @@ const copyEpisodeFiles = async (req, res) => {
         file.on("finish", function () {
           file.close();
         });
-        console.log("poster has been downloaded to location!");
+        isPosterReady = true;
+        console.log("poster ready");
+        if (isPosterReady && isGermanReady && isEnglishReady) {
+          res.status(200).send({
+            message: "copy files finished",
+          });
+        }
       });
     } else {
       //copy and rename poster to directory dir
@@ -263,7 +260,13 @@ const copyEpisodeFiles = async (req, res) => {
         location + "/e" + id + "_poster.jpg",
         (err) => {
           if (err) throw err;
-          console.log("poster has been copied to directory!");
+          isPosterReady = true;
+          console.log("poster ready");
+          if (isPosterReady && isGermanReady && isEnglishReady) {
+            res.status(200).send({
+              message: "copy files finished",
+            });
+          }
         }
       );
     }
@@ -275,7 +278,13 @@ const copyEpisodeFiles = async (req, res) => {
       location + "/e" + id + "_german.mp4",
       (err) => {
         if (err) throw err;
-        console.log("german has been copied to directory!");
+        isGermanReady = true;
+        console.log("german ready");
+        if (isPosterReady && isGermanReady && isEnglishReady) {
+          res.status(200).send({
+            message: "copy files finished",
+          });
+        }
       }
     );
   }
@@ -286,7 +295,13 @@ const copyEpisodeFiles = async (req, res) => {
       location + "/e" + id + "_english.mp4",
       (err) => {
         if (err) throw err;
-        console.log("english has been copied to directory!");
+        isEnglishReady = true;
+        console.log("english ready");
+        if (isPosterReady && isGermanReady && isEnglishReady) {
+          res.status(200).send({
+            message: "copy files finished",
+          });
+        }
       }
     );
   }
@@ -299,7 +314,6 @@ module.exports = {
   getSeasonsBySeries,
   getEpisodesBySeason,
   getSeasonsByGenre,
-  getOneEpisodeById,
   //
   createNewEpisode,
   updateEpisode,

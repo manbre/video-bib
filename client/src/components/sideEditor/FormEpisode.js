@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Form.module.css";
 import { selectVideo } from "../../features/video";
+import { isLoad } from "../../features/view";
+import { toggleType } from "../../features/view";
 import {
   useGetOMDBDataQuery,
   useCreateNewEpisodeMutation,
@@ -27,9 +29,9 @@ const FormEpisode = (props) => {
   //
   const [plot, setPlot] = useState("");
   //
-  const [poster, setPoster] = useState("");
-  const [german, setGerman] = useState("");
-  const [english, setEnglish] = useState("");
+  const [poster, setPoster] = useState(null);
+  const [german, setGerman] = useState(null);
+  const [english, setEnglish] = useState(null);
   //
   const dispatch = useDispatch();
   const selectedVideo = useSelector((state) => state.video.video);
@@ -39,12 +41,20 @@ const FormEpisode = (props) => {
   const [useCreateVideo] = useCreateNewEpisodeMutation();
   const [useUpdateVideo] = useUpdateEpisodeMutation();
   const [useDeleteVideo] = useDeleteEpisodeMutation();
-  const [useCopyFiles] = useCopyEpisodeFilesMutation();
+  const [useCopyFiles, { isSuccess }] = useCopyEpisodeFilesMutation();
 
   const { data: OMDBData } = useGetOMDBDataQuery({
     title: series,
     year: year,
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(isLoad(false));
+      window.location.reload();
+      dispatch(toggleType(2));
+    }
+  }, [isSuccess]);
 
   useEffect(() => {
     !selectedVideo && OMDBData && setPoster(OMDBData.Poster);
@@ -85,6 +95,7 @@ const FormEpisode = (props) => {
   };
 
   const createVideo = () => {
+    copyFiles();
     useCreateVideo({
       series: series,
       title: title,
@@ -103,10 +114,11 @@ const FormEpisode = (props) => {
       german: german,
       english: english,
     });
-    copyFiles();
+    emptyInput();
   };
 
   const updateVideo = () => {
+    copyFiles();
     useUpdateVideo({
       id: selectedVideo.id,
       //
@@ -127,7 +139,7 @@ const FormEpisode = (props) => {
       ...(german != selectedVideo.german ? { german: german } : {}),
       ...(english != selectedVideo.english ? { english: english } : {}),
     });
-    copyFiles();
+    emptyInput();
     dispatch(selectVideo(null));
   };
 
@@ -138,14 +150,23 @@ const FormEpisode = (props) => {
 
   const copyFiles = () => {
     if (selectedVideo) {
+      if (
+        poster != selectedVideo.poster ||
+        german != selectedVideo.german ||
+        english != selectedVideo.english
+      ) {
+        dispatch(isLoad(true));
+      }
       useCopyFiles({
-        id: selectedVideo ? selectedVideo.id : null,
-        //
+        id: selectedVideo.id,
         poster: poster != selectedVideo.poster ? poster : null,
         german: german != selectedVideo.german ? german : null,
         english: english != selectedVideo.english ? english : null,
       });
     } else {
+      if (poster != null || german != null || english != null) {
+        dispatch(isLoad(true));
+      }
       useCopyFiles({
         id: null,
         poster: poster,
@@ -153,11 +174,6 @@ const FormEpisode = (props) => {
         english: english,
       });
     }
-  };
-
-  const uploadVideo = () => {
-    createVideo();
-    emptyInput();
   };
 
   const emptyInput = () => {
@@ -177,8 +193,8 @@ const FormEpisode = (props) => {
       setPoster(""),
       setGerman(""),
       setEnglish("");
-      //
-      let fields = document
+    //
+    let fields = document
       .getElementById("episode_form")
       .getElementsByTagName("input");
     for (let i = 0; i < fields.length; i++) {
@@ -202,7 +218,7 @@ const FormEpisode = (props) => {
 
   props.childRef.current = {
     takeOMDBData: takeOMDBData,
-    uploadVideo: uploadVideo,
+    uploadVideo: createVideo,
     updateVideo: updateVideo,
     deleteVideo: deleteVideo,
   };
@@ -298,9 +314,11 @@ const FormEpisode = (props) => {
           <label className={styles.poster}>
             <img
               src={
-                selectedVideo && selectedVideo.poster
-                  ? `file:///${selectedSource}//${selectedVideo.poster}`
-                  : `${poster}`
+                selectedVideo
+                  ? selectedVideo.poster == poster
+                    ? `file:///${selectedSource}//${poster}`
+                    : poster
+                  : poster
               }
               onError={(event) =>
                 (event.target.src = require("../../assets/images/placeholder.jpg").default)

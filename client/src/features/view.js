@@ -5,7 +5,9 @@ export const viewSlice = createSlice({
   initialState: {
     isEditor: false /* false: closed*/,
     viewType: 1 /* 1: Movies, 2: TVShows */,
-    EditorType: 1 /* 1: Movies, 2: TVShows */,
+    editorType: 1 /* 1: Movies, 2: TVShows */,
+    isLoad: false,
+    card: null,
   },
   reducers: {
     toggleEditor: (state) => {
@@ -15,10 +17,22 @@ export const viewSlice = createSlice({
       state.viewType = action.payload;
     },
     toggleEditorType: (state, action) => {
-      state.EditorType = action.payload;
+      state.editorType = action.payload;
+    },
+    isLoad: (state, action) => {
+      state.isLoad = action.payload;
+    },
+    selectCard: (state, action) => {
+      state.card = action.payload;
     },
   },
 });
 
-export const { toggleEditor, toggleType, toggleEditorType } = viewSlice.actions;
+export const {
+  toggleEditor,
+  toggleType,
+  toggleEditorType,
+  isLoad,
+  selectCard,
+} = viewSlice.actions;
 export default viewSlice.reducer;

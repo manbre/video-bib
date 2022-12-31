@@ -1,5 +1,5 @@
 .container {
-  height: var(--preview-height);
+  height: 40vh;
   position: relative;
   overflow: hidden;
   display: flex;

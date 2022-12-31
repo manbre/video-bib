@@ -1,7 +1,7 @@
 .container {
   width: 100%;
-  height: var(--preview-height);
-  display: flex;
+  height: 40vh;
+   display: flex;
   position: relative;
   justify-content: flex-end;
   background-color: rgb(var(--top-color));
@@ -14,8 +14,8 @@
   width: 100%;
   background: linear-gradient(
       90deg,
-      rgba(var(--top-color), 1) 60%,
-      rgba(var(--top-color), 0) 75%
+      rgba(var(--top-color), 1) 50%,
+      rgba(var(--top-color), 0) 65%
     );
 
   position: absolute;
@@ -32,7 +32,7 @@
 
 .title {
   grid-row: 1;
-  font-size: 1.7em;
+  font-size: 2vw;
 }
 
 .numbers {
@@ -52,6 +52,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 0.9vw;
 }
 
 .row {
@@ -68,6 +69,7 @@
   display: grid;
   grid-template-rows: repeat(3, 1em);
   row-gap: 0.3em;
+  font-size: 0.9vw;
 }
 .col2{
   margin-left: 1em;
@@ -78,7 +80,7 @@
 .runtime > p,
 .year > p,
 .awards > p {
-  font-size: 0.85em;
+  font-size: 0.9vw;
   color: rgb(var(--secondary-text));
 }
 
@@ -130,7 +132,7 @@
   display: flex;
   color: rgb(var(--secondary-text));
   align-items: center;
-  font-size: 0.9em;
+  font-size: 0.9vw;
 }
 
 .oscar {
@@ -164,7 +166,7 @@
 
 .videoWall {
   position: absolute;
-  width: 40%;
+  width: 45%;
   overflow: hidden;
   z-index: -1;
 }
