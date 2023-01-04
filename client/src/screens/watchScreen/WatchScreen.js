@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import VideoControl from "../../components/videoControl/VideoControl";
 import Player from "react-player";
 import { useParams } from "react-router-dom";
-
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import styles from "./WatchScreen.module.css";
 
 const WatchScreen = () => {
@@ -23,14 +23,9 @@ const WatchScreen = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [duration, setDuration] = useState(0);
 
-
   useEffect(() => {
-    /*      ? handleForward(getConvertedIntro(selectedVideo.intro)) */
-
-    if (isContinue == 1 && selectedVideo) {
-      handleForward(selectedVideo.elapsed_time);
-    }
-  }, []);
+    selectedVideo ? video.current.seekTo(seek - 5) : null;
+  }, [selectedAudio]);
 
   useEffect(() => {
     /*      ? handleForward(getConvertedIntro(selectedVideo.intro)) */
@@ -100,6 +95,8 @@ const WatchScreen = () => {
     return hours + ":" + minutes + ":" + seconds;
   };
 
+
+
   return (
     <div className={styles.container}>
       <Player
@@ -124,6 +121,7 @@ const WatchScreen = () => {
       <VideoControl
         title={selectedVideo ? selectedVideo.title : ""}
         seek={seek}
+        changeSeek={(seek) => video.current.seekTo(seek)}
         time={time}
         timeTotal={timeTotal}
         playing={playing}

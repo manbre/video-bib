@@ -5,15 +5,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CardSlider from "../cardSlider/CardSlider";
 import { selectAudio } from "../../features/video";
+import { muteTrailer } from "../../features/view";
 
 const Preview = () => {
   const selectedVideo = useSelector((state) => state.video.video);
   const viewType = useSelector((state) => state.view.viewType);
   const selectedSource = useSelector((state) => state.source.source);
+  const isMuted = useSelector((state) => state.view.muted);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [isMuted, setIsMuted] = useState(false);
   //
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
@@ -55,17 +56,6 @@ const Preview = () => {
         setPoster(selectedVideo.poster);
         break;
     }
-  }, [selectedVideo]);
-
-  useEffect(() => {
-    if (trailer && viewType == 1) {
-      const elements = document.getElementsByClassName(`${styles.trailer}`);
-      elements[0].muted = false;
-      setIsMuted(false);
-    }
-  }, [selectedVideo]);
-
-  useEffect(() => {
     selectedVideo.german
       ? takeAudio(1)
       : selectedVideo.english
@@ -73,14 +63,20 @@ const Preview = () => {
       : null;
   }, [selectedVideo]);
 
-  const toggleMute = () => {
-    const elements = document.getElementsByClassName(`${styles.trailer}`);
-    if (elements[0].muted) {
-      elements[0].muted = false;
-      setIsMuted(false);
-    } else {
-      elements[0].muted = true;
-      setIsMuted(true);
+  useEffect(() => {
+    if (trailer && viewType == 1) {
+      const elements = document.getElementsByClassName(`${styles.trailer}`);
+      if (isMuted) {
+        elements[0].muted = true;
+      } else {
+        elements[0].muted = false;
+      }
+    }
+  }, [selectedVideo, isMuted]);
+
+  const getProgress = () => {
+    if (selectedVideo) {
+      return (selectedVideo.elapsed_time / (selectedVideo.runtime * 60)) * 100;
     }
   };
 
@@ -88,23 +84,29 @@ const Preview = () => {
     navigate(`/watch/${isContinue}`);
   };
 
-  const getButtons = () => {
+  const getPlayButtons = () => {
     if (selectedVideo.elapsed_time > 0) {
       return (
         <div className={styles.btns}>
-          <button className={styles.play1Btn} onClick={() => playVideo(1)}>
-            Continue
-          </button>
-
-          <button className={styles.play2Btn} onClick={() => playVideo(0)}>
+          <button className={styles.play1Btn} onClick={() => playVideo(0)}>
             Play
           </button>
+          <div className={styles.progressCol}>
+            <button className={styles.play2Btn} onClick={() => playVideo(1)}>
+              Continue
+            </button>
+            <progress
+              className={styles.progressOnBtn}
+              max="100"
+              value={getProgress()}
+            ></progress>
+          </div>
         </div>
       );
     } else {
       return (
         <div className={styles.btns}>
-          <button className={styles.play2Btn} onClick={() => playVideo(0)}>
+          <button className={styles.play1Btn} onClick={() => playVideo(0)}>
             Play
           </button>
         </div>
@@ -118,13 +120,13 @@ const Preview = () => {
     switch (audio) {
       case 1:
         german[0].style =
-          "border-bottom: 2px solid white; transform: scale(1.2)";
+          "border-bottom: 2px solid white; transform: scale(1.4)";
         selectedVideo.english ? (english[0].style = "border: none;") : null;
         dispatch(selectAudio(1));
         break;
       case 2:
         english[0].style =
-          "border-bottom: 2px solid white; transform: scale(1.2)";
+          "border-bottom: 2px solid white; transform: scale(1.4)";
         selectedVideo.german ? (german[0].style = "border: none;") : null;
         dispatch(selectAudio(2));
         break;
@@ -180,34 +182,40 @@ const Preview = () => {
               <p>{genre}</p>
             </div>
           </div>
-          {getButtons()}
-          <div className={styles.audios}>
-            {selectedVideo.german ? (
-              <label
-                className={styles.german}
-                onClick={() => takeAudio(1)}
-              ></label>
-            ) : (
-              ""
-            )}
-            {selectedVideo.english ? (
-              <label
-                className={styles.english}
-                onClick={() => takeAudio(2)}
-              ></label>
-            ) : (
-              ""
-            )}
+          <div className={styles.line}>
+            {getPlayButtons()}
+            <div className={styles.audios}>
+              {selectedVideo.german ? (
+                <label
+                  className={styles.german}
+                  onClick={() => takeAudio(1)}
+                ></label>
+              ) : (
+                ""
+              )}
+              {selectedVideo.english ? (
+                <label
+                  className={styles.english}
+                  onClick={() => takeAudio(2)}
+                ></label>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
         {viewType == 1 && trailer ? (
           <button
             className={isMuted ? styles.volBtn : styles.muteBtn}
-            onClick={() => toggleMute()}
+            onClick={() =>
+              isMuted
+                ? dispatch(muteTrailer(false))
+                : dispatch(muteTrailer(true))
+            }
           ></button>
         ) : null}
       </div>
-      <div id="wall" className={styles.videoWall}>
+      <div className={styles.videoWall}>
         {viewType == 1 && trailer ? (
           <video
             className={styles.trailer}

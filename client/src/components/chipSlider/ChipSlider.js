@@ -95,6 +95,18 @@ const ChipSlider = () => {
     dispatch(selectGenre(genre));
   };
 
+  const styleOverChip = (event) => {
+    event.target != lastEventTarget
+      ? (event.target.style = "background: rgb(var(--hover-color));")
+      : null;
+  };
+
+  const styleOutChip = (event) => {
+    event.target != lastEventTarget
+      ? (event.target.style = "background: rgb(var(--menu-color));")
+      : null;
+  };
+
   const prevSlide = () => {
     var next = document.getElementById("next");
     next.style = "display: block;";
@@ -127,14 +139,22 @@ const ChipSlider = () => {
       </a>
       <div id="slider" className={styles.slider}>
         <ul id="slideWrap" className={styles.wrap}>
-          <button id="all" className={styles.chip} onClick={styleSelectedChip}>
+          <button
+            id="all"
+            className={styles.chip}
+            onClick={(e) => styleSelectedChip(e)}
+            onMouseOver={(e) => styleOverChip(e)}
+            onMouseOut={(e) => styleOutChip(e)}
+          >
             All
           </button>
           {genres.map((genre, key) => (
             <button
               className={styles.chip}
               key={key}
-              onClick={styleSelectedChip}
+              onClick={(e) => styleSelectedChip(e)}
+              onMouseOver={(e) => styleOverChip(e)}
+              onMouseOut={(e) => styleOutChip(e)}
             >
               {genre}
             </button>

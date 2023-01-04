@@ -16,8 +16,8 @@ function createWindow() {
     width: 1024,
     height: 768,
     minWidth: 940,
-    minHeight: 560,
- /*    frame: false, */ //comment out for dev tools
+    minHeight: 560, //comment out for dev tools
+    frame: false,
     icon: __dirname + "./src/assets/images/logo.png",
     webPreferences: {
       nodeIntegration: false,
@@ -59,6 +59,28 @@ function createWindow() {
     } else {
       return filePaths[0];
     }
+  });
+  ipc.on("deleteVideo", (event, data) => {
+    dialog.showMessageBox(
+      win,
+      {
+        type: "question",
+        buttons: ["Yes", "No"],
+        title: "Delete Video",
+        message: "Do you really want to delete this Video?",
+      },
+      (response) => {
+        if (response == "Yes") {
+          console.log("1");
+        }
+        if (response == 0) {
+          console.log("0");
+        }
+        if (response == 2) {
+          console.log("2");
+        }
+      }
+    );
   });
 
   // check if is maximized

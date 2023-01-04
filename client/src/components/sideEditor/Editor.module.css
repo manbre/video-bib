@@ -1,5 +1,4 @@
 .container {
-  background-color: rgb(var(--menu-color));
   height: 100%;
   width: 21em;
   display: flex;
@@ -45,14 +44,14 @@
 .tabBar {
   display: flex;
   background-color: rgb(var(--back-color));
-  height: var(--bar-size);
+  height: 1.7em;
   justify-content: flex-end;
   top: 0;
   position: sticky;
 }
 
 .tabBar > button {
-  padding: 0.5em;
+  padding: 0.4em;
   border-style: none;
   border-top-left-radius: var(--chip-radius);
   border-top-right-radius: var(--chip-radius);
@@ -64,9 +63,8 @@
   width: 21em;
   display: flex;
   flex-direction: row;
-  background-color: rgb(var(--top-color));
-  border: 3px solid rgb(var(--back-color));
-  padding-top: 0.5em;
+  background-color: rgb(var(--menu-color));
+  padding-top: 0.3em;
   justify-content: space-around;
   position: absolute;
   padding-bottom: 0.5em;
@@ -102,8 +100,49 @@
   border-radius: var(--chip-radius);
   border-style: none;
   background-color: rgb(var(--back-color));
-  color: rgb(var(--secondary-text));
+  color: rgb(var(--primary-text));
   width: 8em;
   height: 2em;
   cursor: pointer;
+}
+
+.deleteBtn:hover, .submitBtn:hover{
+  background-color: rgb(var(--hover-color));
+}
+
+@media only screen and (min-width: 1440px) {
+  .container {
+    width: 29em;
+  }
+
+  .tabBar {
+    height: 2em;
+  }
+
+  .tabBar > button {
+    font-size: 1em;
+  }
+
+  .btns{
+    width: 28em;
+  }
+
+  .deleteBtn {
+    background-size: 1.7em;
+    width: 4em;
+    height: 2.7em;
+    cursor: pointer;
+  }
+
+  .fillBtn {
+    width: 5em;
+    height: 2em;
+    font-size: 1em;
+  }
+
+  .submitBtn {
+    width: 10em;
+    height: 2em;
+    font-size: 1em;
+  }
 }

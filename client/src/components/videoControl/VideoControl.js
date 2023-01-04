@@ -1,43 +1,104 @@
 import React from "react";
 import styles from "./VideoControl.module.css";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../topBar/TopBar";
-import { selectGenre } from "../../features/video";
+import { selectAudio, selectGenre } from "../../features/video";
 import {
   useUpdateMovieMutation,
   useUpdateEpisodeMutation,
 } from "../../features/api";
 
 import { useNavigate } from "react-router-dom";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 const VideoControl = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const selectedVideo = useSelector((state) => state.video.video);
+  const selectedAudio = useSelector((state) => state.video.audio);
   const viewType = useSelector((state) => state.view.viewType);
   const [useUpdateMovie] = useUpdateMovieMutation();
   const [useUpdateEpisode] = useUpdateEpisodeMutation();
+  const [isAudioSelect, setIsAudioSelect] = useState(false);
+
+  useEffect(() => {
+    let nextBtn = document.getElementById("nextBtn");
+    selectedVideo && viewType == 2
+      ? props.seek > selectedVideo.intro
+        ? (nextBtn.innerHTML = "next episode")
+        : (nextBtn.innerHTML = "skip intro")
+      : null;
+  }, [props.seek]);
 
   const handleClick = () => {
     dispatch(selectGenre("0"));
     navigate("/");
-    switch (viewType) {
+    if (selectedVideo) {
+      switch (viewType) {
+        case 1:
+          useUpdateMovie({
+            id: selectedVideo.id,
+            elapsed_time: props.seek,
+            last_viewed: new Date(),
+          });
+          break;
+        case 2:
+          useUpdateEpisode({
+            id: selectedVideo.id,
+            elapsed_time: props.seek,
+            last_viewed: new Date(),
+          });
+          break;
+      }
+    }
+  };
+
+  const openAudioSelect = () => {
+    let german = document.getElementsByClassName(`${styles.german}`);
+    let english = document.getElementsByClassName(`${styles.english}`);
+    switch (selectedAudio) {
       case 1:
-        useUpdateMovie({
-          id: selectedVideo.id,
-          elapsed_time: props.seek,
-          last_viewed: new Date(),
-        });
+        german[0].style = "border-top: 2px solid white;";
+        selectedVideo.english ? (english[0].style = "border: none;") : null;
         break;
       case 2:
-        useUpdateEpisode({
-          id: selectedVideo.id,
-          elapsed_time: props.seek,
-          last_viewed: new Date(),
-        });
+        english[0].style = "border-top: 2px solid white;";
+        selectedVideo.german ? (german[0].style = "border: none;") : null;
+        break;
+    }
+    if (isAudioSelect) {
+      document.getElementById("audioDrop").style = "visibility: hidden;";
+      setIsAudioSelect(false);
+    } else {
+      document.getElementById("audioDrop").style = "visibility: visible;";
+      setIsAudioSelect(true);
+    }
+  };
+
+  const takeAudio = (audio) => {
+    let german = document.getElementsByClassName(`${styles.german}`);
+    let english = document.getElementsByClassName(`${styles.english}`);
+    switch (audio) {
+      case 1:
+        german[0].style = "border-top: 2px solid white;";
+        selectedVideo.english ? (english[0].style = "border: none;") : null;
+        dispatch(selectAudio(1));
+        break;
+      case 2:
+        english[0].style = "border-top: 2px solid white;";
+        selectedVideo.german ? (german[0].style = "border: none;") : null;
+        dispatch(selectAudio(2));
         break;
     }
   };
+
+  const handleNext = () => {
+    selectedVideo.intro > 0 && selectedVideo.intro < props.seek
+      ? props.changeSeek(selectedVideo.intro)
+      : null;
+  };
+
   return (
     <div className={styles.container}>
       <TopBar />
@@ -47,6 +108,24 @@ const VideoControl = (props) => {
           <div className={styles.title}>
             <p>{props.title}</p>
             <p></p>
+          </div>
+          <div className={styles.audioSelect}>
+            <button
+              className={styles.speechButton}
+              onClick={() => openAudioSelect()}
+            ></button>
+            <div id="audioDrop" className={styles.dropContent}>
+              {selectedVideo && selectedVideo.german ? (
+                <a className={styles.german} onClick={() => takeAudio(1)}></a>
+              ) : (
+                ""
+              )}
+              {selectedVideo && selectedVideo.english ? (
+                <a className={styles.english} onClick={() => takeAudio(2)}></a>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
           <div className={styles.controls}>
             {props.volume > 50 ? (
@@ -64,7 +143,10 @@ const VideoControl = (props) => {
               value={props.volume}
               onChange={props.handleVolumeChange}
             ></input>
-            <button className={styles.screenButton}></button>
+            <button
+              className={styles.screenButton}
+              onClick={(e) => requestFullscreen(e)}
+            ></button>
           </div>
         </div>
         <div className={styles.mid}>
@@ -99,7 +181,11 @@ const VideoControl = (props) => {
           <p className={styles.time}>
             {props.time} / {props.timeTotal}
           </p>
-          <button className={styles.nextButton}>Nächste Folge</button>
+          <button
+            id="nextBtn"
+            className={styles.nextButton}
+            onClick={() => handleNext()}
+          ></button>
         </div>
       </div>
     </div>

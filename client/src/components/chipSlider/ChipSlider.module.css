@@ -5,9 +5,7 @@
   padding-bottom: 1em;
   padding-left: 0.5em;
   display: flex;
-  position: relative;
   align-items: center;
-  z-index: 2;
 }
 
 .slider {
@@ -57,11 +55,11 @@
 
 .chip {
   border-style: none;
-  margin-right: 7px;
+  margin-right: 10px;
   background-color: rgb(var(--menu-color));
   padding: 0.2em;
   min-width: 80px;
-  height: var(--button-height);
+  aspect-ratio: 4/1;
   border-radius: var(--chip-radius);
   font-size: 12px;
   cursor: pointer;
@@ -69,3 +67,11 @@
   justify-content: center;
   align-items: center;
 }
+
+@media only screen and (min-width: 1440px) {
+  .chip {
+    width: 110px;
+    font-size: 15px;
+  }
+}
+

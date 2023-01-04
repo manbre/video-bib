@@ -26,6 +26,7 @@ const Home = () => {
   const isEditor = useSelector((state) => state.view.isEditor);
   const viewType = useSelector((state) => state.view.viewType);
   const isLoad = useSelector((state) => state.view.isLoad);
+  const selectedSource = useSelector((state) => state.source.source);
 
   const genre = useSelector((state) => state.video.genre);
   const title = useSelector((state) => state.video.title);
@@ -115,7 +116,18 @@ const Home = () => {
               <ChipSlider />
             </div>
           </div>
-
+          <div className={styles.light}>
+            {viewType == 1 && selectedVideo ? (
+              <video
+                className={styles.light_trailer}
+                autoPlay
+                loop
+                muted
+                src={`file:///${selectedSource}//${selectedVideo.trailer}`}
+              ></video>
+            ) : null}
+          </div>
+          <div className={styles.back}></div>
           <div className={styles.cluster}>
             {videos.map((video) => (
               <VideoCard video={video} key={video.id} />

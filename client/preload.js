@@ -26,4 +26,6 @@ contextBridge.exposeInMainWorld("electron", {
     },
   },
   selectFolder: () => ipcRenderer.invoke("selectDirectory"),
+
+  deleteVideo: () => ipcRenderer.send("deleteVideo"),
 });

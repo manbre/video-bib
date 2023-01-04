@@ -247,80 +247,116 @@ const FormMovie = (props) => {
       <div id="movie_form" className={styles.form}>
         <div className={styles.row}>
           <div className={styles.topLeft}>
-            <label>
-              Title <span className={styles.tag}>(OMDb)</span>
-            </label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            ></input>
-            <label>Title of series </label>
-            <input
-              type="text"
-              value={series}
-              onChange={(e) => setSeries(e.target.value)}
-            ></input>
-            <label>Director</label>
-            <input
-              type="text"
-              value={director}
-              onChange={(e) => setDirector(e.target.value)}
-            ></input>
-            <label>Genre</label>
-            <input
-              type="text"
-              value={genre}
-              onChange={(e) => setGenre(e.target.value)}
-            ></input>
+            <div className={styles.textOnInput}>
+              <label for="inputText">
+                Title <span className={styles.tag}>(OMDb)</span>
+              </label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              ></input>
+            </div>
+
+            <div className={styles.textOnInput}>
+              <label for="inputText">Title of series</label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={series}
+                onChange={(e) => setSeries(e.target.value)}
+              ></input>
+            </div>
+
+            <div className={styles.textOnInput}>
+              <label for="inputText">Director</label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={director}
+                onChange={(e) => setDirector(e.target.value)}
+              ></input>
+            </div>
+
+            <div className={styles.textOnInput}>
+              <label for="inputText">Genre</label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={genre}
+                onChange={(e) => setGenre(e.target.value)}
+              ></input>
+            </div>
           </div>
 
           <div className={styles.topRight}>
-            <label>
-              Year <span className={styles.tag}>(OMDb)</span>
-            </label>
-            <input
-              type="text"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-            ></input>
-            <label>Awards</label>
-            <input
-              type="text"
-              value={awards}
-              onChange={(e) => setAwards(e.target.value)}
-            ></input>
-            <label>Rating</label>
-            <input
-              type="number"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-            ></input>
-            <label>Runtime</label>
-            <input
-              type="number"
-              value={runtime}
-              onChange={(e) => setRuntime(e.target.value)}
-            ></input>
+            <div className={styles.textOnInput}>
+              <label for="inputText">
+                Year <span className={styles.tag}>(OMDb)</span>
+              </label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              ></input>
+            </div>
+
+            <div className={styles.textOnInput}>
+              <label for="inputText">Awards</label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={awards}
+                onChange={(e) => setAwards(e.target.value)}
+              ></input>
+            </div>
+
+            <div className={styles.textOnInput}>
+              <label for="inputText">Rating</label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+              ></input>
+            </div>
+
+            <div className={styles.textOnInput}>
+              <label for="inputText">Runtime</label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={runtime}
+                onChange={(e) => setRuntime(e.target.value)}
+              ></input>
+            </div>
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.mid}>
-            <label>Actors</label>
-            <input
-              type="text"
-              value={actors}
-              onChange={(e) => setActors(e.target.value)}
-            ></input>
-            <label>Plot</label>
-            <textarea
-              className={styles.inputPlot}
-              type="text"
-              value={plot}
-              rows="4"
-              onChange={(e) => setPlot(e.target.value)}
-            ></textarea>
+            <div className={styles.textOnInput}>
+              <label for="inputText">Actors</label>
+              <input
+                className={styles.inputField}
+                type="text"
+                value={actors}
+                onChange={(e) => setActors(e.target.value)}
+              ></input>
+            </div>
+
+            <div className={styles.textOnInput}>
+              <label for="inputText">Plot</label>
+              <textarea
+                className={styles.inputArea}
+                type="text"
+                value={plot}
+                rows="4"
+                onChange={(e) => setPlot(e.target.value)}
+              ></textarea>
+            </div>
           </div>
         </div>
 
@@ -340,81 +376,97 @@ const FormMovie = (props) => {
               onLoad={(event) => (event.target.style.display = "inline-block")}
             />
           </label>
+
           <div className={styles.bottomRight}>
-            <label>Poster</label>
             <div className={styles.line}>
-              <input
-                id="poster"
-                type="file"
-                hidden
-                onChange={(e) => handleFileChange(e)}
-              ></input>
-              <input
-                type="text"
-                value={
-                  selectedVideo && poster
-                    ? poster.replace(/^.*[\\\/]/, "")
-                    : poster
-                }
-                onChange={(e) => setPoster(e.target.value)}
-              ></input>
+              <div className={styles.textOnInput}>
+                <label for="inputText">Poster</label>
+                <input
+                  id="poster"
+                  type="file"
+                  hidden
+                  onChange={(e) => handleFileChange(e)}
+                ></input>
+                <input
+                  className={styles.inputField}
+                  type="text"
+                  value={
+                    selectedVideo && poster
+                      ? poster.replace(/^.*[\\\/]/, "")
+                      : poster
+                  }
+                  onChange={(e) => setPoster(e.target.value)}
+                ></input>
+              </div>
               <label className={styles.sourceBtn} htmlFor="poster"></label>
             </div>
-            <label>Trailer</label>
+
             <div className={styles.line}>
-              <input
-                id="trailer"
-                type="file"
-                hidden
-                onChange={(e) => handleFileChange(e)}
-              ></input>
-              <input
-                type="text"
-                value={
-                  selectedVideo && trailer
-                    ? trailer.replace(/^.*[\\\/]/, "")
-                    : trailer
-                }
-                onChange={(e) => setTrailer(e.target.value)}
-              ></input>
+              <div className={styles.textOnInput}>
+                <label for="inputText">Trailer</label>
+                <input
+                  id="trailer"
+                  type="file"
+                  hidden
+                  onChange={(e) => handleFileChange(e)}
+                ></input>
+                <input
+                  className={styles.inputField}
+                  type="text"
+                  value={
+                    selectedVideo && trailer
+                      ? trailer.replace(/^.*[\\\/]/, "")
+                      : trailer
+                  }
+                  onChange={(e) => setTrailer(e.target.value)}
+                ></input>
+              </div>
               <label className={styles.sourceBtn} htmlFor="trailer"></label>
             </div>
-            <label>Video (german)</label>
+
             <div className={styles.line}>
-              <input
-                id="german"
-                type="file"
-                hidden
-                onChange={(e) => handleFileChange(e)}
-              ></input>
-              <input
-                type="text"
-                value={
-                  selectedVideo && german
-                    ? german.replace(/^.*[\\\/]/, "")
-                    : german
-                }
-                onChange={(e) => setGerman(e.target.value)}
-              ></input>
+              <div className={styles.textOnInput}>
+                <label for="inputText">Video (german)</label>
+                <input
+                  id="german"
+                  type="file"
+                  hidden
+                  onChange={(e) => handleFileChange(e)}
+                ></input>
+                <input
+                  className={styles.inputField}
+                  type="text"
+                  value={
+                    selectedVideo && german
+                      ? german.replace(/^.*[\\\/]/, "")
+                      : german
+                  }
+                  onChange={(e) => setGerman(e.target.value)}
+                ></input>
+              </div>
               <label className={styles.sourceBtn} htmlFor="german"></label>
             </div>
-            <label>Video (english)</label>
+
             <div className={styles.line}>
-              <input
-                id="english"
-                type="file"
-                hidden
-                onChange={(e) => handleFileChange(e)}
-              ></input>
-              <input
-                type="text"
-                value={
-                  selectedVideo && english
-                    ? english.replace(/^.*[\\\/]/, "")
-                    : english
-                }
-                onChange={(e) => setEnglish(e.target.value)}
-              ></input>
+              <div className={styles.textOnInput}>
+                <label for="inputText">Video (english)</label>
+                <input
+                  id="english"
+                  type="file"
+                  hidden
+                  onChange={(e) => handleFileChange(e)}
+                ></input>
+                <input
+                  className={styles.inputField}
+                  type="text"
+                  value={
+                    selectedVideo && english
+                      ? english.replace(/^.*[\\\/]/, "")
+                      : english
+                  }
+                  onChange={(e) => setEnglish(e.target.value)}
+                ></input>
+              </div>
               <label className={styles.sourceBtn} htmlFor="english"></label>
             </div>
           </div>
