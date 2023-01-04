@@ -15,7 +15,7 @@
 }
 
 .container:hover .poster {
-  transform: scaleY(0.9) translateY(-10px);
+  transform: scaleY(0.9) translateY(-16px);
   transition: transform 0.4s;
 }
 

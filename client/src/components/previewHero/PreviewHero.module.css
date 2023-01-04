@@ -4,7 +4,6 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  background-color: rgb(var(--top-color));
   z-index: -1;
 }
 

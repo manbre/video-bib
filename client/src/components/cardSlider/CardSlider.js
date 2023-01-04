@@ -3,18 +3,23 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./CardSlider.module.css";
 import { selectVideo } from "../../features/video";
+import { selectNext } from "../../features/video";
 import { useGetEpisodeBySeasonQuery } from "../../features/api";
 
 const CardSlider = () => {
   const [episodes, setEpisodes] = useState([]);
   const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
-  const selected = useSelector((state) => state.video.video);
+  const selectedVideo = useSelector((state) => state.video.video);
   const source = useSelector((state) => state.source.source);
   const { data: episodesBySeason } = useGetEpisodeBySeasonQuery({
-    series: selected.series,
-    season: selected.season,
+    series: selectedVideo.series,
+    season: selectedVideo.season,
   });
+
+  useEffect(() => {
+    dispatch(selectNext(episodes[index + 1]));
+  }, [selectVideo]);
 
   useEffect(() => {
     setEpisodes(episodesBySeason ?? []);

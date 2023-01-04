@@ -3,7 +3,7 @@ import styles from "./VideoControl.module.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../topBar/TopBar";
-import { selectAudio, selectGenre } from "../../features/video";
+import { selectAudio, selectGenre, selectVideo } from "../../features/video";
 import {
   useUpdateMovieMutation,
   useUpdateEpisodeMutation,
@@ -16,6 +16,7 @@ const VideoControl = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const selectedVideo = useSelector((state) => state.video.video);
+  const selectedNext = useSelector((state) => state.video.next);
   const selectedAudio = useSelector((state) => state.video.audio);
   const viewType = useSelector((state) => state.view.viewType);
   const [useUpdateMovie] = useUpdateMovieMutation();
@@ -96,7 +97,7 @@ const VideoControl = (props) => {
   const handleNext = () => {
     selectedVideo.intro > 0 && selectedVideo.intro < props.seek
       ? props.changeSeek(selectedVideo.intro)
-      : null;
+      : selectVideo(selectedNext);
   };
 
   return (

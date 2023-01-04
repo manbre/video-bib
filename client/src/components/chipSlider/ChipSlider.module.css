@@ -1,11 +1,13 @@
 .container {
-  background-color: rgb(var(--back-color));
+/*   background-color: rgba(var(--back-color), var(--ambi-opacity)); */
   height: var(--bar-size);
   padding-top: 1em;
   padding-bottom: 1em;
   padding-left: 0.5em;
   display: flex;
   align-items: center;
+  position: relative;
+  z-index: 3;
 }
 
 .slider {

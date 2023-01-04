@@ -4,8 +4,6 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  background-color: rgba(var(--top-color), 0.75);
-  backdrop-filter: blur(50px);
   z-index: 1;
   overflow: hidden;
 }
@@ -13,11 +11,11 @@
 .overlay {
   height: 100%;
   width: 100%;
-  background: linear-gradient(
+/*   background: linear-gradient(
     90deg,
-    rgba(var(--top-color), 0.75) 62%,
-    rgba(var(--top-color), 0) 63%
-  );
+    rgba(var(--top-color), var(--ambi-opacity)) 45%,
+    rgba(var(--top-color), 0) 46%
+  ); */
   position: absolute;
   z-index: 2;
   display: flex;
@@ -169,6 +167,7 @@
 .play1Btn {
   font-size: 0.8em;
   border-style: none;
+  border-radius: 3px;
   background-color: rgb(var(--menu-color));
   width: 8em;
   height: var(--button-height);
@@ -178,6 +177,7 @@
 .play2Btn {
   font-size: 0.8em;
   border-style: none;
+  border-radius: 3px;
   background-color: rgb(var(--menu-color));
   width: 8em;
   height: calc(var(--button-height) - 1px);
@@ -217,14 +217,14 @@
 
 .videoWall {
   position: absolute;
-  width: 38%;
+  width: 55%;
   overflow: hidden;
   z-index: -1;
 }
 
 .trailer {
   width: 100%;
-  aspect-ratio: 19/9;
+  aspect-ratio: 20/9;
   position: relative;
   object-fit: fill;
 }

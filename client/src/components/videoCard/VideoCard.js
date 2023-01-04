@@ -19,7 +19,7 @@ const VideoCard = ({ video }) => {
     if (markedCard != null && elements[markedCard]) {
       elements[markedCard].style =
         "outline: 4px solid white; transform: scaleY(1.1);";
-      posters[markedCard].style = "transform: scaleY(0.9) translateY(-10px);";
+      posters[markedCard].style = "transform: scaleY(0.9) translateY(-16px);";
       infos[markedCard].style = "  transform: scaleY(0.9) translateY(0.5em);";
       //
       for (let i = 0; i < elements.length; i++) {

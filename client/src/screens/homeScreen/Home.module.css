@@ -24,12 +24,46 @@
   flex-direction: column;
 }
 
+.header {
+  position: sticky !important;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.preview {
+  height: 40vh;
+  position: relative;
+  z-index: 3;
+}
+
+.light {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(var(--back-color)) !important;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.light_trailer {
+  filter: blur(80px);
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  margin-top: -2em;
+  right: 0;
+  top: 0;
+  object-fit: fill;
+}
+
 .navBars {
-  background: linear-gradient(
+/*   background: linear-gradient(
     0deg,
-    rgba(var(--back-color), 1) 87%,
-    rgba(var(--top-color), 1) 96%
-  );
+    rgba(var(--back-color), var(--ambi-opacity)) 87%,
+    rgba(var(--top-color), var(--ambi-opacity)) 96%
+  ); */
   height: var(--bar-size);
   padding-top: 1.5em;
   padding-bottom: 1.5em;
@@ -38,13 +72,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  z-index: 4;
-}
-
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 5;
+  z-index: 3;
 }
 
 .closeBtn {
@@ -64,34 +92,6 @@
   background-image: url("../../assets/icons/icon_close.png");
 }
 
-.preview {
-  position: relative;
-  z-index: 4;
-}
-
-.light {
-  width: 40vw;
-  position: absolute;
-  top: var(--bar-size);
-  right: 10px;
-  z-index: 3;
-}
-
-.light_trailer {
-  width: 100%;
-  aspect-ratio: 17/9;
-  position: relative;
-  object-fit: fill;
-}
-
-.back {
-  height: 47vh;
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  width: 100%;
-  background-color: rgba(var(--back-color));
-}
 
 .cluster {
   width: 100%;

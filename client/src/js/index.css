@@ -16,6 +16,7 @@
   --preview-height: 13.5em;
   --preview-card-height: 10em;
   --preview-card-width: 7em;
+  --ambi-opacity: 0.55;
 }
 
 * {
@@ -42,7 +43,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 0px;
 }
 
 ::-webkit-scrollbar-corner {

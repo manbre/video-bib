@@ -12,6 +12,7 @@ import ChipSlider from "../../components/chipSlider/ChipSlider";
 import VideoCard from "../../components/videoCard/VideoCard";
 import SideEditor from "../../components/sideEditor/Editor";
 import SpinLoader from "../../components/spinLoader/SpinLoader";
+import MessageBox from "../../components/messageBox/MessageBox";
 import { selectVideo } from "../../features/video";
 import { markCard } from "../../features/view";
 
@@ -89,6 +90,8 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <TopBar />
+{/*       <MessageBox /> */}
+
       <div id="loader" className={styles.loader}>
         <SpinLoader />
       </div>
@@ -98,7 +101,18 @@ const Home = () => {
         </div>
         <div className={styles.center}>
           <div className={styles.header}>
-            <div id="preview" className={styles.preview}>
+            <div className={styles.light}>
+              {viewType == 1 && selectedVideo ? (
+                <video
+                  className={styles.light_trailer}
+                  autoPlay
+                  loop
+                  muted
+                  src={`file:///${selectedSource}//${selectedVideo.trailer}`}
+                ></video>
+              ) : null}
+            </div>
+            <div className={styles.preview}>
               {selectedVideo && (
                 <button
                   className={styles.closeBtn}
@@ -108,26 +122,13 @@ const Home = () => {
               {selectedVideo ? <Preview /> : <PreviewHero />}
             </div>
 
-            <div className={styles.navigation}>
-              <div className={styles.navBars}>
-                <SearchBar className={styles.searchBar} />
-                <ToggleBar />
-              </div>
-              <ChipSlider />
+            <div className={styles.navBars}>
+              <SearchBar className={styles.searchBar} />
+              <ToggleBar />
             </div>
+            <ChipSlider />
           </div>
-          <div className={styles.light}>
-            {viewType == 1 && selectedVideo ? (
-              <video
-                className={styles.light_trailer}
-                autoPlay
-                loop
-                muted
-                src={`file:///${selectedSource}//${selectedVideo.trailer}`}
-              ></video>
-            ) : null}
-          </div>
-          <div className={styles.back}></div>
+          {/*   <div className={styles.back}></div> */}
           <div className={styles.cluster}>
             {videos.map((video) => (
               <VideoCard video={video} key={video.id} />

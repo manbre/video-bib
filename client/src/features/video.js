@@ -5,6 +5,7 @@ export const videoSlice = createSlice({
 
   initialState: {
     video: null,
+    next: null,
     genre: "All",
     title: "",
     audio: 1, //german: 1, english: 2
@@ -13,6 +14,9 @@ export const videoSlice = createSlice({
   reducers: {
     selectVideo: (state, action) => {
       state.video = action.payload;
+    },
+    selectNext: (state, action) => {
+      state.next = action.payload;
     },
     selectGenre: (state, action) => {
       state.genre = action.payload;
@@ -28,6 +32,7 @@ export const videoSlice = createSlice({
 
 export const {
   selectVideo,
+  selectNext,
   selectGenre,
   selectTitle,
   selectAudio,
