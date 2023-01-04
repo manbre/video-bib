@@ -70,10 +70,9 @@
 }
 
 .light {
-  filter: blur(40px);
   width: 40vw;
   position: absolute;
-  top: 2em;
+  top: var(--bar-size);
   right: 10px;
   z-index: 3;
 }

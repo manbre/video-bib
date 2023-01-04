@@ -4,7 +4,8 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  background-color: rgba(var(--top-color), 0.65);
+  background-color: rgba(var(--top-color), 0.75);
+  backdrop-filter: blur(50px);
   z-index: 1;
   overflow: hidden;
 }
@@ -13,16 +14,10 @@
   height: 100%;
   width: 100%;
   background: linear-gradient(
-      90deg,
-      rgba(var(--top-color), 0.5) 62%,
-      rgba(var(--top-color), 0) 63%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(var(--top-color), 0.5) 15%,
-      rgba(var(--top-color), 0) 19%
-    );
-
+    90deg,
+    rgba(var(--top-color), 0.75) 62%,
+    rgba(var(--top-color), 0) 63%
+  );
   position: absolute;
   z-index: 2;
   display: flex;
@@ -244,7 +239,7 @@
   border-style: none;
   border-radius: 2.5em;
   background-color: rgb(var(--back-color));
-  top: 1em;
+  top: var(--bar-size);
   right: 1em;
   width: 2.5em;
   height: 2.5em;
