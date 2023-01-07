@@ -48,6 +48,7 @@
 @media only screen and (min-width: 1440px) {
   .bar {
     height: 30px;
+    margin-bottom: 1em;
   }
   .seriesButton,
 .movieButton, .marker{

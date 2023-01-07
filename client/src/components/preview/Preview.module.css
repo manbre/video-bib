@@ -6,6 +6,7 @@
   justify-content: flex-end;
   z-index: 1;
   overflow: hidden;
+/*   background-color: rgba(var(--back-color), var( --ambi-opacity)); */
 }
 
 .overlay {
@@ -29,6 +30,7 @@
 }
 
 .title {
+  margin-top: 0.3em;
   grid-row: 1;
   font-size: 1.7em;
 }
@@ -159,9 +161,13 @@
 
 .progressOnBtn {
   border-style: none;
-  height: 1px;
+  height: 2px;
   width: 98%;
   color: rgb(var(--primary-text));
+}
+.minutesLeft{
+  margin-top: 0.5em;
+  font-size: 0.6em;
 }
 
 .play1Btn {
@@ -192,14 +198,14 @@
 .audios {
   margin-top: 0.5em;
   margin-left: 2em;
-  display: flex;
-  width: 4em;
+  display: absolute;
+  width: 7em;
   justify-content: space-between;
 }
 
 .german,
 .english {
-  margin-left: 0.5em;
+  margin-left: 1em;
   width: 1.5em;
   aspect-ratio: 1/1;
   background-repeat: no-repeat;
@@ -283,6 +289,10 @@
   .play2Btn {
     margin-top: 1em;
     font-size: 1.2em;
+  }
+
+  .minutesLeft {
+    font-size: 1em;
   }
 
   .audios {

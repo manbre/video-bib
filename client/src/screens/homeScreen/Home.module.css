@@ -41,17 +41,18 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  background-color: rgba(var(--back-color)) !important;
+  background-color: rgb(var(--back-color)) !important;
   top: 0;
   right: 0;
   z-index: 2;
 }
 
 .light_trailer {
-  filter: blur(80px);
+  filter: blur(60px);
   width: 60%;
   height: 100%;
   position: absolute;
+  z-index: 2;
   margin-top: -2em;
   right: 0;
   top: 0;
@@ -64,6 +65,7 @@
     rgba(var(--back-color), var(--ambi-opacity)) 87%,
     rgba(var(--top-color), var(--ambi-opacity)) 96%
   ); */
+/*   background-color: rgba(var(--back-color), var( --ambi-opacity)); */
   height: var(--bar-size);
   padding-top: 1.5em;
   padding-bottom: 1.5em;

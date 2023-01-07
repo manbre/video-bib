@@ -10,7 +10,6 @@ import {
 } from "../../features/api";
 
 import { useNavigate } from "react-router-dom";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 const VideoControl = (props) => {
   const navigate = useNavigate();
@@ -22,6 +21,26 @@ const VideoControl = (props) => {
   const [useUpdateMovie] = useUpdateMovieMutation();
   const [useUpdateEpisode] = useUpdateEpisodeMutation();
   const [isAudioSelect, setIsAudioSelect] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  var timeout;
+
+  document.addEventListener("keydown", function (e) {
+    switch (e.keyCode) {
+      case 27: //escape
+        e.preventDefault();
+        isFullscreen && setIsFullscreen(false);
+        break;
+    }
+  });
+
+  document.addEventListener("mousemove", function (e) {
+    let controls = document.getElementById("controls");
+    controls.style = "opacity: 1;";
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      controls.style = "opacity: 0;";
+    }, 2000);
+  });
 
   useEffect(() => {
     let nextBtn = document.getElementById("nextBtn");
@@ -32,7 +51,7 @@ const VideoControl = (props) => {
       : null;
   }, [props.seek]);
 
-  const handleClick = () => {
+  const handleClose = () => {
     dispatch(selectGenre("0"));
     navigate("/");
     if (selectedVideo) {
@@ -53,6 +72,7 @@ const VideoControl = (props) => {
           break;
       }
     }
+    isFullscreen && setIsFullscreen(false);
   };
 
   const openAudioSelect = () => {
@@ -100,12 +120,31 @@ const VideoControl = (props) => {
       : selectVideo(selectedNext);
   };
 
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      electron.enterFullscreen();
+      setIsFullscreen(true);
+    } else {
+      electron.leaveFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    var bar = document.getElementById("topBar");
+    isFullscreen
+      ? bar && (bar.style = "display: none;")
+      : bar && (bar.style = "display: block;");
+  }, [isFullscreen]);
+
   return (
     <div className={styles.container}>
-      <TopBar />
-      <div className={styles.player}>
+      <div id="topBar">
+        <TopBar />
+      </div>
+      <div id="controls" className={styles.player}>
         <div className={styles.top}>
-          <button className={styles.closeButton} onClick={handleClick}></button>
+          <button className={styles.closeButton} onClick={handleClose}></button>
           <div className={styles.title}>
             <p>{props.title}</p>
             <p></p>
@@ -146,7 +185,7 @@ const VideoControl = (props) => {
             ></input>
             <button
               className={styles.screenButton}
-              onClick={(e) => requestFullscreen(e)}
+              onClick={() => toggleFullscreen()}
             ></button>
           </div>
         </div>

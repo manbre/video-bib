@@ -17,7 +17,7 @@ function createWindow() {
     height: 768,
     minWidth: 940,
     minHeight: 560, //comment out for dev tools
-/*     frame: false, */
+    frame: false,
     icon: __dirname + "./src/assets/images/logo.png",
     webPreferences: {
       nodeIntegration: false,
@@ -49,6 +49,14 @@ function createWindow() {
       win.maximize();
     }
   });
+
+  ipc.on("enterFullscreen", () =>{
+    win.setFullScreen(true);
+  })
+
+  ipc.on("leaveFullscreen", () =>{
+    win.setFullScreen(false);
+  })
 
   ipc.handle("selectDirectory", async (event, message) => {
     const { canceled, filePaths } = await dialog.showOpenDialog(win, {

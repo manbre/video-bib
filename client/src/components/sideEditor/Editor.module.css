@@ -37,7 +37,7 @@
   background-size: 1.2em;
   width: 2.5em;
   height: 1.5em;
-  margin-left: 0.5em;
+  margin-left: 0.3em;
   cursor: pointer;
 }
 
@@ -106,7 +106,8 @@
   cursor: pointer;
 }
 
-.deleteBtn:hover, .submitBtn:hover{
+.deleteBtn:hover,
+.submitBtn:hover {
   background-color: rgb(var(--hover-color));
 }
 
@@ -123,7 +124,7 @@
     font-size: 1em;
   }
 
-  .btns{
+  .btns {
     width: 28em;
   }
 
@@ -144,5 +145,17 @@
     width: 10em;
     height: 2em;
     font-size: 1em;
+  }
+
+  .folderInput {
+    height: 1.3em;
+    font-size: 1em;
+    width: 20em;
+  }
+
+  .folderBtn {
+    width: 1.7em;
+    background-size: 1.7em;
+    margin-left: 1em;
   }
 }

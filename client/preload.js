@@ -26,6 +26,6 @@ contextBridge.exposeInMainWorld("electron", {
     },
   },
   selectFolder: () => ipcRenderer.invoke("selectDirectory"),
-
-  deleteVideo: () => ipcRenderer.send("deleteVideo"),
+  enterFullscreen: () => ipcRenderer.send("enterFullscreen"),
+  leaveFullscreen: () => ipcRenderer.send("leaveFullscreen"),
 });

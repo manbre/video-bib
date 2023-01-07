@@ -26,6 +26,7 @@ import {
 const Home = () => {
   const isEditor = useSelector((state) => state.view.isEditor);
   const viewType = useSelector((state) => state.view.viewType);
+  const isFullscreen = useSelector((state) => state.view.fullscreen);
   const isLoad = useSelector((state) => state.view.isLoad);
   const selectedSource = useSelector((state) => state.source.source);
 
@@ -43,18 +44,14 @@ const Home = () => {
   useEffect(() => {
     const loader = document.getElementById("loader");
     isLoad
-      ? loader
-        ? (loader.style = "display: block;")
-        : null
-      : loader
-      ? (loader.style = "display: none;")
-      : null;
+      ? loader && (loader.style = "display: block;")
+      : loader && (loader.style = "display: none;");
   }, [isLoad]);
 
   useEffect(() => {
-    let index = selectedVideo
-      ? videos.findIndex((video) => video.id === selectedVideo.id)
-      : null;
+    let index =
+      selectedVideo &&
+      videos.findIndex((video) => video.id == selectedVideo.id);
     dispatch(markCard(index));
   }, [selectedVideo]);
 
@@ -89,9 +86,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <TopBar />
-{/*       <MessageBox /> */}
-
+     <TopBar />
       <div id="loader" className={styles.loader}>
         <SpinLoader />
       </div>
@@ -102,7 +97,7 @@ const Home = () => {
         <div className={styles.center}>
           <div className={styles.header}>
             <div className={styles.light}>
-              {viewType == 1 && selectedVideo ? (
+              {viewType == 1 && selectedVideo && (
                 <video
                   className={styles.light_trailer}
                   autoPlay
@@ -110,7 +105,7 @@ const Home = () => {
                   muted
                   src={`file:///${selectedSource}//${selectedVideo.trailer}`}
                 ></video>
-              ) : null}
+              )}
             </div>
             <div className={styles.preview}>
               {selectedVideo && (
@@ -121,14 +116,12 @@ const Home = () => {
               )}
               {selectedVideo ? <Preview /> : <PreviewHero />}
             </div>
-
             <div className={styles.navBars}>
               <SearchBar className={styles.searchBar} />
               <ToggleBar />
             </div>
             <ChipSlider />
           </div>
-          {/*   <div className={styles.back}></div> */}
           <div className={styles.cluster}>
             {videos.map((video) => (
               <VideoCard video={video} key={video.id} />

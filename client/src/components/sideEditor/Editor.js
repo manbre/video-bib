@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./Editor.module.css";
 import FormMovie from "./FormMovie";
 import FormEpisode from "./FormEpisode";
+import MessageBox from "../messageBox/MessageBox";
 import { selectSource } from "../../features/source";
 import { selectVideo } from "../../features/video";
 import {
@@ -22,6 +23,36 @@ const Editor = () => {
   const dispatch = useDispatch();
   const { data: location } = useGetLocationQuery();
   const [writeLocation] = useWriteLocationMutation();
+
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
+
+  const handleDelete = () => {
+    handleDialog(
+      `Are you sure you want to delete ${selectedVideo.title}?`,
+      true
+    );
+  };
+
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
+  };
+
+  const areUSureDelete = (choose) => {
+    if (choose) {
+      editorType == 1
+        ? movieEditor.current.deleteVideo()
+        : episodeEditor.current.deleteVideo();
+      handleDialog("", false);
+    } else {
+      handleDialog("", false);
+    }
+  };
 
   useEffect(() => {
     setSource(selectedSource);
@@ -76,6 +107,9 @@ const Editor = () => {
 
   return (
     <div className={styles.container}>
+      {dialog.isLoading && (
+        <MessageBox message={dialog.message} onDialog={areUSureDelete} />
+      )}
       <div className={styles.folderChoice}>
         <label>Folder: </label>
         <input
@@ -105,11 +139,7 @@ const Editor = () => {
       <div className={styles.btns}>
         <button
           className={styles.deleteBtn}
-          onClick={() =>
-            editorType == 1
-              ? movieEditor.current.deleteVideo()
-              : episodeEditor.current.deleteVideo()
-          }
+          onClick={() => handleDelete()}
         ></button>
         <button
           id="fillBtn"

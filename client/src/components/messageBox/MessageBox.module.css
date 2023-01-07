@@ -1,11 +1,19 @@
 .container {
-  height: 30vh;
-  width: 30vw;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 4;
+  background-color: rgba(white, 0.5);
+}
+
+.frame {
+  width: 30%;
+  aspect-ratio: 2/1;
   background-color: rgba(var(--secondary-text));
   position: absolute;
   top: 40%;
   left: 35%;
-  z-index: 4;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -36,8 +44,8 @@
   background-color: transparent;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 3em;
-  background-image: url("../../assets/icons/icon_restore.png");
+  background-size: 2em;
+  background-image: url("../../assets/icons/alert_icon.png");
 }
 
 .message {
@@ -63,4 +71,12 @@
   background-color: rgba(var(--menu-color));
   cursor: pointer;
   transition: 0.2s;
+}
+
+@media only screen and (min-width: 1440px) {
+  .btn{
+    height: 3em;
+    width: 6em;
+    font-size: 1em;
+  }
 }

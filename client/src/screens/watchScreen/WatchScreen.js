@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import VideoControl from "../../components/videoControl/VideoControl";
 import Player from "react-player";
 import { useParams } from "react-router-dom";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import styles from "./WatchScreen.module.css";
 
 const WatchScreen = () => {
@@ -22,6 +21,23 @@ const WatchScreen = () => {
   const [volume, setVolume] = useState(0.7);
   const [isMuted, setIsMuted] = useState(false);
   const [duration, setDuration] = useState(0);
+
+  document.addEventListener("keydown", function (e) {
+    switch (e.keyCode) {
+      case 32: // space
+        e.preventDefault();
+        playing ? setPlaying(false) : setPlaying(true);
+        break;
+      case 37: //left arrow
+        e.preventDefault();
+        video.current.seekTo(seek - 10);
+        break;
+      case 39: //right arrow
+        e.preventDefault();
+        video.current.seekTo(seek + 10);
+        break;
+    }
+  });
 
   useEffect(() => {
     selectedVideo ? video.current.seekTo(seek - 5) : null;
@@ -94,8 +110,6 @@ const WatchScreen = () => {
     }
     return hours + ":" + minutes + ":" + seconds;
   };
-
-
 
   return (
     <div className={styles.container}>

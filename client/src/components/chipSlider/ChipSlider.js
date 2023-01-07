@@ -22,6 +22,7 @@ const ChipSlider = () => {
   const dispatch = useDispatch();
   const selectedGenre = useSelector((state) => state.video.genre);
   const viewType = useSelector((state) => state.view.viewType);
+  const isEditor = useSelector((state) => state.view.isEditor);
   const { data: movieGenres } = useGetAllMovieGenresQuery();
   const { data: episodeGenres } = useGetAllEpisodeGenresQuery();
 
@@ -32,6 +33,14 @@ const ChipSlider = () => {
     setScrollWidth(slider.scrollWidth + 10);
     setOverflow(slider.scrollWidth - container.parentElement.clientWidth);
   });
+
+/*   useEffect(() => {
+    var container = document.getElementById("container");
+    setParentWidth(container.parentElement.clientWidth);
+    var slider = document.getElementById("slider");
+    setScrollWidth(slider.scrollWidth + 10);
+    setOverflow(slider.scrollWidth - container.parentElement.clientWidth);
+  }, [isEditor]); */
 
   useEffect(() => {
     switch (viewType) {

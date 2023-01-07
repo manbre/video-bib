@@ -80,12 +80,20 @@ const Preview = () => {
     }
   };
 
+  const getRemainingTime = () => {
+    if (selectedVideo) {
+      return Math.round(
+        (selectedVideo.runtime * 60 - selectedVideo.elapsed_time) / 60
+      );
+    }
+  };
+
   const playVideo = (isContinue) => {
     navigate(`/watch/${isContinue}`);
   };
 
   const getPlayButtons = () => {
-    if (selectedVideo.elapsed_time > 0) {
+    if (selectedVideo.elapsed_time > 60) {
       return (
         <div className={styles.btns}>
           <button className={styles.play1Btn} onClick={() => playVideo(0)}>
@@ -100,6 +108,9 @@ const Preview = () => {
               max="100"
               value={getProgress()}
             ></progress>
+            <div className={styles.minutesLeft}>
+              {getRemainingTime()} min left
+            </div>
           </div>
         </div>
       );

@@ -1,5 +1,4 @@
 .container {
-/*   background-color: rgba(var(--back-color), var(--ambi-opacity)); */
   height: var(--bar-size);
   padding-top: 1em;
   padding-bottom: 1em;
@@ -8,6 +7,7 @@
   align-items: center;
   position: relative;
   z-index: 3;
+/*   background-color: rgba(var(--back-color), var( --ambi-opacity)); */
 }
 
 .slider {
@@ -57,12 +57,12 @@
 
 .chip {
   border-style: none;
-  margin-right: 10px;
+  margin-right: 12px;
   background-color: rgb(var(--menu-color));
-  padding: 0.2em;
-  min-width: 80px;
-  aspect-ratio: 4/1;
-  border-radius: var(--chip-radius);
+  padding: 0.5em;
+  width: 5em;
+  height: 2em;
+  border-radius: 5px;
   font-size: 12px;
   cursor: pointer;
   display: flex;
@@ -72,7 +72,6 @@
 
 @media only screen and (min-width: 1440px) {
   .chip {
-    width: 110px;
     font-size: 15px;
   }
 }
