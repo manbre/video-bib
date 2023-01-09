@@ -1,2 +1,6 @@
-![CineBaseMoviePreview](https://user-images.githubusercontent.com/96780438/207420147-096d0798-10ab-4e45-8673-5762957a6ab7.png)
-![MoviePreview](https://user-images.githubusercontent.com/96780438/207419563-303378df-b941-46e7-8f15-65c01de72f90.png)
+![zero](https://user-images.githubusercontent.com/96780438/211154738-9ca755dd-797c-4a3d-a12a-713b8da11b23.png)
+![one](https://user-images.githubusercontent.com/96780438/211154742-b635f863-4a08-470a-a86e-5ccdf01451b7.png)
+![two](https://user-images.githubusercontent.com/96780438/211154744-65ec8aad-2099-4cbe-9277-8e1f4236423e.png)
+![three](https://user-images.githubusercontent.com/96780438/211154748-45871365-92f6-42e8-bb79-158c80c656fa.png)
+![four](https://user-images.githubusercontent.com/96780438/211154752-43283d5e-47d4-4fa0-9b4e-099d7eddbabf.png)
+![five](https://user-images.githubusercontent.com/96780438/211154757-1c285995-9943-4178-96d4-ff148935b3ed.png)
