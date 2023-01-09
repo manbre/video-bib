@@ -18,8 +18,9 @@ const CardSlider = () => {
   });
 
   useEffect(() => {
-    dispatch(selectNext(episodes[index + 1]));
-  }, [selectVideo]);
+ dispatch(selectNext(episodes[index + 1]));
+    console.log(episodes[index + 1]);
+  }, [selectedVideo]);
 
   useEffect(() => {
     setEpisodes(episodesBySeason ?? []);

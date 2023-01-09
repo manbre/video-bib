@@ -14,6 +14,7 @@ import SideEditor from "../../components/sideEditor/Editor";
 import SpinLoader from "../../components/spinLoader/SpinLoader";
 import MessageBox from "../../components/messageBox/MessageBox";
 import { selectVideo } from "../../features/video";
+import { selectNext } from "../../features/video";
 import { markCard } from "../../features/view";
 
 import {
@@ -34,12 +35,15 @@ const Home = () => {
   const title = useSelector((state) => state.video.title);
   //
   const selectedVideo = useSelector((state) => state.video.video);
+  const selectedNext = useSelector((state) => state.video.next);
+  const markedCard = useSelector((state) => state.view.card);
   const dispatch = useDispatch();
   const { data: moviesByGenre } = useGetMoviesByGenreQuery(genre);
   const { data: seasonsByGenre } = useGetSeasonsByGenreQuery(genre);
   const { data: moviesByTitle } = useGetMoviesByTitleQuery(title);
   const { data: seasonsBySeries } = useGetSeasonsBySeriesQuery(title);
   const [videos, setVideos] = useState([]);
+  const [prev, setPrev] = useState([]);
 
   useEffect(() => {
     const loader = document.getElementById("loader");
@@ -52,7 +56,9 @@ const Home = () => {
     let index =
       selectedVideo &&
       videos.findIndex((video) => video.id == selectedVideo.id);
+    console.log(index);
     dispatch(markCard(index));
+    dispatch(selectNext(videos[index + 1]));
   }, [selectedVideo]);
 
   useEffect(() => {
@@ -82,11 +88,12 @@ const Home = () => {
     isEditor
       ? (editor.style = "display: block;")
       : (editor.style = "display: none;");
+    window.dispatchEvent(new Event("resize"));
   }, [isEditor]);
 
   return (
     <div className={styles.container}>
-     <TopBar />
+      <TopBar />
       <div id="loader" className={styles.loader}>
         <SpinLoader />
       </div>

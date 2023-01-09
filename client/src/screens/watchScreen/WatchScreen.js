@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import VideoControl from "../../components/videoControl/VideoControl";
 import Player from "react-player";
@@ -45,9 +44,8 @@ const WatchScreen = () => {
 
   useEffect(() => {
     /*      ? handleForward(getConvertedIntro(selectedVideo.intro)) */
-
-    if (isContinue == 1 && selectedVideo) {
-      handleForward(selectedVideo.elapsed_time);
+    if (isContinue == 1) {
+      handleForward(selectedVideo && selectedVideo.elapsed_time);
     }
   }, []);
 
@@ -133,7 +131,7 @@ const WatchScreen = () => {
         onProgress={handleOnProgress}
       ></Player>
       <VideoControl
-        title={selectedVideo ? selectedVideo.title : ""}
+        title={selectedVideo && selectedVideo.title}
         seek={seek}
         changeSeek={(seek) => video.current.seekTo(seek)}
         time={time}

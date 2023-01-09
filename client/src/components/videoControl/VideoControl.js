@@ -3,21 +3,34 @@ import styles from "./VideoControl.module.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TopBar from "../topBar/TopBar";
-import { selectAudio, selectGenre, selectVideo } from "../../features/video";
+import {
+  selectAudio,
+  selectGenre,
+  selectVideo,
+  selectNext,
+} from "../../features/video";
 import {
   useUpdateMovieMutation,
   useUpdateEpisodeMutation,
 } from "../../features/api";
 
 import { useNavigate } from "react-router-dom";
+import {
+  useGetMoviesByGenreQuery,
+  useGetSeasonsByGenreQuery,
+} from "../../features/api";
 
 const VideoControl = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { data: moviesByGenre } = useGetMoviesByGenreQuery("All");
+  const { data: seasonsByGenre } = useGetSeasonsByGenreQuery("All");
   const selectedVideo = useSelector((state) => state.video.video);
-  const selectedNext = useSelector((state) => state.video.next);
+  const selectedNext = useSelector((state) => state.video.nextVideo);
   const selectedAudio = useSelector((state) => state.video.audio);
+  const selectedSource = useSelector((state) => state.source.source);
   const viewType = useSelector((state) => state.view.viewType);
+  const [videos, setVideos] = useState([]);
   const [useUpdateMovie] = useUpdateMovieMutation();
   const [useUpdateEpisode] = useUpdateEpisodeMutation();
   const [isAudioSelect, setIsAudioSelect] = useState(false);
@@ -35,12 +48,25 @@ const VideoControl = (props) => {
 
   document.addEventListener("mousemove", function (e) {
     let controls = document.getElementById("controls");
-    controls.style = "opacity: 1;";
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      controls.style = "opacity: 0;";
-    }, 2000);
+    if (controls) {
+      controls.style = "opacity: 1;";
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        controls.style = "opacity: 0;";
+      }, 2000);
+    }
   });
+
+  useEffect(() => {
+    switch (viewType) {
+      case 1:
+        setVideos(moviesByGenre ?? []);
+        break;
+      case 2:
+        setVideos(seasonsByGenre ?? []);
+        break;
+    }
+  }, [viewType, moviesByGenre, seasonsByGenre]);
 
   useEffect(() => {
     let nextBtn = document.getElementById("nextBtn");
@@ -48,7 +74,7 @@ const VideoControl = (props) => {
       ? props.seek > selectedVideo.intro
         ? (nextBtn.innerHTML = "next episode")
         : (nextBtn.innerHTML = "skip intro")
-      : null;
+      : (nextBtn.innerHTML = "next movie");
   }, [props.seek]);
 
   const handleClose = () => {
@@ -115,9 +141,19 @@ const VideoControl = (props) => {
   };
 
   const handleNext = () => {
-    selectedVideo.intro > 0 && selectedVideo.intro < props.seek
-      ? props.changeSeek(selectedVideo.intro)
-      : selectVideo(selectedNext);
+    if (
+      viewType == 2 &&
+      selectedVideo.intro > 0 &&
+      selectedVideo.intro > props.seek
+    ) {
+      props.changeSeek(selectedVideo.intro);
+    } else {
+      let index =
+        selectedVideo &&
+        videos.findIndex((video) => video.id == selectedVideo.id);
+      dispatch(selectVideo(videos[index + 1]));
+      dispatch(selectNext(videos[index + 2]));
+    }
   };
 
   const toggleFullscreen = () => {
@@ -226,6 +262,18 @@ const VideoControl = (props) => {
             className={styles.nextButton}
             onClick={() => handleNext()}
           ></button>
+        </div>
+        <div className={styles.preview}>
+          <img
+            src={
+              selectedNext &&
+              `file:///${selectedSource}//${selectedNext.poster}`
+            }
+            onError={(event) =>
+              (event.target.src = require("../../assets/images/placeholder.jpg").default)
+            }
+            onLoad={(event) => (event.target.style.display = "inline-block")}
+          />
         </div>
       </div>
     </div>

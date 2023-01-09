@@ -1,40 +1,59 @@
 .container {
-  height: var(--bar-size);
+  padding-left: 0.5em;
   padding-top: 1em;
   padding-bottom: 1em;
-  padding-left: 0.5em;
+  text-align: center;
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   z-index: 3;
-/*   background-color: rgba(var(--back-color), var( --ambi-opacity)); */
 }
 
-.slider {
-  width: fit-content;
+.list {
   display: flex;
-  height: var(--bar-size);
   align-items: center;
+  list-style: none;
+  max-width: 100%;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
 }
 
-.wrap {
-  position: relative;
+.list::-webkit-scrollbar {
+  background: transparent;
+  -webkit-appearance: none;
+  width: 0;
+  height: 0;
+}
+
+.list > .chip {
+  border-style: none;
+  margin-right: 12px;
+  background-color: rgb(var(--menu-color));
+  padding: 0.5em;
+  min-width: 5em;
+  height: 2em;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
   display: flex;
-  transition: all 750ms ease;
-  left: 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .prev,
 .next {
+  border-style: none;
   background-color: rgb(var(--back-color));
   height: 1.4em;
-  width: 1em;
+  width: 1.5em;
   position: absolute;
   z-index: 2;
   text-decoration: none;
   font-size: 1.5em;
   color: white;
   opacity: 0.95;
+  cursor: pointer;
 }
 
 .prev {
@@ -55,24 +74,8 @@
   transform: translateY(1px);
 }
 
-.chip {
-  border-style: none;
-  margin-right: 12px;
-  background-color: rgb(var(--menu-color));
-  padding: 0.5em;
-  width: 5em;
-  height: 2em;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @media only screen and (min-width: 1440px) {
   .chip {
     font-size: 15px;
   }
 }
-
