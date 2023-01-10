@@ -46,6 +46,7 @@ const WatchScreen = () => {
 
   useEffect(() => {
     /*      ? handleForward(getConvertedIntro(selectedVideo.intro)) */
+    console.log(selectedVideo)
     if (isContinue == 1) {
       handleForward(selectedVideo && selectedVideo.elapsed_time);
     }

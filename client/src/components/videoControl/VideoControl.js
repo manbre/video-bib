@@ -165,19 +165,25 @@ const VideoControl = (props) => {
   useEffect(() => {
     let restTime = Math.floor(props.duration - props.seek);
     let time = viewType == 1 ? 241 : 6;
-    if (restTime != 0 && restTime < time + 10) {
+
+    if (restTime != 0) {
+      if (restTime < time + 10) {
+        document.getElementById("preview").style = "visibility: visible;";
+        setCountDown(restTime - (time - 1));
+      } else if (!isCancelled && restTime < time) {
+        document.getElementById("preview").style = "visibility: hidden;";
+        document.getElementById("nextBtn").click();
+      }
+    }
+
+    if (isCancelled || restTime > time + 10) {
+      document.getElementById("preview").style = "visibility: hidden;";
+    }
+
+    if (props.seek > 0 && props.seek < 10) {
       document.getElementById("preview").style = "visibility: visible;";
-      setCountDown(restTime - (time - 1));
-    }
-    if (restTime > time + 10) {
-      document.getElementById("preview").style = "visibility: hidden;";
-    }
-    if (!isCancelled && restTime != 0 && restTime < time) {
-      document.getElementById("preview").style = "visibility: hidden;";
-      document.getElementById("nextBtn").click();
-    }
-    if (isCancelled) {
-      document.getElementById("preview").style = "visibility: hidden;";
+      document.getElementById("countDown").style = "visibility: hidden;";
+      document.getElementById("cancelBtn").style = "visibility: hidden;";
     }
   }, [props.seek]);
 
@@ -285,6 +291,7 @@ const VideoControl = (props) => {
         </div>
         <div id="preview" className={styles.preview}>
           <button
+            id="cancelBtn"
             className={styles.cancelButton}
             onClick={() => setIsCancelled(true)}
           >
