@@ -69,6 +69,19 @@ const getSeasonsBySeries = async (req, res) => {
 };
 
 /**
+ * @req series
+ * @res all episodes
+ */
+const getAllEpisodes = async (req, res) => {
+  let episodes = await Episodes.findAll({
+    order: [[sequelize.literal("series, season"), "ASC"]],
+  }).catch((err) => {
+    res.send(err);
+  });
+  res.send(episodes);
+};
+
+/**
  * @req series, season
  * @res all episodes by season
  */
@@ -312,6 +325,7 @@ module.exports = {
   //
   getAllSeasons,
   getSeasonsBySeries,
+  getAllEpisodes,
   getEpisodesBySeason,
   getSeasonsByGenre,
   //

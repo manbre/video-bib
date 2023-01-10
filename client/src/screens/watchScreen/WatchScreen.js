@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import VideoControl from "../../components/videoControl/VideoControl";
 import Player from "react-player";
 import { useParams } from "react-router-dom";
 import styles from "./WatchScreen.module.css";
+import { selectVideo } from "../../features/video";
 
 const WatchScreen = () => {
   const { isContinue } = useParams();
-  const video = React.createRef();
+  const videoRef = React.createRef();
   const selectedSource = useSelector((state) => state.source.source);
   const selectedVideo = useSelector((state) => state.video.video);
+  const selectedNext = useSelector((state) => state.video.next);
   const selectedAudio = useSelector((state) => state.video.audio);
 
-  const [playing, setPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [seek, setSeek] = useState(0);
   const [time, setTime] = useState("00:00:00");
   const [timeTotal, setTimeTotal] = useState("00:00:00");
@@ -25,21 +27,21 @@ const WatchScreen = () => {
     switch (e.keyCode) {
       case 32: // space
         e.preventDefault();
-        playing ? setPlaying(false) : setPlaying(true);
+        isPlaying ? setIsPlaying(false) : setIsPlaying(true);
         break;
       case 37: //left arrow
         e.preventDefault();
-        video.current.seekTo(seek - 10);
+        videoRef.current.seekTo(seek - 10);
         break;
       case 39: //right arrow
         e.preventDefault();
-        video.current.seekTo(seek + 10);
+        videoRef.current.seekTo(seek + 10);
         break;
     }
   });
 
   useEffect(() => {
-    selectedVideo ? video.current.seekTo(seek - 5) : null;
+    selectedVideo && videoRef.current.seekTo(seek - 5);
   }, [selectedAudio]);
 
   useEffect(() => {
@@ -62,16 +64,16 @@ const WatchScreen = () => {
 
   const handleForward = (sec) => {
     setSeek(seek + sec);
-    video.current.seekTo(seek + sec);
+    videoRef.current.seekTo(seek + sec);
   };
 
   const handleRewind = (sec) => {
     setSeek(seek - sec);
-    video.current.seekTo(seek - sec);
+    videoRef.current.seekTo(seek - sec);
   };
 
   const handleOnProgress = (e) => {
-    var sec = video.current.getDuration();
+    var sec = videoRef.current.getDuration();
     setDuration(sec);
     setSeek(e.playedSeconds);
     setTime(toTime(e.playedSeconds));
@@ -80,14 +82,14 @@ const WatchScreen = () => {
 
   const handleSeekChange = (e) => {
     setSeek(e.target.value);
-    video.current.seekTo(e.target.value);
+    videoRef.current.seekTo(e.target.value);
   };
 
   const togglePlay = () => {
-    if (playing) {
-      setPlaying(false);
+    if (isPlaying) {
+      setIsPlaying(false);
     } else {
-      setPlaying(true);
+      setIsPlaying(true);
     }
   };
 
@@ -117,8 +119,12 @@ const WatchScreen = () => {
           selectedVideo
             ? selectedAudio == 1
               ? selectedVideo.german
+                ? selectedVideo.german
+                : selectedVideo.english
               : selectedAudio == 2
               ? selectedVideo.english
+                ? selectedVideo.english
+                : selectedVideo.german
               : ""
             : ""
         }`}
@@ -126,17 +132,17 @@ const WatchScreen = () => {
         height="100%"
         volume={volume}
         muted={isMuted}
-        ref={video}
-        playing={playing}
+        ref={videoRef}
+        playing={isPlaying}
         onProgress={handleOnProgress}
       ></Player>
       <VideoControl
         title={selectedVideo && selectedVideo.title}
         seek={seek}
-        changeSeek={(seek) => video.current.seekTo(seek)}
+        changeSeek={(seek) => videoRef.current.seekTo(seek)}
         time={time}
         timeTotal={timeTotal}
-        playing={playing}
+        playing={isPlaying}
         volume={volumeBar}
         duration={duration}
         togglePlay={togglePlay}

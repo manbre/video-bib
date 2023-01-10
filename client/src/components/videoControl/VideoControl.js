@@ -17,14 +17,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import {
   useGetMoviesByGenreQuery,
-  useGetSeasonsByGenreQuery,
+  useGetAllEpisodesQuery,
 } from "../../features/api";
 
 const VideoControl = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data: moviesByGenre } = useGetMoviesByGenreQuery("All");
-  const { data: seasonsByGenre } = useGetSeasonsByGenreQuery("All");
+  const { data: allMovies } = useGetMoviesByGenreQuery("All");
+  const { data: allEpisodes } = useGetAllEpisodesQuery();
   const selectedVideo = useSelector((state) => state.video.video);
   const selectedNext = useSelector((state) => state.video.nextVideo);
   const selectedAudio = useSelector((state) => state.video.audio);
@@ -35,6 +35,8 @@ const VideoControl = (props) => {
   const [useUpdateEpisode] = useUpdateEpisodeMutation();
   const [isAudioSelect, setIsAudioSelect] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [countDown, setCountDown] = useState(10);
+  const [isCancelled, setIsCancelled] = useState(false);
   var timeout;
 
   document.addEventListener("keydown", function (e) {
@@ -60,21 +62,21 @@ const VideoControl = (props) => {
   useEffect(() => {
     switch (viewType) {
       case 1:
-        setVideos(moviesByGenre ?? []);
+        setVideos(allMovies ?? []);
         break;
       case 2:
-        setVideos(seasonsByGenre ?? []);
+        setVideos(allEpisodes ?? []);
         break;
     }
-  }, [viewType, moviesByGenre, seasonsByGenre]);
+  }, [viewType, allMovies, allEpisodes]);
 
   useEffect(() => {
     let nextBtn = document.getElementById("nextBtn");
     selectedVideo && viewType == 2
       ? props.seek > selectedVideo.intro
-        ? (nextBtn.innerHTML = "next episode")
-        : (nextBtn.innerHTML = "skip intro")
-      : (nextBtn.innerHTML = "next movie");
+        ? (nextBtn.innerHTML = "next")
+        : (nextBtn.innerHTML = "skip")
+      : (nextBtn.innerHTML = "next");
   }, [props.seek]);
 
   const handleClose = () => {
@@ -141,20 +143,43 @@ const VideoControl = (props) => {
   };
 
   const handleNext = () => {
-    if (
+    /*   if (
       viewType == 2 &&
       selectedVideo.intro > 0 &&
       selectedVideo.intro > props.seek
     ) {
       props.changeSeek(selectedVideo.intro);
-    } else {
-      let index =
-        selectedVideo &&
-        videos.findIndex((video) => video.id == selectedVideo.id);
-      dispatch(selectVideo(videos[index + 1]));
-      dispatch(selectNext(videos[index + 2]));
-    }
+    } else { */
+    let index =
+      selectedVideo &&
+      videos.findIndex((video) => video.id == selectedVideo.id);
+    videos[index + 1]
+      ? dispatch(selectVideo(videos[index + 1]))
+      : dispatch(selectVideo(videos[0]));
+    videos[index + 2]
+      ? dispatch(selectNext(videos[index + 2]))
+      : dispatch(selectNext(videos[0]));
+    /*   } */
   };
+
+  useEffect(() => {
+    let restTime = Math.floor(props.duration - props.seek);
+    let time = viewType == 1 ? 241 : 6;
+    if (restTime != 0 && restTime < time + 10) {
+      document.getElementById("preview").style = "visibility: visible;";
+      setCountDown(restTime - (time - 1));
+    }
+    if (restTime > time + 10) {
+      document.getElementById("preview").style = "visibility: hidden;";
+    }
+    if (!isCancelled && restTime != 0 && restTime < time) {
+      document.getElementById("preview").style = "visibility: hidden;";
+      document.getElementById("nextBtn").click();
+    }
+    if (isCancelled) {
+      document.getElementById("preview").style = "visibility: hidden;";
+    }
+  }, [props.seek]);
 
   const toggleFullscreen = () => {
     if (!isFullscreen) {
@@ -257,13 +282,22 @@ const VideoControl = (props) => {
           <p className={styles.time}>
             {props.time} / {props.timeTotal}
           </p>
+        </div>
+        <div id="preview" className={styles.preview}>
+          <button
+            className={styles.cancelButton}
+            onClick={() => setIsCancelled(true)}
+          >
+            cancel
+          </button>
           <button
             id="nextBtn"
             className={styles.nextButton}
             onClick={() => handleNext()}
           ></button>
-        </div>
-        <div className={styles.preview}>
+          <div id="countDown" className={styles.nextProgress}>
+            {countDown}
+          </div>
           <img
             src={
               selectedNext &&

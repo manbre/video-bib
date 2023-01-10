@@ -18,16 +18,16 @@ import { selectNext } from "../../features/video";
 import { markCard } from "../../features/view";
 
 import {
-  useGetMoviesByTitleQuery,
-  useGetSeasonsBySeriesQuery,
+  useGetAllEpisodesQuery,
   useGetMoviesByGenreQuery,
   useGetSeasonsByGenreQuery,
+  useGetMoviesByTitleQuery,
+  useGetSeasonsBySeriesQuery,
 } from "../../features/api";
 
 const Home = () => {
   const isEditor = useSelector((state) => state.view.isEditor);
   const viewType = useSelector((state) => state.view.viewType);
-  const isFullscreen = useSelector((state) => state.view.fullscreen);
   const isLoad = useSelector((state) => state.view.isLoad);
   const selectedSource = useSelector((state) => state.source.source);
 
@@ -35,15 +35,15 @@ const Home = () => {
   const title = useSelector((state) => state.video.title);
   //
   const selectedVideo = useSelector((state) => state.video.video);
-  const selectedNext = useSelector((state) => state.video.next);
-  const markedCard = useSelector((state) => state.view.card);
   const dispatch = useDispatch();
+  const { data: allMovies } = useGetMoviesByGenreQuery("All");
+  const { data: allEpisodes } = useGetAllEpisodesQuery();
   const { data: moviesByGenre } = useGetMoviesByGenreQuery(genre);
   const { data: seasonsByGenre } = useGetSeasonsByGenreQuery(genre);
   const { data: moviesByTitle } = useGetMoviesByTitleQuery(title);
   const { data: seasonsBySeries } = useGetSeasonsBySeriesQuery(title);
-  const [videos, setVideos] = useState([]);
-  const [prev, setPrev] = useState([]);
+  const [allVideos, setAllVideos] = useState([]);
+  const [filteredVideos, setFilteredVideos] = useState([]);
 
   useEffect(() => {
     const loader = document.getElementById("loader");
@@ -53,21 +53,34 @@ const Home = () => {
   }, [isLoad]);
 
   useEffect(() => {
-    let index =
+    let globalIndex =
       selectedVideo &&
-      videos.findIndex((video) => video.id == selectedVideo.id);
-    console.log(index);
-    dispatch(markCard(index));
-    dispatch(selectNext(videos[index + 1]));
+      allVideos.findIndex((video) => video.id == selectedVideo.id);
+    dispatch(selectNext(allVideos[globalIndex + 1]));
+    let localIndex =
+      selectedVideo &&
+      filteredVideos.findIndex((video) => video.id == selectedVideo.id);
+    dispatch(markCard(localIndex));
   }, [selectedVideo]);
 
   useEffect(() => {
     switch (viewType) {
       case 1:
-        setVideos(moviesByGenre ?? []);
+        setAllVideos(allMovies ?? []);
         break;
       case 2:
-        setVideos(seasonsByGenre ?? []);
+        setAllVideos(allEpisodes ?? []);
+        break;
+    }
+  }, [viewType, allMovies, allEpisodes]);
+
+  useEffect(() => {
+    switch (viewType) {
+      case 1:
+        setFilteredVideos(moviesByGenre ?? []);
+        break;
+      case 2:
+        setFilteredVideos(seasonsByGenre ?? []);
         break;
     }
   }, [viewType, moviesByGenre, seasonsByGenre]);
@@ -75,10 +88,10 @@ const Home = () => {
   useEffect(() => {
     switch (viewType) {
       case 1:
-        setVideos(moviesByTitle ?? []);
+        setFilteredVideos(moviesByTitle ?? []);
         break;
       case 2:
-        setVideos(seasonsBySeries ?? []);
+        setFilteredVideos(seasonsBySeries ?? []);
         break;
     }
   }, [moviesByTitle, seasonsBySeries]);
@@ -130,7 +143,7 @@ const Home = () => {
             <ChipSlider />
           </div>
           <div className={styles.cluster}>
-            {videos.map((video) => (
+            {filteredVideos.map((video) => (
               <VideoCard video={video} key={video.id} />
             ))}
           </div>

@@ -153,6 +153,7 @@
   justify-content: center;
 }
 
+
 .rewind,
 .pause,
 .play,
@@ -176,26 +177,26 @@
 }
 
 .rewind {
-  width: 15%;
-  height: 90%;
+  width: 6em;
+  height: 12em;
   background-image: url("../../assets/icons/icon_rewind.png");
 }
 
 .pause {
-  width: 20%;
-  height: 90%;
+  width: 10em;
+  height: 12em;
   background-image: url("../../assets/icons/pause_button.png");
 }
 
 .play {
-  width: 20%;
-  height: 90%;
+  width: 10em;
+  height: 12em;
   background-image: url("../../assets/icons/play_button.png");
 }
 
 .forward {
-  width: 15%;
-  height: 90%;
+  width: 6em;
+  height: 12em;
   background-image: url("../../assets/icons/icon_forward.png");
 }
 
@@ -235,6 +236,10 @@
   aspect-ratio: 2/1;
   right: 2em;
   bottom: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    visibility: hidden;
 }
 
 .preview > img {
@@ -242,19 +247,48 @@
   border: 2px solid white;
 }
 
-.nextButton {
-  bottom: 8em;
-  right: 2em;
+.nextButton,
+.cancelButton {
   background: transparent;
   border: none;
-  height: 20px;
-  width: 110px;
+  height: 2em;
+  width: 4em;
+  bottom: -2.5em;
   font-size: 17px;
   z-index: 4;
   position: absolute;
   cursor: pointer;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.nextButton:hover,
+.cancelButton:hover {
+  background-color: rgba(var(--menu-color));
+}
+
+.nextButton {
+  right: -1.5em;
+}
+
+.cancelButton {
+  right: 3.5em;
 }
 
 .nextButton:hover {
   opacity: 1;
+}
+
+.nextProgress {
+  border: 0;
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  z-index: 5;
+  position: absolute;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

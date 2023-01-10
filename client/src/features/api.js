@@ -30,9 +30,13 @@ export const api = createApi({
       query: () => "/movies",
       providesTags: ["Movie"],
     }),
-    /**sample episodes*/
+    /**sample episode per season*/
     getAllSeasons: builder.query({
       query: () => "/episodes",
+      providesTags: ["Episode"],
+    }),
+    getAllEpisodes: builder.query({
+      query: () => "/episodes/all",
       providesTags: ["Episode"],
     }),
     //----------------------------------------------
@@ -161,6 +165,7 @@ export const {
   //
   useGetAllMoviesQuery,
   useGetAllSeasonsQuery,
+  useGetAllEpisodesQuery,
   //
   useGetMoviesByTitleQuery,
   useGetSeasonsBySeriesQuery,

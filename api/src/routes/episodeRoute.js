@@ -6,6 +6,7 @@ router.get("/genres", episodeController.getAllGenres);
 //
 router.get("/", episodeController.getAllSeasons);
 router.get("/seasons/:series", episodeController.getSeasonsBySeries);
+router.get("/all", episodeController.getAllEpisodes);
 //
 router.get("/BySeason/:series/:season", episodeController.getEpisodesBySeason);
 router.get("/byGenre/:genre", episodeController.getSeasonsByGenre);
