@@ -3,36 +3,34 @@
   width: 100%;
   overflow: hidden;
   background-color: black;
+  display: flex;
+  flex-direction: column;
 }
 .player {
-  height: 100%;
   width: 100%;
-  left: 0;
-  display: grid;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  z-index: 4;
-  grid-template-rows: repeat(10, auto);
-  grid-template-columns: repeat(10, auto);
+  z-index: 2;
 }
 
 .top {
-  margin-top: 10px;
-  grid-row: 1/2;
-  grid-column: 1/11;
-  display: grid;
-  grid-template-columns: repeat(6, auto);
+  background-color: rgb(var(--menu-color));
+  width: 100%;
+  height: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .title {
-  grid-column: 2 / 8;
   font-size: 30px;
-  justify-self: center;
 }
 
 .audioSelect {
-  grid-column: 8 / 8;
   display: flex;
   flex-direction: column;
-  height: 8em;
+  margin-top: 3.1em;
   width: 40px;
 }
 
@@ -41,6 +39,7 @@
   position: relative;
   width: 7em;
   height: 3em;
+  margin-top: 0.2em;
   padding-top: 0.4em;
   background-color: rgba(black, 0.7);
   justify-content: space-around;
@@ -67,11 +66,20 @@
 }
 
 .controls {
-  margin-top: 0.5em;
-  grid-column: 9 / 10;
+  height: 100%;
+  width: 22em;
+  margin-right: -1em;
+  padding-left: 1em;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
 }
+
+.volumeRange {
+  margin-left: -3.5em;
+  margin-bottom: 1.1em;
+}
+
 .volumeOver,
 .volumeMute,
 .volumeUnder,
@@ -87,7 +95,6 @@
   background-size: 30px;
   transition: 0.2s;
   cursor: pointer;
-  opacity: 0.4;
 }
 
 .speechButton {
@@ -122,7 +129,7 @@
 }
 
 .closeButton {
-  margin-left: 30px;
+  margin-left: 0.5em;
 }
 
 .controls input {
@@ -146,13 +153,13 @@
 }
 
 .mid {
-  grid-row: 3/8;
-  grid-column: 3/9;
-  z-index: 2;
+  width: 100%;
+  height: 100%;
   display: flex;
+  align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
-
 
 .rewind,
 .pause,
@@ -166,7 +173,6 @@
   transition: 0.2s;
   cursor: pointer;
   margin: 25px;
-  opacity: 0.3;
 }
 
 .rewind:hover,
@@ -202,13 +208,7 @@
 
 .progress {
   padding: 0.3em;
-  grid-row: 10/10;
-  grid-column: 1/11;
-  z-index: 3;
-  opacity: 0.6;
-  margin-bottom: 40px;
   width: 100%;
-  justify-self: center;
 }
 
 .progress .seekRange {
@@ -218,28 +218,31 @@
 }
 
 .bottom {
-  grid-row: 10/11;
-  grid-column: 1/11;
+  position: absolute;
+  bottom: 0;
+  padding: 0.5em;
+  height: 4em;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   z-index: 2;
-  opacity: 0.3;
+  background-color: rgb(var(--menu-color));
 }
 .time {
-  margin-left: 20px;
-  margin-top: 25px;
+  position: relative;
+  margin-top: 0.1em;
+  margin-left: 0.5em;
 }
 
 .preview {
   position: absolute;
   width: 7em;
   aspect-ratio: 2/1;
-  right: 2em;
-  bottom: 10em;
+  right: 2.5em;
+  bottom: 7.5em;
   display: flex;
   align-items: center;
   justify-content: center;
-    visibility: hidden;
 }
 
 .preview > img {
@@ -273,13 +276,14 @@
 
 .cancelButton {
   right: 3.5em;
+  visibility: hidden;
 }
 
 .nextButton:hover {
   opacity: 1;
 }
 
-.nextProgress {
+.countDown {
   border: 0;
   height: 50px;
   width: 50px;
@@ -291,4 +295,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  visibility: hidden;
 }

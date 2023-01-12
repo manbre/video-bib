@@ -37,6 +37,8 @@ const VideoControl = (props) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [countDown, setCountDown] = useState(10);
   const [isCancelled, setIsCancelled] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+
   var timeout;
 
   document.addEventListener("keydown", function (e) {
@@ -48,13 +50,13 @@ const VideoControl = (props) => {
     }
   });
 
-  document.addEventListener("mousemove", function (e) {
-    let controls = document.getElementById("controls");
-    if (controls) {
-      controls.style = "opacity: 1;";
+  document.addEventListener("mousemove", function () {
+    let player = document.getElementById("player");
+    if (player && !isFinished) {
+      player.style = "opacity: 1;";
       clearTimeout(timeout);
       timeout = setTimeout(() => {
-        controls.style = "opacity: 0;";
+        player.style = "opacity: 0;";
       }, 2000);
     }
   });
@@ -159,31 +161,50 @@ const VideoControl = (props) => {
     videos[index + 2]
       ? dispatch(selectNext(videos[index + 2]))
       : dispatch(selectNext(videos[0]));
+    document.getElementById("preview").style = "visibility: hidden;";
+    document.getElementById("nextBtn").style = "visibility: hidden;";
+    document.getElementById("countDown").style = "visibility: hidden;";
+    document.getElementById("cancelBtn").style = "visibility: hidden;";
     /*   } */
   };
 
+  const handelCancel = () => {
+    document.getElementById("preview").style = "visibility: hidden;";
+    document.getElementById("nextBtn").style = "visibility: hidden;";
+    document.getElementById("countDown").style = "visibility: hidden;";
+    document.getElementById("cancelBtn").style = "visibility: hidden;";
+    setIsCancelled(true);
+  };
+
   useEffect(() => {
+    let player = document.getElementById("player");
     let restTime = Math.floor(props.duration - props.seek);
-    let time = viewType == 1 ? 241 : 6;
+    let time = viewType == 1 ? 250 : 15;
 
-    if (restTime != 0) {
-      if (restTime < time + 10) {
-        document.getElementById("preview").style = "visibility: visible;";
-        setCountDown(restTime - (time - 1));
-      } else if (!isCancelled && restTime < time) {
-        document.getElementById("preview").style = "visibility: hidden;";
-        document.getElementById("nextBtn").click();
-      }
-    }
-
-    if (isCancelled || restTime > time + 10) {
-      document.getElementById("preview").style = "visibility: hidden;";
-    }
-
-    if (props.seek > 0 && props.seek < 10) {
+    if (props.seek < 10) {
       document.getElementById("preview").style = "visibility: visible;";
+      document.getElementById("nextBtn").style = "visibility: visible;";
       document.getElementById("countDown").style = "visibility: hidden;";
       document.getElementById("cancelBtn").style = "visibility: hidden;";
+    } else if (restTime > time) {
+      document.getElementById("preview").style = "visibility: hidden;";
+      document.getElementById("nextBtn").style = "visibility: hidden;";
+      document.getElementById("countDown").style = "visibility: hidden;";
+      document.getElementById("cancelBtn").style = "visibility: hidden;";
+      setCountDown(10);
+      isCancelled && setIsCancelled(false);
+    } else if (restTime < time && !isCancelled) {
+      document.getElementById("preview").style = "visibility: visible;";
+      document.getElementById("nextBtn").style = "visibility: visible;";
+      document.getElementById("countDown").style = "visibility: visible;";
+      document.getElementById("cancelBtn").style = "visibility: visible;";
+      setCountDown(countDown - 1);
+      player.style = "opacity:1;";
+      setIsFinished(true);
+    }
+    if (countDown == 1) {
+      document.getElementById("nextBtn").click();
+      setIsFinished(false);
     }
   }, [props.seek]);
 
@@ -209,32 +230,36 @@ const VideoControl = (props) => {
       <div id="topBar">
         <TopBar />
       </div>
-      <div id="controls" className={styles.player}>
+      <div id="player" className={styles.player}>
         <div className={styles.top}>
           <button className={styles.closeButton} onClick={handleClose}></button>
           <div className={styles.title}>
             <p>{props.title}</p>
             <p></p>
           </div>
-          <div className={styles.audioSelect}>
-            <button
-              className={styles.speechButton}
-              onClick={() => openAudioSelect()}
-            ></button>
-            <div id="audioDrop" className={styles.dropContent}>
-              {selectedVideo && selectedVideo.german ? (
-                <a className={styles.german} onClick={() => takeAudio(1)}></a>
-              ) : (
-                ""
-              )}
-              {selectedVideo && selectedVideo.english ? (
-                <a className={styles.english} onClick={() => takeAudio(2)}></a>
-              ) : (
-                ""
-              )}
-            </div>
-          </div>
           <div className={styles.controls}>
+            <div className={styles.audioSelect}>
+              <button
+                className={styles.speechButton}
+                onClick={() => openAudioSelect()}
+              ></button>
+              <div id="audioDrop" className={styles.dropContent}>
+                {selectedVideo && selectedVideo.german ? (
+                  <a className={styles.german} onClick={() => takeAudio(1)}></a>
+                ) : (
+                  ""
+                )}
+                {selectedVideo && selectedVideo.english ? (
+                  <a
+                    className={styles.english}
+                    onClick={() => takeAudio(2)}
+                  ></a>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+
             {props.volume > 50 ? (
               <button className={styles.volumeOver}></button>
             ) : props.volume > 0 ? (
@@ -256,7 +281,15 @@ const VideoControl = (props) => {
             ></button>
           </div>
         </div>
-        <div className={styles.mid}>
+
+        <div
+          className={styles.mid}
+          onClick={() =>
+            props.playing
+              ? props.changePlaying(false)
+              : props.changePlaying(true)
+          }
+        >
           <button
             className={styles.rewind}
             onClick={props.handleRewind}
@@ -274,26 +307,26 @@ const VideoControl = (props) => {
             onClick={props.handleForward}
           ></button>
         </div>
-        <div className={styles.progress}>
-          <input
-            className={styles.seekRange}
-            type="range"
-            min="0"
-            max={props.duration}
-            onChange={props.handleSeekChange}
-            value={props.seek}
-          ></input>
-        </div>
         <div className={styles.bottom}>
+          <div className={styles.progress}>
+            <input
+              className={styles.seekRange}
+              type="range"
+              min="0"
+              max={props.duration}
+              onChange={props.handleSeekChange}
+              value={props.seek}
+            ></input>
+          </div>
           <p className={styles.time}>
             {props.time} / {props.timeTotal}
           </p>
         </div>
-        <div id="preview" className={styles.preview}>
+        <div className={styles.preview}>
           <button
             id="cancelBtn"
             className={styles.cancelButton}
-            onClick={() => setIsCancelled(true)}
+            onClick={() => handelCancel()}
           >
             cancel
           </button>
@@ -302,10 +335,11 @@ const VideoControl = (props) => {
             className={styles.nextButton}
             onClick={() => handleNext()}
           ></button>
-          <div id="countDown" className={styles.nextProgress}>
+          <div id="countDown" className={styles.countDown}>
             {countDown}
           </div>
           <img
+            id="preview"
             src={
               selectedNext &&
               `file:///${selectedSource}//${selectedNext.poster}`

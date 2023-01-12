@@ -1,6 +1,6 @@
 .container {
   width: 8em;
-  aspect-ratio: 2/3;
+  aspect-ratio: 3/4;
   display: flex;
   position: relative;
   cursor: pointer;
@@ -33,6 +33,7 @@ transform: scaleY(0.9) translateY(0.5em);
 
 .poster > img {
   width: 99%;
+  aspect-ratio: 3/4;
   border-radius: 5px;
 }
 
@@ -84,23 +85,26 @@ transform: scaleY(0.9) translateY(0.5em);
 }
 
 .bottom {
-  padding: 0.3em;
   position: absolute;
-  bottom: 0.15em;
+  bottom: 1em;
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  align-items: center;
 }
 
 .year {
-  grid-column: 1/1;
+  position: absolute;
+  left: 5px;
   font-size: 0.6em;
 }
 
 .languages {
   width: fit-content;
-  grid-column: 2/2;
   display: flex;
+  position: absolute;
+  left: 30%;
+  width: 30%;
+  justify-content: center;
 }
 
 .german {
@@ -121,7 +125,8 @@ transform: scaleY(0.9) translateY(0.5em);
 }
 
 .runtime {
-  grid-column: 3/4;
+  position: absolute;
+  right: 5px;
   font-size: 0.6em;
 }
 

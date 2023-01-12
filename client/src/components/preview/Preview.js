@@ -196,26 +196,22 @@ const Preview = () => {
           <div className={styles.line}>
             {getPlayButtons()}
             <div className={styles.audios}>
-              {selectedVideo.german ? (
+              {selectedVideo.german && (
                 <label
                   className={styles.german}
                   onClick={() => takeAudio(1)}
                 ></label>
-              ) : (
-                ""
               )}
-              {selectedVideo.english ? (
+              {selectedVideo.english && (
                 <label
                   className={styles.english}
                   onClick={() => takeAudio(2)}
                 ></label>
-              ) : (
-                ""
               )}
             </div>
           </div>
         </div>
-        {viewType == 1 && trailer ? (
+        {viewType == 1 && trailer && (
           <button
             className={isMuted ? styles.volBtn : styles.muteBtn}
             onClick={() =>
@@ -224,7 +220,7 @@ const Preview = () => {
                 : dispatch(muteTrailer(true))
             }
           ></button>
-        ) : null}
+        )}
       </div>
       <div className={styles.videoWall}>
         {viewType == 1 && trailer ? (

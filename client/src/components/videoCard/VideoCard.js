@@ -1,10 +1,9 @@
 import React from "react";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./VideoCard.module.css";
 import { selectVideo } from "../../features/video";
-import { markCard } from "../../features/view";
 
 const VideoCard = ({ video }) => {
   const markedCard = useSelector((state) => state.view.card);

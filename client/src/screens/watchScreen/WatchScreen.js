@@ -46,7 +46,7 @@ const WatchScreen = () => {
 
   useEffect(() => {
     /*      ? handleForward(getConvertedIntro(selectedVideo.intro)) */
-    console.log(selectedVideo)
+    console.log(selectedVideo);
     if (isContinue == 1) {
       handleForward(selectedVideo && selectedVideo.elapsed_time);
     }
@@ -144,6 +144,7 @@ const WatchScreen = () => {
         time={time}
         timeTotal={timeTotal}
         playing={isPlaying}
+        changePlaying={(isPlaying) => setIsPlaying(isPlaying)}
         volume={volumeBar}
         duration={duration}
         togglePlay={togglePlay}

@@ -32,7 +32,6 @@
 }
 
 .preview {
-  height: 40vh;
   position: relative;
   z-index: 3;
 }
