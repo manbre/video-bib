@@ -23,6 +23,7 @@ const EpisodesScreen = () => {
   const loadingContext = useContext(LoadingContext);
   const isEditor = useSelector((state) => state.view.isEditor);
   const isLoad = useSelector((state) => state.view.isLoad);
+  const viewType = useSelector((state) => state.view.viewType);
 
   const selectedVideo = useSelector((state) => state.video.video);
 
@@ -42,7 +43,7 @@ const EpisodesScreen = () => {
   useEffect(() => {
     seasonsByGenre && setSeasons(seasonsByGenre ?? []);
     loadingContext.done();
-  }, [seasonsByGenre]);
+  }, [viewType, seasonsByGenre]);
 
   useEffect(() => {
     seasonsBySeries && setSeasons(seasonsBySeries ?? []);
