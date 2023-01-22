@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  margin-right: 1em;
 }
 
 .searchInput {
@@ -17,9 +18,4 @@
 }
 
 @media only screen and (min-width: 1440px) {
-  .searchInput {
-    height: 1.7em;
-    font-size: 1.2em;
-    margin-bottom: 0.2em;
-  }
 }

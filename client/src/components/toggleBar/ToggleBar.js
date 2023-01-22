@@ -1,57 +1,63 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styles from "./ToggleBar.module.css";
 import { toggleType } from "../../features/view";
 import { selectVideo } from "../../features/video";
 import { selectGenre } from "../../features/video";
-import { isLoad } from "../../features/view";
 
 const ToggleBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const viewType = useSelector((state) => state.view.viewType);
 
   useEffect(() => {
-    var element = document.getElementById("marker");
-    switch (viewType) {
-      case 1:
-        element.style = "margin-right:75px;";
-        var series = document.getElementById("series");
-        series.style = "color: rgb(var(--primary-text));";
-        var movie = document.getElementById("movie");
-        movie.style = "color: rgb(var(--back-color))";
-        break;
-      case 2:
-        element.style = "margin-left:75px;";
-        var movie = document.getElementById("movie");
-        movie.style = "color: rgb(var(--primary-text))";
-        var series = document.getElementById("series");
-        series.style = "color: rgb(var(--back-color))";
-        break;
-    }
     dispatch(selectVideo(null));
     dispatch(selectGenre("All"));
   }, [viewType]);
 
+  const changeToScreen = (type) => {
+    dispatch(toggleType(type));
+    switch (type) {
+      case 1:
+        navigate("/");
+        break;
+      case 2:
+        navigate("/episodes");
+        break;
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.bar}>
-        <div id="marker" className={styles.marker}></div>
-        <button
-          id="movie"
-          className={styles.movieButton}
-          onClick={() => dispatch(toggleType(1))}
-        >
-          Movies
-        </button>
-        <button
-          id="series"
-          className={styles.seriesButton}
-          onClick={() => dispatch(toggleType(2))}
-        >
-          TV Shows
-        </button>
-      </div>
+      <input
+        id="toggleOn"
+        className={styles.toggleLeft}
+        name="toggle"
+        type="radio"
+        defaultChecked
+      />
+      <label
+        htmlFor="toggleOn"
+        className={styles.btn}
+        onClick={() => changeToScreen(1)}
+      >
+        Movies
+      </label>
+      <input
+        id="toggleOff"
+        className={styles.toggleRight}
+        name="toggle"
+        type="radio"
+      />
+      <label
+        htmlFor="toggleOff"
+        className={styles.btn}
+        onClick={() => changeToScreen(2)}
+      >
+        TV Shows
+      </label>
     </div>
   );
 };

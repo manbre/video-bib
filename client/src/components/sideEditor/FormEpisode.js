@@ -29,34 +29,38 @@ const FormEpisode = (props) => {
   //
   const [plot, setPlot] = useState("");
   //
-  const [poster, setPoster] = useState(null);
-  const [german, setGerman] = useState(null);
-  const [english, setEnglish] = useState(null);
+  const [poster, setPoster] = useState("");
+  const [german, setGerman] = useState("");
+  const [english, setEnglish] = useState("");
   //
   const dispatch = useDispatch();
   const selectedVideo = useSelector((state) => state.video.video);
   const selectedSource = useSelector((state) => state.source.source);
   const viewType = useSelector((state) => state.view.viewType); //type selected by toggle
+  const isEditor = useSelector((state) => state.view.isEditor);
 
   const [useCreateVideo] = useCreateNewEpisodeMutation();
   const [useUpdateVideo] = useUpdateEpisodeMutation();
   const [useDeleteVideo] = useDeleteEpisodeMutation();
-  const [useCopyFiles, { isSuccess }] = useCopyEpisodeFilesMutation();
+  const [useCopyFiles, { isSuccess: isCopied }] = useCopyEpisodeFilesMutation();
 
-  const { data: OMDBData } = useGetOMDBDataQuery({
-    title: series,
-    year: year,
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(isLoad(false));
-      window.location.reload().then(dispatch(toggleType(2)));
-    }
-  }, [isSuccess]);
+  const { data: OMDBData, isSuccess: isOMDB } = useGetOMDBDataQuery(
+    {
+      title: series,
+      year: year,
+    },
+    { skip: isEditor == false }
+  );
 
   useEffect(() => {
-    !selectedVideo && OMDBData && setPoster(OMDBData.Poster);
+    isCopied &&
+      dispatch(isLoad(false)) &&
+      /*    window.location.reload().then(dispatch(toggleType(2))); */
+      dispatch(toggleType(2));
+  }, [isCopied]);
+
+  useEffect(() => {
+    !selectedVideo && isOMDB && setPoster(OMDBData.Poster);
   }, [OMDBData]);
 
   useEffect(() => {
@@ -228,7 +232,7 @@ const FormEpisode = (props) => {
         <div className={styles.row}>
           <div className={styles.topLeft}>
             <div className={styles.textOnInput}>
-              <label for="inputText">
+              <label htmlFor="inputText">
                 TV Show <span className={styles.tag}>(OMDb)</span>
               </label>
               <input
@@ -240,7 +244,7 @@ const FormEpisode = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Title</label>
+              <label htmlFor="inputText">Title</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -250,7 +254,7 @@ const FormEpisode = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Director</label>
+              <label htmlFor="inputText">Director</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -260,7 +264,7 @@ const FormEpisode = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Genre</label>
+              <label htmlFor="inputText">Genre</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -270,7 +274,7 @@ const FormEpisode = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Actors</label>
+              <label htmlFor="inputText">Actors</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -282,7 +286,7 @@ const FormEpisode = (props) => {
 
           <div className={styles.topRight}>
             <div className={styles.textOnInput}>
-              <label for="inputText">
+              <label htmlFor="inputText">
                 Year <span className={styles.tag}>(OMDb)</span>
               </label>
               <input
@@ -294,7 +298,7 @@ const FormEpisode = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Season</label>
+              <label htmlFor="inputText">Season</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -304,7 +308,7 @@ const FormEpisode = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Episode</label>
+              <label htmlFor="inputText">Episode</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -314,7 +318,7 @@ const FormEpisode = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Runtime</label>
+              <label htmlFor="inputText">Runtime</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -324,7 +328,7 @@ const FormEpisode = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Intro</label>
+              <label htmlFor="inputText">Intro</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -337,7 +341,7 @@ const FormEpisode = (props) => {
         <div className={styles.row}>
           <div className={styles.mid}>
             <div className={styles.textOnInput}>
-              <label for="inputText">Plot</label>
+              <label htmlFor="inputText">Plot</label>
               <textarea
                 className={styles.inputArea}
                 type="text"
@@ -368,7 +372,7 @@ const FormEpisode = (props) => {
           <div className={styles.bottomRight}>
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label for="inputText">Poster</label>
+                <label htmlFor="inputText">Poster</label>
                 <input
                   id="poster"
                   type="file"
@@ -391,7 +395,7 @@ const FormEpisode = (props) => {
 
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label for="inputText">Video (german)</label>
+                <label htmlFor="inputText">Video (german)</label>
                 <input
                   id="german"
                   type="file"
@@ -414,7 +418,7 @@ const FormEpisode = (props) => {
 
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label for="inputText">Video (english)</label>
+                <label htmlFor="inputText">Video (english)</label>
                 <input
                   id="english"
                   type="file"

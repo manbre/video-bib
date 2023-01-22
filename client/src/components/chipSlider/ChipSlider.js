@@ -19,7 +19,6 @@ const ChipSlider = () => {
   const dispatch = useDispatch();
   const selectedGenre = useSelector((state) => state.video.genre);
   const viewType = useSelector((state) => state.view.viewType);
-  const isEditor = useSelector((state) => state.view.isEditor);
   const { data: movieGenres } = useGetAllMovieGenresQuery();
   const { data: episodeGenres } = useGetAllEpisodeGenresQuery();
 
@@ -30,10 +29,10 @@ const ChipSlider = () => {
   useEffect(() => {
     switch (viewType) {
       case 1:
-        setGenres(movieGenres ?? []);
+        movieGenres && setGenres(movieGenres ?? []);
         break;
       case 2:
-        setGenres(episodeGenres ?? []);
+        episodeGenres && setGenres(episodeGenres ?? []);
         break;
     }
   }, [viewType, movieGenres, episodeGenres]);
@@ -48,9 +47,10 @@ const ChipSlider = () => {
   };
 
   const checkScroll = () => {
-    setScrolled(scroll.current.scrollLeft);
+    scroll.current && setScrolled(scroll.current.scrollLeft);
+    scroll.current &&
     Math.floor(scroll.current.scrollWidth - scroll.current.scrollLeft) <=
-    scroll.current.offsetWidth
+      scroll.current.offsetWidth
       ? setIsScrollEnd(true)
       : setIsScrollEnd(false);
   };

@@ -14,7 +14,6 @@ const Preview = () => {
   const isMuted = useSelector((state) => state.view.muted);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   //
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
@@ -30,41 +29,46 @@ const Preview = () => {
   const [awards, setAwards] = useState(0);
 
   useEffect(() => {
-    switch (viewType) {
-      case 1:
-        setTitle(selectedVideo.title);
-        setYear(selectedVideo.year);
-        setDirector(selectedVideo.director);
-        setGenre(selectedVideo.genre);
-        setActors(selectedVideo.actors);
-        setPlot(selectedVideo.plot);
-        setRuntime(selectedVideo.runtime);
-        setPoster(selectedVideo.poster);
-        //
-        setTrailer(selectedVideo.trailer);
-        setRating(selectedVideo.rating);
-        setAwards(selectedVideo.awards);
-        break;
-      case 2:
-        setTitle(selectedVideo.title);
-        setYear(selectedVideo.year);
-        setDirector(selectedVideo.director);
-        setGenre(selectedVideo.genre);
-        setActors(selectedVideo.actors);
-        setPlot(selectedVideo.plot);
-        setRuntime(selectedVideo.runtime);
-        setPoster(selectedVideo.poster);
-        break;
+    if (selectedVideo) {
+      switch (viewType) {
+        case 1:
+          setTitle(selectedVideo.title);
+          setYear(selectedVideo.year);
+          setDirector(selectedVideo.director);
+          setGenre(selectedVideo.genre);
+          setActors(selectedVideo.actors);
+          setPlot(selectedVideo.plot);
+          setRuntime(selectedVideo.runtime);
+          setPoster(selectedVideo.poster);
+          //
+          setTrailer(selectedVideo.trailer);
+          setRating(selectedVideo.rating);
+          setAwards(selectedVideo.awards);
+          break;
+        case 2:
+          setTitle(selectedVideo.title);
+          setYear(selectedVideo.year);
+          setDirector(selectedVideo.director);
+          setGenre(selectedVideo.genre);
+          setActors(selectedVideo.actors);
+          setPlot(selectedVideo.plot);
+          setRuntime(selectedVideo.runtime);
+          setPoster(selectedVideo.poster);
+          break;
+      }
+      selectedVideo.german
+        ? takeAudio(1)
+        : selectedVideo.english && takeAudio(2);
+      toggleMute();
     }
-    selectedVideo.german
-      ? takeAudio(1)
-      : selectedVideo.english
-      ? takeAudio(2)
-      : null;
   }, [selectedVideo]);
 
   useEffect(() => {
-    if (trailer && viewType == 1) {
+    toggleMute();
+  }, [isMuted]);
+
+  const toggleMute = () => {
+    if (trailer) {
       const elements = document.getElementsByClassName(`${styles.trailer}`);
       if (isMuted) {
         elements[0].muted = true;
@@ -72,7 +76,7 @@ const Preview = () => {
         elements[0].muted = false;
       }
     }
-  }, [selectedVideo, isMuted]);
+  };
 
   const getProgress = () => {
     if (selectedVideo) {
@@ -171,13 +175,11 @@ const Preview = () => {
               <span className={styles.calendar}></span>
               <p>{year}</p>
             </div>
-            {viewType == 1 ? (
+            {viewType == 1 && (
               <div className={styles.awards}>
-                {awards > 0 ? <span className={styles.oscar}></span> : ""}
-                {awards > 0 ? <p>{awards}</p> : ""}
+                {awards > 0 && <span className={styles.oscar}></span>}
+                {awards > 0 && <p>{awards}</p>}
               </div>
-            ) : (
-              ""
             )}
           </div>
           <div className={styles.plot}>{plot}</div>
@@ -228,18 +230,21 @@ const Preview = () => {
             className={styles.trailer}
             autoPlay
             loop
+            muted
             src={`file:///${selectedSource}//${trailer}`}
           ></video>
-        ) : viewType == 1 ? (
-          <img
-            className={styles.poster}
-            src={`file:///${selectedSource}//${poster}`}
-            onError={(event) => (event.target.style.display = "none")}
-            onLoad={(event) => (event.target.style.display = "inline-block")}
-          ></img>
-        ) : null}
+        ) : (
+          viewType == 1 && (
+            <img
+              className={styles.poster}
+              src={`file:///${selectedSource}//${poster}`}
+              onError={(event) => (event.target.style.display = "none")}
+              onLoad={(event) => (event.target.style.display = "inline-block")}
+            ></img>
+          )
+        )}
       </div>
-      {viewType == 2 ? <CardSlider /> : ""}
+      {viewType == 2 && <CardSlider />}
     </div>
   );
 };

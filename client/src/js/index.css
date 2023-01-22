@@ -35,25 +35,20 @@ body {
   outline: none;
 }
 
-::-webkit-progress-bar {
-  background-color: rgb(var(--top-color));
-}
-::-webkit-progress-value {
-  background: rgb(var(--secondary-text));
-}
-
 ::-webkit-scrollbar {
   width: 0px;
 }
 
-::-webkit-scrollbar-corner {
+.navBar{
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 2.5em;
+  padding-right: 1em;
+  align-items: center;
+  justify-content: flex-end;
+  bottom: 0;
+  z-index: 1;
+  background-color: rgb(var(--back-color));
 }
 
-::-webkit-scrollbar-corner {
-}
-
-::-webkit-scrollbar-track {
-}
-
-::-webkit-scrollbar-thumb {
-}

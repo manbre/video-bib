@@ -4,7 +4,7 @@
   width: 22em;
   display: flex;
   flex-direction: column;
-  padding-bottom: 4.5em;
+  padding-bottom: 4em;
 }
 
 .form {
@@ -145,50 +145,4 @@ label {
   margin-top: 0.9em;
   margin-left: 0.2em;
   cursor: pointer;
-}
-
-@media only screen and (min-width: 1440px) {
-  .container {
-    width: 30em;
-  }
-
-  .textOnInput label {
-    font-size: 1em;
-  }
-
-  .inputField {
-    height: 1.7em;
-    font-size: 1.2em;
-  }
-
-  .topLeft {
-    width: 24em;
-  }
-
-  .topRight {
-    width: 8em;
-  }
-
-  .bottomRight > .line > .textOnInput >input {
-    width: 11.5em;
-  }
-
-  .bottomRight > .line > .textOnInput {
-   margin-top: 2em;
-  }
-
-  .bottomRight > .line > .sourceBtn {
-    width: 1.7em;
-    background-size: 1.7em;
-    margin-top: 2.2em;
-    margin-left: 1em;
-  }
-
-  .inputArea {
-    height: 8em;
-    font-size: 1.2em;
-  }
-  .poster > img {
-    width: 10em;
-  }
 }

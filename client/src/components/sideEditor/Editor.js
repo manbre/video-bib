@@ -21,7 +21,7 @@ const Editor = () => {
   const movieEditor = useRef();
   const episodeEditor = useRef();
   const dispatch = useDispatch();
-  const { data: location } = useGetLocationQuery();
+  const { data: location, isSuccess: isLocation } = useGetLocationQuery();
   const [writeLocation] = useWriteLocationMutation();
 
   const [dialog, setDialog] = useState({
@@ -59,7 +59,7 @@ const Editor = () => {
   }, [selectedSource]);
 
   useEffect(() => {
-    location ?? [] ? dispatch(selectSource(location ?? [])) : null;
+    isLocation && dispatch(selectSource(location ?? []));
   }, [location]);
 
   useEffect(() => {

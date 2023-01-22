@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./TopBar.module.css";
 import { toggleEditor } from "../../features/view";

@@ -21,9 +21,10 @@
 
 .prev,
 .next {
+  border-style: none;
   background-color: rgb(var(--menu-color));
-  max-height: 1.4em;
-  min-width: 1.4em;
+  height: 1.4em;
+  width: 1.4em;
   padding-left: 0.3em;
   padding-right: 0.3em;
   border-radius: 5px;
@@ -38,7 +39,6 @@
 }
 
 .prev {
-  justify-self: flex-start;
   padding-left: 0.1em;
 }
 

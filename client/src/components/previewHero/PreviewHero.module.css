@@ -1,5 +1,7 @@
 .container {
-  height: 40vh;
+  padding-top: 0.8em;
+  padding-bottom: 0.5em;
+  height: 42vh;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -28,7 +30,7 @@
 }
 
 .frame {
-  width: 6em;
+  width: 7em;
   aspect-ratio: 2/3;
   margin: 0.5em;
   opacity: 0.7;
@@ -60,7 +62,5 @@
 }
 
 @media only screen and (min-width: 1440px) {
-  .frame {
-    width: 10em;
-  }
+
 }

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Form.module.css";
 import { selectVideo } from "../../features/video";
-import { selectGenre } from "../../features/video";
 import { isLoad } from "../../features/view";
 import { toggleType } from "../../features/view";
 import {
@@ -30,35 +29,38 @@ const FormMovie = (props) => {
   const [actors, setActors] = useState("");
   const [plot, setPlot] = useState("");
   //
-  const [poster, setPoster] = useState(null);
-  const [trailer, setTrailer] = useState(null);
-  const [german, setGerman] = useState(null);
-  const [english, setEnglish] = useState(null);
+  const [poster, setPoster] = useState("");
+  const [trailer, setTrailer] = useState("");
+  const [german, setGerman] = useState("");
+  const [english, setEnglish] = useState("");
   //
   const dispatch = useDispatch();
   const selectedVideo = useSelector((state) => state.video.video);
   const viewType = useSelector((state) => state.view.viewType); //type selected by toggle
+  const isEditor = useSelector((state) => state.view.isEditor);
   const selectedSource = useSelector((state) => state.source.source);
 
   const [useCreateVideo] = useCreateNewMovieMutation();
   const [useUpdateVideo] = useUpdateMovieMutation();
   const [useDeleteVideo] = useDeleteMovieMutation();
-  const [useCopyFiles, { isSuccess }] = useCopyMovieFilesMutation();
+  const [useCopyFiles, { isSuccess: isCopied }] = useCopyMovieFilesMutation();
 
-  const { data: OMDBData } = useGetOMDBDataQuery({
-    title: title,
-    year: year,
-  });
+  const { data: OMDBData, isOMDB } = useGetOMDBDataQuery(
+    {
+      title: title,
+      year: year,
+    },
+    { skip: isEditor == false }
+  );
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(isLoad(false));
+    isCopied &&
+      dispatch(isLoad(false)) &&
       window.location.reload().then(dispatch(toggleType(1)));
-    }
-  }, [isSuccess]);
+  }, [isCopied]);
 
   useEffect(() => {
-    !selectedVideo && OMDBData && setPoster(OMDBData.Poster);
+    !selectedVideo && isOMDB && setPoster(OMDBData.Poster);
   }, [OMDBData]);
 
   useEffect(() => {
@@ -248,7 +250,7 @@ const FormMovie = (props) => {
         <div className={styles.row}>
           <div className={styles.topLeft}>
             <div className={styles.textOnInput}>
-              <label for="inputText">
+              <label htmlFor="inputText">
                 Title <span className={styles.tag}>(OMDb)</span>
               </label>
               <input
@@ -260,7 +262,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Title of series</label>
+              <label htmlFor="inputText">Title of series</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -270,7 +272,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Director</label>
+              <label htmlFor="inputText">Director</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -280,7 +282,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Genre</label>
+              <label htmlFor="inputText">Genre</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -292,7 +294,7 @@ const FormMovie = (props) => {
 
           <div className={styles.topRight}>
             <div className={styles.textOnInput}>
-              <label for="inputText">
+              <label htmlFor="inputText">
                 Year <span className={styles.tag}>(OMDb)</span>
               </label>
               <input
@@ -304,7 +306,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Awards</label>
+              <label htmlFor="inputText">Awards</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -314,7 +316,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Rating</label>
+              <label htmlFor="inputText">Rating</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -324,7 +326,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Runtime</label>
+              <label htmlFor="inputText">Runtime</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -338,7 +340,7 @@ const FormMovie = (props) => {
         <div className={styles.row}>
           <div className={styles.mid}>
             <div className={styles.textOnInput}>
-              <label for="inputText">Actors</label>
+              <label htmlFor="inputText">Actors</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -348,7 +350,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label for="inputText">Plot</label>
+              <label htmlFor="inputText">Plot</label>
               <textarea
                 className={styles.inputArea}
                 type="text"
@@ -380,7 +382,7 @@ const FormMovie = (props) => {
           <div className={styles.bottomRight}>
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label for="inputText">Poster</label>
+                <label htmlFor="inputText">Poster</label>
                 <input
                   id="poster"
                   type="file"
@@ -403,7 +405,7 @@ const FormMovie = (props) => {
 
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label for="inputText">Trailer</label>
+                <label htmlFor="inputText">Trailer</label>
                 <input
                   id="trailer"
                   type="file"
@@ -426,7 +428,7 @@ const FormMovie = (props) => {
 
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label for="inputText">Video (german)</label>
+                <label htmlFor="inputText">Video (german)</label>
                 <input
                   id="german"
                   type="file"
@@ -449,7 +451,7 @@ const FormMovie = (props) => {
 
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label for="inputText">Video (english)</label>
+                <label htmlFor="inputText">Video (english)</label>
                 <input
                   id="english"
                   type="file"

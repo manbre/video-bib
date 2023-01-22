@@ -1,10 +1,10 @@
 .container {
-  width: 8em;
+  width: 8.5em;
   aspect-ratio: 3/4;
   display: flex;
   position: relative;
   cursor: pointer;
-  margin: 1em;
+  margin: 0.9em;
   overflow: hidden;
   border-radius: 5px;
 }
@@ -15,7 +15,7 @@
 }
 
 .container:hover .poster {
-  transform: scaleY(0.9) translateY(-16px);
+  transform: scaleY(0.9) translateY(-12px);
   transition: transform 0.4s;
 }
 
@@ -136,23 +136,5 @@ transform: scaleY(0.9) translateY(0.5em);
 }
 
 @media only screen and (min-width: 1440px) {
-  .container {
-    width: 12em;
-  }
-  .info {
-    height: 5em;
-  }
-  .title > p {
-    font-size: 1.1em;
-  }
 
-  .year,
-  .runtime {
-    font-size: 0.8em;
-  }
-  .german,
-  .english {
-    width: 20px;
-    background-size: 20px;
-  }
 }

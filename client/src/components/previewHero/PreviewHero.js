@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 import styles from "./PreviewHero.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectVideo } from "../../features/video";
-import { selectCard } from "../../features/view";
-import { selectGenre } from "../../features/video";
+
 import {
   useGetAllMoviesQuery,
   useGetAllSeasonsQuery,
@@ -14,18 +13,17 @@ const PreviewHero = () => {
   const [videos, setVideos] = useState([]);
   const viewType = useSelector((state) => state.view.viewType);
   const selectedSource = useSelector((state) => state.source.source);
-  const isLoad = useSelector((state) => state.view.isLoad);
-  const { data: movies, isSuccess: moviesSuccess } = useGetAllMoviesQuery();
-  const { data: seasons, isSuccess: seasonsSuccess } = useGetAllSeasonsQuery();
+  const { data: movies } = useGetAllMoviesQuery();
+  const { data: seasons } = useGetAllSeasonsQuery();
   const dispatch = useDispatch();
 
   useEffect(() => {
     switch (viewType) {
       case 1:
-        setVideos(movies ?? []);
+        movies && setVideos(movies ?? []);
         break;
       case 2:
-        setVideos(seasons ?? []);
+        seasons && setVideos(seasons ?? []);
         break;
     }
   }, [viewType, movies, seasons]);

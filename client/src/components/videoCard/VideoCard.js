@@ -15,10 +15,10 @@ const VideoCard = ({ video }) => {
     var elements = document.getElementsByClassName(`${styles.container}`);
     var posters = document.getElementsByClassName(`${styles.poster}`);
     var infos = document.getElementsByClassName(`${styles.info}`);
-    if (markedCard != null && elements[markedCard]) {
+    if (markedCard !== null && elements[markedCard]) {
       elements[markedCard].style =
         "outline: 4px solid white; transform: scaleY(1.1);";
-      posters[markedCard].style = "transform: scaleY(0.9) translateY(-16px);";
+      posters[markedCard].style = "transform: scaleY(0.9) translateY(-12px);";
       infos[markedCard].style = "  transform: scaleY(0.9) translateY(0.5em);";
       //
       for (let i = 0; i < elements.length; i++) {
@@ -59,7 +59,7 @@ const VideoCard = ({ video }) => {
     >
       <div className={styles.poster}>
         <img
-          src={`file:///${selectedSource}//${video.poster}`}
+          src={`file:///${selectedSource}/${video.poster}`}
           onError={(event) =>
             (event.target.src = require("../../assets/images/placeholder.jpg").default)
           }
@@ -73,8 +73,8 @@ const VideoCard = ({ video }) => {
             <p>{video.year}</p>
           </div>
           <div className={styles.languages}>
-            {video.german ? <span className={styles.german}></span> : ""}
-            {video.english ? <span className={styles.english}></span> : ""}
+            {video.german && <span className={styles.german}></span>}
+            {video.english && <span className={styles.english}></span>}
           </div>
           <div className={styles.runtime}>
             <p>{video.runtime} min</p>

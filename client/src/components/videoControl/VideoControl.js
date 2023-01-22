@@ -16,15 +16,15 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import {
-  useGetMoviesByGenreQuery,
+  useGetAllMoviesQuery,
   useGetAllEpisodesQuery,
 } from "../../features/api";
 
 const VideoControl = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data: allMovies } = useGetMoviesByGenreQuery("All");
-  const { data: allEpisodes } = useGetAllEpisodesQuery();
+  const { data: allMovies, isSuccess: isMovie } = useGetAllMoviesQuery();
+  const { data: allEpisodes, isSuccess: isEpisode } = useGetAllEpisodesQuery();
   const selectedVideo = useSelector((state) => state.video.video);
   const selectedNext = useSelector((state) => state.video.nextVideo);
   const selectedAudio = useSelector((state) => state.video.audio);
@@ -45,7 +45,7 @@ const VideoControl = (props) => {
     switch (e.keyCode) {
       case 27: //escape
         e.preventDefault();
-        isFullscreen && setIsFullscreen(false);
+        electron.leaveFullscreen();
         break;
     }
   });
@@ -64,13 +64,13 @@ const VideoControl = (props) => {
   useEffect(() => {
     switch (viewType) {
       case 1:
-        setVideos(allMovies ?? []);
+        isMovie && setVideos(allMovies ?? []);
         break;
       case 2:
-        setVideos(allEpisodes ?? []);
+        isEpisode && setVideos(allEpisodes ?? []);
         break;
     }
-  }, [viewType, allMovies, allEpisodes]);
+  }, [viewType, isMovie, isEpisode]);
 
   useEffect(() => {
     let nextBtn = document.getElementById("nextBtn");
@@ -102,7 +102,7 @@ const VideoControl = (props) => {
           break;
       }
     }
-    isFullscreen && setIsFullscreen(false);
+    electron.leaveFullscreen();
   };
 
   const openAudioSelect = () => {
@@ -219,7 +219,7 @@ const VideoControl = (props) => {
   };
 
   useEffect(() => {
-    var bar = document.getElementById("topBar");
+    let bar = document.getElementById("topBar");
     isFullscreen
       ? bar && (bar.style = "display: none;")
       : bar && (bar.style = "display: block;");
@@ -244,18 +244,14 @@ const VideoControl = (props) => {
                 onClick={() => openAudioSelect()}
               ></button>
               <div id="audioDrop" className={styles.dropContent}>
-                {selectedVideo && selectedVideo.german ? (
+                {selectedVideo && selectedVideo.german && (
                   <a className={styles.german} onClick={() => takeAudio(1)}></a>
-                ) : (
-                  ""
                 )}
-                {selectedVideo && selectedVideo.english ? (
+                {selectedVideo && selectedVideo.english && (
                   <a
                     className={styles.english}
                     onClick={() => takeAudio(2)}
                   ></a>
-                ) : (
-                  ""
                 )}
               </div>
             </div>

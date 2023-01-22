@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./CardSlider.module.css";
 import { selectVideo } from "../../features/video";
-import { selectNext } from "../../features/video";
 import { useGetEpisodeBySeasonQuery } from "../../features/api";
 
 const CardSlider = () => {
@@ -18,13 +17,9 @@ const CardSlider = () => {
   });
 
   useEffect(() => {
-    episodesBySeason && console.log(episodesBySeason)
-    setEpisodes(episodesBySeason ?? []);
+    episodesBySeason && setEpisodes(episodesBySeason ?? []);
+    setIndex(0);
   }, [episodesBySeason]);
-
-  useEffect(() => {
-    selectVideo(episodes[0]);
-  }, [episodes]);
 
   const nextSlide = () => {
     index < episodes.length - 1 ? setIndex(index + 1) : setIndex(0);
@@ -42,14 +37,14 @@ const CardSlider = () => {
 
   return (
     <div className={styles.container}>
-      <a className={styles.prev} href="#" onClick={() => prevSlide()}>
+      <button className={styles.prev} onClick={() => prevSlide()}>
         &#10094;
-      </a>
+      </button>
       <div className={styles.card}>
         <div className={styles.poster}>
           <img
-            src={`file:///${source}//${
-              episodes[index] ? episodes[index].poster : ""
+            src={`file:///${source}/${
+              episodes[index] && episodes[index].poster
             }`}
             onError={(event) =>
               (event.target.src = require("../../assets/images/placeholder.jpg").default)
@@ -59,36 +54,28 @@ const CardSlider = () => {
         </div>
         <div className={styles.info}>
           <div className={styles.series}>
-            {episodes[index] ? episodes[index].series : ""}
+            {episodes[index] && episodes[index].series}
           </div>
           <div className={styles.episode}>
-            {episodes[index]
-              ? "S " +
-                episodes[index].season +
-                ", Ep " +
-                episodes[index].episode
-              : ""}
+            {episodes[index] &&
+              "S " + episodes[index].season + ", Ep " + episodes[index].episode}
           </div>
           <div className={styles.counter}>{`${index + 1} / ${
             episodes.length
           }`}</div>
           <div className={styles.languages}>
-            {episodes[index] && episodes[index].german ? (
+            {episodes[index] && episodes[index].german && (
               <span className={styles.german}></span>
-            ) : (
-              ""
             )}
-            {episodes[index] && episodes[index].english ? (
+            {episodes[index] && episodes[index].english && (
               <span className={styles.english}></span>
-            ) : (
-              ""
             )}
           </div>
         </div>
       </div>
-      <a className={styles.next} href="#" onClick={() => nextSlide()}>
+      <button className={styles.next} onClick={() => nextSlide()}>
         &#10095;
-      </a>
+      </button>
     </div>
   );
 };

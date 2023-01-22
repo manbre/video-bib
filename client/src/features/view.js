@@ -8,7 +8,7 @@ export const viewSlice = createSlice({
     editorType: 1 /* 1: Movies, 2: TVShows */,
     isLoad: false,
     card: null,
-    muted: false,
+    muted: true,
   },
   reducers: {
     toggleEditor: (state) => {

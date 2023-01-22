@@ -1,0 +1,87 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(var(--back-color));
+}
+
+.content {
+  height: 100%;
+  display: flex;
+}
+
+#editor {
+  height: 100vh;
+}
+
+.center {
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden; /*!important! for trailer "overflow"*/
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: sticky !important;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.light {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgb(var(--back-color)) !important;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.light_trailer {
+  filter: blur(60px);
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  margin-top: -2em;
+  right: 0;
+  top: 0;
+  object-fit: fill;
+}
+
+.preview {
+  position: relative;
+  height: fit-content;
+  z-index: 3;
+}
+
+.closeBtn {
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 1em;
+  margin-left: 1em;
+  position: absolute;
+  z-index: 3;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.5em;
+  transition: 0.2s;
+  cursor: pointer;
+  background-image: url("../../assets/icons/icon_close.png");
+}
+
+.cluster {
+  width: 100%;
+  padding-bottom: 5em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}

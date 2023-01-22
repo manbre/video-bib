@@ -42,7 +42,6 @@
 }
 
 .plot {
-  outline: 1px solid green;
   grid-row: 3;
   min-height: 2.2em;
   margin-top: -1em;
@@ -270,42 +269,5 @@
 }
 
 @media only screen and (min-width: 1440px) {
-  .title {
-    font-size: 2.5em;
-  }
 
-  .numbers {
-    font-size: 1.2em;
-  }
-
-  .plot {
-    font-size: 1.2em;
-  }
-
-  .col1,
-  .col2 {
-    font-size: 1.4em;
-  }
-
-  .play1Btn,
-  .play2Btn {
-    margin-top: 1em;
-    font-size: 1.2em;
-  }
-
-  .minutesLeft {
-    font-size: 1em;
-  }
-
-  .audios {
-    margin-left: 5em;
-    width: 8em;
-  }
-
-  .german,
-  .english {
-    margin-top: 1em;
-    width: 3em;
-    background-size: 3em;
-  }
 }
