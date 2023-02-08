@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./VideoCard.module.css";
 import { selectVideo } from "../../features/video";
@@ -10,6 +10,8 @@ const VideoCard = ({ video }) => {
   const viewType = useSelector((state) => state.view.viewType);
   const selectedSource = useSelector((state) => state.source.source);
   const dispatch = useDispatch();
+
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     var elements = document.getElementsByClassName(`${styles.container}`);
@@ -29,7 +31,7 @@ const VideoCard = ({ video }) => {
         }
       }
     }
-    if (markedCard == null) {
+    if (markedCard == null && isLoaded) {
       for (let i = 0; i < elements.length; i++) {
         elements[i].style = "border: none;";
         posters[i].style = "z-index: 2;";
@@ -45,8 +47,7 @@ const VideoCard = ({ video }) => {
       case 2:
         return (
           <>
-            <p>{video.series}</p>
-            <p>- Season {video.season}</p>
+            <p>{video.series} - Season {video.season}</p>
           </>
         );
     }
@@ -63,9 +64,10 @@ const VideoCard = ({ video }) => {
           onError={(event) =>
             (event.target.src = require("../../assets/images/placeholder.jpg").default)
           }
-          onLoad={(event) => (event.target.style.display = "inline-block")}
+          onLoad={() => setIsLoaded(true)}
         />
       </div>
+
       <div className={styles.info}>
         <div className={styles.title}>{getTitle()}</div>
         <div className={styles.bottom}>

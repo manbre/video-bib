@@ -1,4 +1,13 @@
 :root {
+  --clr-primary-200: ;
+  --clr-primary-400: ;
+  --clr-neutral-100: ;
+  --clr-neutral-900: ;
+  --ff-primary: "Roboto", sans-serif;
+  --ff-accent: "Playfair Display", serif; /*heading*/
+
+  --videoCard-width: 7.5em;
+  --videoCard-radius: 7px;
   --top-color: 11, 11, 11;
   --back-color: 21, 21, 21;
   --menu-color: 41, 41, 41;
@@ -13,18 +22,15 @@
   --scroll-width: 1em;
   --button-height: 2em;
   /*  */
-  --preview-height: 13.5em;
-  --preview-card-height: 10em;
-  --preview-card-width: 7em;
   --ambi-opacity: 0.55;
 }
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
-  font-family: Tahoma, sans-serif;
+  padding: 0;
+  margin: 0;
   color: rgb(var(--primary-text));
+  font-family: Tahoma, sans-serif;
 }
 
 body {
@@ -35,20 +41,39 @@ body {
   outline: none;
 }
 
+::-webkit-progress-bar {
+  background-color: rgb(var(--back-color));
+}
+
+::-webkit-progress-value {
+  background-color: rgb(var(--primary-text));
+}
+
 ::-webkit-scrollbar {
   width: 0px;
 }
 
-.navBar{
-  display: flex;
+.navBar {
   position: fixed;
+  z-index: 1;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   width: 100%;
   height: 2.5em;
   padding-right: 1em;
-  align-items: center;
-  justify-content: flex-end;
-  bottom: 0;
-  z-index: 1;
   background-color: rgb(var(--back-color));
 }
 
+@media screen and (min-width: 1440px) {
+  :root {
+    --videoCard-width: 8.5em;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  :root {
+    --videoCard-width: 13em;
+  }
+}

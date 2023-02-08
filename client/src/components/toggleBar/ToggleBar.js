@@ -10,11 +10,12 @@ import { selectGenre } from "../../features/video";
 const ToggleBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const genre = useSelector((state) => state.video.genre);
   const viewType = useSelector((state) => state.view.viewType);
 
   useEffect(() => {
     dispatch(selectVideo(null));
-    dispatch(selectGenre("All"));
+    genre == "All" ? dispatch(selectGenre("0")) : dispatch(selectGenre("All"));
   }, [viewType]);
 
   const changeToScreen = (type) => {

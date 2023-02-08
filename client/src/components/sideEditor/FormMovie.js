@@ -45,7 +45,7 @@ const FormMovie = (props) => {
   const [useDeleteVideo] = useDeleteMovieMutation();
   const [useCopyFiles, { isSuccess: isCopied }] = useCopyMovieFilesMutation();
 
-  const { data: OMDBData, isOMDB } = useGetOMDBDataQuery(
+  const { data: OMDBData, isSuccess: isOMDB  } = useGetOMDBDataQuery(
     {
       title: title,
       year: year,

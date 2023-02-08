@@ -1,12 +1,12 @@
 .container {
-  width: 8.5em;
-  aspect-ratio: 3/4;
-  display: flex;
   position: relative;
-  cursor: pointer;
-  margin: 0.9em;
+  display: flex;
   overflow: hidden;
-  border-radius: 5px;
+  min-width: var(--videoCard-width);
+  aspect-ratio: 3/4;
+  border-radius: var(--videoCard-radius);
+  margin: 0.7em;
+  cursor: pointer;
 }
 
 .container:hover {
@@ -20,121 +20,97 @@
 }
 
 .container:hover .info {
-transform: scaleY(0.9) translateY(0.5em); 
-  transition: transform 0.4s; 
+  transform: scaleY(0.9) translateY(0.5em);
+  transition: transform 0.4s;
 }
 
 .poster {
-  display: flex;
   position: absolute;
   z-index: 2;
+  display: flex;
   justify-content: center;
 }
 
 .poster > img {
   width: 99%;
   aspect-ratio: 3/4;
-  border-radius: 5px;
-}
-
-.progress {
-  background-color: dodgerblue;
-  height: 5px;
-  margin-top: 6.85em;
-  position: absolute;
-  z-index: 3;
-}
-
-.progressBar {
-  background-color: black;
-  height: 5px;
-  width: 100%;
-  margin-top: 6.85em;
-  position: absolute;
-  z-index: 3;
+  border-radius: var(--videoCard-radius);
 }
 
 .info {
-  padding: 0.1em;
   position: absolute;
   z-index: 3;
-  width: 100%;
-  height: 4em;
   bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc((var(--videoCard-width)) * 1 / 2);
+  padding: 0.1em;
+  border-bottom-right-radius: var(--videoCard-radius);
+  border-bottom-left-radius: var(--videoCard-radius);
   background: linear-gradient(
     0deg,
     rgba(var(--menu-color), 1) 92%,
     rgba(255, 255, 255, 0) 100%
   );
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  display: flex;
-  flex-direction: column;
 }
 
 .title > p {
-  max-width: 95%;
-  min-height: 1.7em;
-  font-size: 0.8em;
-  display: -webkit-box !important;
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 95%;
+  font-size: calc((var(--videoCard-width)) * 1 / 10);
   text-align: center;
 }
 
 .bottom {
   position: absolute;
-  bottom: 1em;
-  width: 100%;
+  bottom: 1.1em;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .year {
   position: absolute;
   left: 5px;
-  font-size: 0.6em;
+  font-size: calc((var(--videoCard-width)) * 1 / 13);
 }
 
 .languages {
-  width: fit-content;
-  display: flex;
   position: absolute;
   left: 30%;
-  width: 30%;
+  display: flex;
   justify-content: center;
+  width: 30%;
 }
 
-.german {
-  width: 15px;
+.german, .english {
+  width: calc((var(--videoCard-width)) * 1 / 8);
   aspect-ratio: 1/1;
-  background-size: 15px;
+  background-size: calc((var(--videoCard-width)) * 1 / 8);
   background-repeat: no-repeat;
+}
+
+.german{
   background-image: url("../../assets/icons/german.png");
 }
 
 .english {
   margin-left: 5px;
-  width: 15px;
-  aspect-ratio: 1/1;
-  background-size: 15px;
-  background-repeat: no-repeat;
   background-image: url("../../assets/icons/english.png");
 }
 
 .runtime {
   position: absolute;
   right: 5px;
-  font-size: 0.6em;
+  font-size: calc((var(--videoCard-width)) * 1 / 13);
 }
 
 .year p,
 .runtime p {
   color: rgb(var(--secondary-text));
-}
-
-@media only screen and (min-width: 1440px) {
-
 }

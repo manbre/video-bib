@@ -3,14 +3,29 @@
   margin-right: 1em;
 }
 
-.searchInput {
-  border-style: none;
+.searchSelection > select {
+  appearance: none;
   height: 2em;
-  width: 22vw;
-  background-color: rgb(var(--top-color));
-  border: 1px solid rgb(var(--menu-color));
-  border-radius: var(--chip-radius);
   padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-style: none;
+  margin-right: 0.5em;
+  background-color: rgb(var(--top-color));
+  color: rgb(var(--secondary-text));
+  text-align: center;
+}
+
+.searchSelection > select:hover {
+  cursor: pointer;
+}
+
+.searchInput {
+  width: 22vw;
+  height: 2em;
+  padding-left: 0.6em;
+  border-style: none;
+  border-radius: 5px;
+  background-color: rgb(var(--top-color));
 }
 
 .searchInput:focus {

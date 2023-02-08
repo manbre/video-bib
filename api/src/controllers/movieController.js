@@ -45,22 +45,55 @@ const getAllMovies = async (req, res) => {
 };
 
 /**
- * @req title
- * @res movies by title
+ * @req search, input
+ * @res movies by search
  */
-const getMoviesByTitle = async (req, res) => {
-  let movies = await Movies.findAll({
-    where: {
-      title: sequelize.where(
-        sequelize.col("title"),
-        "LIKE",
-        "%" + req.params.title + "%"
-      ),
-    },
-    order: [[sequelize.literal("series, year"), "ASC"]],
-  }).catch((err) => {
-    res.send(err);
-  });
+const getMoviesBySearch = async (req, res) => {
+  let movies;
+  switch (req.params.search) {
+    case "title":
+      movies = await Movies.findAll({
+        where: {
+          title: sequelize.where(
+            sequelize.col("title"),
+            "LIKE",
+            "%" + req.params.input + "%"
+          ),
+        },
+        order: [[sequelize.literal("series, year"), "ASC"]],
+      }).catch((err) => {
+        res.send(err);
+      });
+      break;
+    case "director":
+      movies = await Movies.findAll({
+        where: {
+          director: sequelize.where(
+            sequelize.col("director"),
+            "LIKE",
+            "%" + req.params.input + "%"
+          ),
+        },
+        order: [[sequelize.literal("series, year"), "ASC"]],
+      }).catch((err) => {
+        res.send(err);
+      });
+      break;
+    case "actor":
+      movies = await Movies.findAll({
+        where: {
+          actors: sequelize.where(
+            sequelize.col("actors"),
+            "LIKE",
+            "%" + req.params.input + "%"
+          ),
+        },
+        order: [[sequelize.literal("series, year"), "ASC"]],
+      }).catch((err) => {
+        res.send(err);
+      });
+      break;
+  }
   res.send(movies);
 };
 
@@ -73,6 +106,13 @@ const getMoviesByGenre = async (req, res) => {
   if (req.params.genre == "All" || req.params.genre == "0") {
     movies = await Movies.findAll({
       order: [[sequelize.literal("series, year"), "ASC"]],
+    }).catch((err) => {
+      res.send(err);
+    });
+  } else if (req.params.genre == "Recent") {
+    movies = await Movies.findAll({
+      limit: 3,
+      order: [[sequelize.literal("last_viewed"), "DESC"]],
     }).catch((err) => {
       res.send(err);
     });
@@ -332,7 +372,7 @@ module.exports = {
   getAllGenres,
   //
   getAllMovies,
-  getMoviesByTitle,
+  getMoviesBySearch,
   getMoviesByGenre,
   //
   createNewMovie,

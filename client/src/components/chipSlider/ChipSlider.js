@@ -99,6 +99,15 @@ const ChipSlider = () => {
         </button>
       )}
       <ul className={styles.list} ref={scroll} onScroll={checkScroll}>
+      <button
+          id="recent"
+          className={styles.recent}
+          onClick={(e) => styleSelectedChip(e)}
+          onMouseOver={(e) => styleOverChip(e)}
+          onMouseOut={(e) => styleOutChip(e)}
+        >
+          Recent
+        </button>
         <button
           id="all"
           className={styles.chip}

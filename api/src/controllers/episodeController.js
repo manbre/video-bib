@@ -111,6 +111,14 @@ const getSeasonsByGenre = async (req, res) => {
     }).catch((err) => {
       res.send(err);
     });
+  } else if (req.params.genre == "Recent") {
+    seasons = await Episodes.findAll({
+      limit: 3,
+      group: ["series", "season"],
+      order: [[sequelize.literal("last_viewed"), "DESC"]],
+    }).catch((err) => {
+      res.send(err);
+    });
   } else {
     seasons = await Episodes.findAll({
       where: {

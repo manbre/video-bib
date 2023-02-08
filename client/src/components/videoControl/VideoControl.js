@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./VideoControl.module.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { toggleWatch } from "../../features/view";
 import TopBar from "../topBar/TopBar";
 import {
   selectAudio,

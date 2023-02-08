@@ -5,7 +5,7 @@ const movieController = require("../controllers/movieController");
 router.get("/genres", movieController.getAllGenres);
 //
 router.get("/", movieController.getAllMovies);
-router.get("/byTitle/:title", movieController.getMoviesByTitle);
+router.get("/bySearch/:search/:input", movieController.getMoviesBySearch);
 router.get("/byGenre/:genre", movieController.getMoviesByGenre);
 //
 router.post("/", movieController.createNewMovie);

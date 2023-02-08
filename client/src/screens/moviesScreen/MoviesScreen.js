@@ -7,7 +7,6 @@ import ChipSlider from "../../components/chipSlider/ChipSlider";
 import Preview from "../../components/preview/Preview";
 import PreviewHero from "../../components/previewHero/PreviewHero";
 import SideEditor from "../../components/sideEditor/Editor";
-import SpinLoader from "../../components/spinLoader/SpinLoader";
 import TopBar from "../../components/topBar/TopBar";
 import VideoWall from "../../components/videoWall/VideoWall";
 
@@ -15,7 +14,7 @@ import { selectVideo } from "../../features/video";
 
 import {
   useGetMoviesByGenreQuery,
-  useGetMoviesByTitleQuery,
+  useGetMoviesBySearchQuery,
 } from "../../features/api";
 
 const MoviesScreen = () => {
@@ -25,12 +24,16 @@ const MoviesScreen = () => {
 
   const selectedSource = useSelector((state) => state.source.source);
   const selectedVideo = useSelector((state) => state.video.video);
+  const search = useSelector((state) => state.video.search);
 
   const genre = useSelector((state) => state.video.genre);
   const title = useSelector((state) => state.video.title);
 
   const { data: moviesByGenre } = useGetMoviesByGenreQuery(genre);
-  const { data: moviesByTitle } = useGetMoviesByTitleQuery(title);
+  const { data: moviesByTitle } = useGetMoviesBySearchQuery({
+    search: search,
+    input: title,
+  });
 
   const [movies, setMovies] = useState([]);
 
@@ -62,9 +65,6 @@ const MoviesScreen = () => {
   return (
     <div className={styles.container}>
       <TopBar />
-      {/*    <div id="loader" className={styles.loader}>
-        <SpinLoader />
-      </div> */}
       <div className={styles.content}>
         <div id="editor">
           <SideEditor />

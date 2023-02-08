@@ -30,9 +30,13 @@ const PreviewHero = () => {
 
   useEffect(() => {
     document.getElementById("first").style.animationDuration =
-      3 * videos.length + "s";
+      4 * videos.length + "s";
     document.getElementById("second").style.animationDuration =
-      3 * videos.length + "s";
+      4 * videos.length + "s";
+    document.getElementById("third").style.animationDuration =
+      4 * videos.length + "s";
+    document.getElementById("fourth").style.animationDuration =
+      4 * videos.length + "s";
   }, [videos]);
 
   const getVideo = (video) => {
@@ -40,49 +44,95 @@ const PreviewHero = () => {
   };
 
   return (
-    <div id="container" className={styles.container}>
-      <div className={styles.row}>
-        <div className={styles.firstHalf}>
-          <span id="first">
-            {videos.map((video) => (
-              <div
-                className={styles.frame}
-                key={video.id}
-                onClick={() => getVideo(video)}
-              >
-                <img
-                  src={`file:///${selectedSource}//${video.poster}`}
-                  onError={(event) =>
-                    (event.target.src = require("../../assets/images/placeholder.jpg").default)
-                  }
-                  onLoad={(event) =>
-                    (event.target.style.display = "inline-block")
-                  }
-                />
-              </div>
-            ))}
-          </span>
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <div className={styles.row}>
+          <div className={styles.firstHalf}>
+            <span id="first">
+              {videos.map((video) => (
+                <div
+                  className={styles.frame}
+                  key={video.id}
+                  onClick={() => getVideo(video)}
+                >
+                  <img
+                    src={`file:///${selectedSource}//${video.poster}`}
+                    onError={(event) =>
+                      (event.target.src = require("../../assets/images/placeholder.jpg").default)
+                    }
+                    onLoad={(event) =>
+                      (event.target.style.display = "inline-block")
+                    }
+                  />
+                </div>
+              ))}
+            </span>
+          </div>
+          <div className={styles.secondHalf}>
+            <span id="second">
+              {videos.map((video) => (
+                <div
+                  className={styles.frame}
+                  key={video.id}
+                  onClick={() => getVideo(video)}
+                >
+                  <img
+                    src={`file:///${selectedSource}//${video.poster}`}
+                    onError={(event) =>
+                      (event.target.src = require("../../assets/images/placeholder.jpg").default)
+                    }
+                    onLoad={(event) =>
+                      (event.target.style.display = "inline-block")
+                    }
+                  />
+                </div>
+              ))}
+            </span>
+          </div>
         </div>
-        <div className={styles.secondHalf}>
-          <span id="second">
-            {videos.map((video) => (
-              <div
-                className={styles.frame}
-                key={video.id}
-                onClick={() => getVideo(video)}
-              >
-                <img
-                  src={`file:///${selectedSource}//${video.poster}`}
-                  onError={(event) =>
-                    (event.target.src = require("../../assets/images/placeholder.jpg").default)
-                  }
-                  onLoad={(event) =>
-                    (event.target.style.display = "inline-block")
-                  }
-                />
-              </div>
-            ))}
-          </span>
+        <div className={styles.row}>
+          <div className={styles.thirdHalf}>
+            <span id="third">
+              {videos.map((video) => (
+                <div
+                  className={styles.frame}
+                  key={video.id}
+                  onClick={() => getVideo(video)}
+                >
+                  <img
+                    src={`file:///${selectedSource}//${video.poster}`}
+                    onError={(event) =>
+                      (event.target.src = require("../../assets/images/placeholder.jpg").default)
+                    }
+                    onLoad={(event) =>
+                      (event.target.style.display = "inline-block")
+                    }
+                  />
+                </div>
+              ))}
+            </span>
+          </div>
+          <div className={styles.fourthHalf}>
+            <span id="fourth">
+              {videos.map((video) => (
+                <div
+                  className={styles.frame}
+                  key={video.id}
+                  onClick={() => getVideo(video)}
+                >
+                  <img
+                    src={`file:///${selectedSource}//${video.poster}`}
+                    onError={(event) =>
+                      (event.target.src = require("../../assets/images/placeholder.jpg").default)
+                    }
+                    onLoad={(event) =>
+                      (event.target.style.display = "inline-block")
+                    }
+                  />
+                </div>
+              ))}
+            </span>
+          </div>
         </div>
       </div>
     </div>

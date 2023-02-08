@@ -1,14 +1,14 @@
 .container {
-  height: 100vh;
-  width: 100vw;
   display: flex;
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(var(--back-color));
 }
 
 .content {
-  height: 100%;
   display: flex;
+  height: 100%;
 }
 
 #editor {
@@ -16,59 +16,58 @@
 }
 
 .center {
-  height: 100vh;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden; /*!important! for trailer "overflow"*/
   display: flex;
   flex-direction: column;
+  /*  overflow-x: hidden; */ /* for trailer "overflow" */
+  overflow-y: auto;
+  width: 100%;
+  height: 100vh;
 }
 
 .header {
-  position: sticky !important;
+  position: sticky;
+  z-index: 2;
   top: 0;
   width: 100%;
-  z-index: 2;
 }
 .light {
-  height: 100%;
-  width: 100%;
   position: absolute;
-  background-color: rgb(var(--back-color)) !important;
+  z-index: 2;
   top: 0;
   right: 0;
-  z-index: 2;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(var(--back-color));
 }
 
 .preview {
   position: relative;
-  height: fit-content;
   z-index: 3;
 }
 
 .closeBtn {
+  position: absolute;
+  z-index: 3;
   width: 1.5em;
   height: 1.5em;
   margin-top: 1em;
   margin-left: 1em;
-  position: absolute;
-  z-index: 3;
   border: none;
-  background-color: transparent;
-  background-repeat: no-repeat;
   background-position: center;
   background-size: 1.5em;
-  transition: 0.2s;
-  cursor: pointer;
+  background-repeat: no-repeat;
   background-image: url("../../assets/icons/icon_close.png");
+  background-color: transparent;
+  cursor: pointer;
+  /*   transition: 0.2s; */
 }
 
 .cluster {
-  width: 100%;
-  padding-bottom: 5em;
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  position: relative;
-  z-index: 1;
+  width: 100%;
+  padding-bottom: 5em;
 }

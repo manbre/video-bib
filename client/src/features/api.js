@@ -42,8 +42,8 @@ export const api = createApi({
     //----------------------------------------------
     //Searchbar
     //----------------------------------------------
-    getMoviesByTitle: builder.query({
-      query: (title) => `/movies/ByTitle/${title}`,
+    getMoviesBySearch: builder.query({
+      query: ({ search, input }) => `/movies/BySearch/${search}/${input}`,
       providesTags: ["Movie"],
     }),
     /**sample episodes*/
@@ -167,7 +167,7 @@ export const {
   useGetAllSeasonsQuery,
   useGetAllEpisodesQuery,
   //
-  useGetMoviesByTitleQuery,
+  useGetMoviesBySearchQuery,
   useGetSeasonsBySeriesQuery,
   //
   useGetMoviesByGenreQuery,
