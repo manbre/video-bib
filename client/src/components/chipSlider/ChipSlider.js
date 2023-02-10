@@ -64,7 +64,7 @@ const ChipSlider = () => {
   }, [scroll?.current?.scrollWidth, scroll?.current?.offsetWidth]);
 
   useEffect(() => {
-    if (selectedGenre == "All") {
+    if (selectedGenre == "All" || selectedGenre == "0") {
       document.getElementById("all").click();
     }
   }, [selectedGenre]);
@@ -99,7 +99,7 @@ const ChipSlider = () => {
         </button>
       )}
       <ul className={styles.list} ref={scroll} onScroll={checkScroll}>
-      <button
+        <button
           id="recent"
           className={styles.recent}
           onClick={(e) => styleSelectedChip(e)}

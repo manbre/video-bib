@@ -3,20 +3,40 @@
   margin-right: 1em;
 }
 
-.searchSelection > select {
-  appearance: none;
+.selectLabel {
+  display: flex;
+  align-items: center;
   height: 2em;
-  padding-left: 0.5em;
   padding-right: 0.5em;
-  border-style: none;
-  margin-right: 0.5em;
-  background-color: rgb(var(--top-color));
   color: rgb(var(--secondary-text));
-  text-align: center;
+  font-size: 0.8em;
 }
 
-.searchSelection > select:hover {
+select {
+  appearance: none;
+  width: 5em;
+  height: 2em;
+  border-style: none;
+  background-color: rgb(var(--top-color));
+  border-radius: var(--videoCard-radius);
+  text-align: center;
+  font-size: 0.8em;
   cursor: pointer;
+}
+
+select:hover {
+  border: 1px solid rgb(var(--secondary-text));
+}
+
+.defaultSelect{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5em;
+  height: 2em;
+  background-color: rgb(var(--top-color));
+  border-radius: var(--videoCard-radius);
+  font-size: 0.8em;
 }
 
 .searchInput {
@@ -24,7 +44,8 @@
   height: 2em;
   padding-left: 0.6em;
   border-style: none;
-  border-radius: 5px;
+  border-radius: var(--videoCard-radius);
+  margin-left: 0.5em;
   background-color: rgb(var(--top-color));
 }
 

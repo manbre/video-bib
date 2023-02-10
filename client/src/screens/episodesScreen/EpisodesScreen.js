@@ -38,9 +38,6 @@ const EpisodesScreen = () => {
   const [seasons, setSeasons] = useState([]);
 
   useEffect(() => {
-  }, [seasons]);
-
-  useEffect(() => {
     seasonsByGenre && setSeasons(seasonsByGenre ?? []);
     loadingContext.done();
   }, [viewType, seasonsByGenre]);
@@ -71,7 +68,7 @@ const EpisodesScreen = () => {
   return (
     <div className={styles.container}>
       <TopBar />
-{/*       <div id="loader" className={styles.loader}>
+      {/*       <div id="loader" className={styles.loader}>
         <SpinLoader />
       </div> */}
       <div className={styles.content}>

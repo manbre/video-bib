@@ -19,13 +19,14 @@ const ToggleBar = () => {
   }, [viewType]);
 
   const changeToScreen = (type) => {
-    dispatch(toggleType(type));
     switch (type) {
       case 1:
         navigate("/");
+        dispatch(toggleType(1));
         break;
       case 2:
         navigate("/episodes");
+        dispatch(toggleType(2));
         break;
     }
   };

@@ -14,8 +14,12 @@ const SearchBar = () => {
 
   useEffect(() => {
     document.getElementById("myInput").value = "";
-/*     viewType == 1 && (document.getElementById("mySelect").value = "title"); */
-  }, [genre, viewType]);
+  }, [genre]);
+
+  useEffect(() => {
+    document.getElementById("myInput").value = "";
+    dispatch(selectTitle(""));
+  }, [viewType]);
 
   useEffect(() => {
     input == ""
@@ -25,20 +29,28 @@ const SearchBar = () => {
       : dispatch(selectTitle(input));
   }, [input]);
 
+  const handleSearchChange = (e) => {
+    input == ""
+      ? genre == "All"
+        ? dispatch(selectGenre("0"))
+        : dispatch(selectGenre("All"))
+      : dispatch(selectSearch(e.target.value));
+  };
+
   return (
     <div className={styles.container}>
-{/*       {viewType == 1 && (
-        <div className={styles.searchSelection}>
-          <select
-            id="mySelect"
-            onChange={(e) => dispatch(selectSearch(e.target.value))}
-          >
+      <label className={styles.selectLabel}>search by: </label>
+      {viewType == 1 ? (
+        <div className={styles.select}>
+          <select id="mySelect" onChange={(e) => handleSearchChange(e)}>
             <option value="title">Title</option>
             <option value="director">Director</option>
             <option value="actor">Actor</option>
           </select>
         </div>
-      )} */}
+      ) : (
+        <label className={styles.defaultSelect}>Title</label>
+      )}
       <input
         className={styles.searchInput}
         id="myInput"
