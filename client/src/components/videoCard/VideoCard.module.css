@@ -35,6 +35,7 @@
   width: 99%;
   aspect-ratio: 3/4;
   border-radius: var(--videoCard-radius);
+  image-rendering: crisp-edges;
 }
 
 .info {

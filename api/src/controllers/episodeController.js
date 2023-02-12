@@ -99,6 +99,24 @@ const getEpisodesBySeason = async (req, res) => {
 };
 
 /**
+ * @req series, season
+ * @res recent episodes by season
+ */
+const getRecentEpisode = async (req, res) => {
+  let episode = await Episodes.findAll({
+    limit: 1,
+    where: {
+      series: sequelize.where(sequelize.col("series"), req.params.series),
+      season: sequelize.where(sequelize.col("season"), req.params.season),
+    },
+    order: [[sequelize.literal("last_viewed"), "DESC"]],
+  }).catch((err) => {
+    res.send(err);
+  });
+  res.send(episode);
+};
+
+/**
  * @req genre
  * @res seasons (sample episode) by genre
  */
@@ -335,6 +353,7 @@ module.exports = {
   getSeasonsBySeries,
   getAllEpisodes,
   getEpisodesBySeason,
+  getRecentEpisode,
   getSeasonsByGenre,
   //
   createNewEpisode,

@@ -3,23 +3,41 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./CardSlider.module.css";
 import { selectVideo } from "../../features/video";
-import { useGetEpisodeBySeasonQuery } from "../../features/api";
+import {
+  useGetEpisodeBySeasonQuery,
+  useGetRecentEpisodeQuery,
+} from "../../features/api";
 
 const CardSlider = () => {
   const [episodes, setEpisodes] = useState([]);
   const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
   const selectedVideo = useSelector((state) => state.video.video);
+  const genre = useSelector((state) => state.video.genre);
   const source = useSelector((state) => state.source.source);
   const { data: episodesBySeason } = useGetEpisodeBySeasonQuery({
+    series: selectedVideo.series,
+    season: selectedVideo.season,
+  });
+  const { data: recentEpisode } = useGetRecentEpisodeQuery({
     series: selectedVideo.series,
     season: selectedVideo.season,
   });
 
   useEffect(() => {
     episodesBySeason && setEpisodes(episodesBySeason ?? []);
-    setIndex(0);
   }, [episodesBySeason]);
+
+  useEffect(() => {
+    let recent;
+    if (genre == "Recent" && recentEpisode) {
+      recent = recentEpisode ?? [];
+      setIndex(recent[0].episode - 1);
+      dispatch(selectVideo(recent[0]));
+    } else {
+      setIndex(0);
+    }
+  }, [recentEpisode]);
 
   const nextSlide = () => {
     index < episodes.length - 1 ? setIndex(index + 1) : setIndex(0);

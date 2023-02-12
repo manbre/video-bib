@@ -45,7 +45,7 @@ const FormMovie = (props) => {
   const [useDeleteVideo] = useDeleteMovieMutation();
   const [useCopyFiles, { isSuccess: isCopied }] = useCopyMovieFilesMutation();
 
-  const { data: OMDBData, isSuccess: isOMDB  } = useGetOMDBDataQuery(
+  const { data: OMDBData, isSuccess: isOMDB } = useGetOMDBDataQuery(
     {
       title: title,
       year: year,
@@ -237,6 +237,10 @@ const FormMovie = (props) => {
     }
   };
 
+  const clearFileInput = () => {
+
+  }
+
   props.childRef.current = {
     takeOMDBData: takeOMDBData,
     uploadVideo: createVideo,
@@ -250,7 +254,7 @@ const FormMovie = (props) => {
         <div className={styles.row}>
           <div className={styles.topLeft}>
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">
+              <label>
                 Title <span className={styles.tag}>(OMDb)</span>
               </label>
               <input
@@ -262,7 +266,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">Title of series</label>
+              <label>Title of series</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -272,7 +276,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">Director</label>
+              <label>Director</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -282,7 +286,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">Genre</label>
+              <label>Genre</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -294,7 +298,7 @@ const FormMovie = (props) => {
 
           <div className={styles.topRight}>
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">
+              <label>
                 Year <span className={styles.tag}>(OMDb)</span>
               </label>
               <input
@@ -306,7 +310,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">Awards</label>
+              <label>Awards</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -316,7 +320,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">Rating</label>
+              <label>Rating</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -326,7 +330,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">Runtime</label>
+              <label>Runtime</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -340,7 +344,7 @@ const FormMovie = (props) => {
         <div className={styles.row}>
           <div className={styles.mid}>
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">Actors</label>
+              <label>Actors</label>
               <input
                 className={styles.inputField}
                 type="text"
@@ -350,7 +354,7 @@ const FormMovie = (props) => {
             </div>
 
             <div className={styles.textOnInput}>
-              <label htmlFor="inputText">Plot</label>
+              <label>Plot</label>
               <textarea
                 className={styles.inputArea}
                 type="text"
@@ -382,7 +386,7 @@ const FormMovie = (props) => {
           <div className={styles.bottomRight}>
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label htmlFor="inputText">Poster</label>
+                <label>Poster</label>
                 <input
                   id="poster"
                   type="file"
@@ -400,12 +404,16 @@ const FormMovie = (props) => {
                   onChange={(e) => setPoster(e.target.value)}
                 ></input>
               </div>
-              <label className={styles.sourceBtn} htmlFor="poster"></label>
+              {selectedVideo && selectedVideo.poster ? (
+                <label className={styles.sourceDeleteBtn}></label>
+              ) : (
+                <label className={styles.sourceBtn} htmlFor="poster"></label>
+              )}
             </div>
 
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label htmlFor="inputText">Trailer</label>
+                <label>Trailer</label>
                 <input
                   id="trailer"
                   type="file"
@@ -423,12 +431,16 @@ const FormMovie = (props) => {
                   onChange={(e) => setTrailer(e.target.value)}
                 ></input>
               </div>
-              <label className={styles.sourceBtn} htmlFor="trailer"></label>
+              {selectedVideo && selectedVideo.trailer ? (
+                <label className={styles.sourceDeleteBtn}></label>
+              ) : (
+                <label className={styles.sourceBtn} htmlFor="trailer"></label>
+              )}
             </div>
 
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label htmlFor="inputText">Video (german)</label>
+                <label>Video (german)</label>
                 <input
                   id="german"
                   type="file"
@@ -446,12 +458,16 @@ const FormMovie = (props) => {
                   onChange={(e) => setGerman(e.target.value)}
                 ></input>
               </div>
-              <label className={styles.sourceBtn} htmlFor="german"></label>
+              {selectedVideo && selectedVideo.german ? (
+                <label className={styles.sourceDeleteBtn}></label>
+              ) : (
+                <label className={styles.sourceBtn} htmlFor="german"></label>
+              )}
             </div>
 
             <div className={styles.line}>
               <div className={styles.textOnInput}>
-                <label htmlFor="inputText">Video (english)</label>
+                <label>Video (english)</label>
                 <input
                   id="english"
                   type="file"
@@ -469,7 +485,11 @@ const FormMovie = (props) => {
                   onChange={(e) => setEnglish(e.target.value)}
                 ></input>
               </div>
-              <label className={styles.sourceBtn} htmlFor="english"></label>
+              {selectedVideo && selectedVideo.english ? (
+                <label className={styles.sourceDeleteBtn}></label>
+              ) : (
+                <label className={styles.sourceBtn} htmlFor="english"></label>
+              )}
             </div>
           </div>
         </div>

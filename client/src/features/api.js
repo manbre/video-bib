@@ -78,6 +78,11 @@ export const api = createApi({
       query: ({ series, season }) => `/episodes/BySeason/${series}/${season}`,
       providesTags: ["Episode"],
     }),
+    getRecentEpisode: builder.query({
+      query: ({ series, season }) =>
+        `/episodes/BySeason/Recent/${series}/${season}`,
+      providesTags: ["Episode"],
+    }),
 
     //MUTATIONS (Editor)
     writeLocation: builder.mutation({
@@ -176,6 +181,7 @@ export const {
   useGetMovieByIdQuery,
   useGetEpisodeByIdQuery,
   useGetEpisodeBySeasonQuery,
+  useGetRecentEpisodeQuery,
   //
   useWriteLocationMutation,
   //

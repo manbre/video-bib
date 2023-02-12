@@ -9,6 +9,7 @@ router.get("/seasons/:series", episodeController.getSeasonsBySeries);
 router.get("/all", episodeController.getAllEpisodes);
 //
 router.get("/BySeason/:series/:season", episodeController.getEpisodesBySeason);
+router.get("/BySeason/Recent/:series/:season/", episodeController.getRecentEpisode);
 router.get("/byGenre/:genre", episodeController.getSeasonsByGenre);
 //
 router.post("/", episodeController.createNewEpisode);

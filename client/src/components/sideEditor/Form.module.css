@@ -18,12 +18,13 @@
 .row {
   display: flex;
   width: 100%;
-  padding-top: 0.1em;
+  padding-top: 0.2em;
   padding-right: 1em;
 }
 
 .textOnInput {
   position: relative;
+  display: flex;
   margin-top: 1em;
 }
 .textOnInput label {
@@ -110,7 +111,6 @@ label {
   border-radius: 5px;
   border: 1px solid rgb(var(--secondary-text));
   background-color: rgb(var(--menu-color));
-
 }
 
 .poster > img {
@@ -131,20 +131,27 @@ label {
   margin-top: -0.3em;
 }
 
-.bottomRight > .line > .textOnInput >input {
+.bottomRight > .line > .textOnInput > input {
   width: 95%;
 }
 
-.bottomRight > .line > .sourceBtn {
-  width: 1.75em;
+.bottomRight > .line > .sourceBtn,
+.bottomRight > .line > .sourceDeleteBtn {
+  width: 1.5em;
   aspect-ratio: 1/1;
-  margin-top: 0.7em;
-  margin-left: 0.2em;
+  margin-top: 0.9em;
   border-style: none;
   background-position: center;
-  background-size: 1.2em;
   background-repeat: no-repeat;
-  background-image: url("../../assets/icons/icon_input_file.png");
-  background-color: rgb(var(--menu-color));
   cursor: pointer;
+}
+
+.bottomRight > .line > .sourceBtn {
+  background-size: 1.2em;
+  background-image: url("../../assets/icons/icon_open_folder.png");
+}
+
+.bottomRight > .line > .sourceDeleteBtn {
+  background-size: 1em;
+  background-image: url("../../assets/icons/icon_close.png");
 }
