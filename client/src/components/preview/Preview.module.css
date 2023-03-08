@@ -14,8 +14,8 @@
   left: 0;
   display: flex;
   width: 100%;
-  height: fit-content;
 }
+
 
 .description {
   display: grid;
@@ -217,10 +217,12 @@
   position: relative;
   width: 100%;
   aspect-ratio: 24/9;
+  min-height: calc((var(--videoCard-width)) * 12 / 6);
   object-fit: fill;
 }
 
 .videoWall > img {
+  margin-left: 20%;
   width: calc((var(--videoCard-width)) * 2);
   aspect-ratio: 2/3;
 }
@@ -229,7 +231,7 @@
 .muteBtn {
   position: absolute;
   right: 1.2em;
-  bottom: 0.3em;
+  top: 0.3em;
   width: 2.5em;
   height: 2.5em;
   border-style: none;

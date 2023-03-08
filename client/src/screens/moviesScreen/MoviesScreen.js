@@ -6,7 +6,7 @@ import styles from "./MoviesScreen.module.css";
 import ChipSlider from "../../components/chipSlider/ChipSlider";
 import Preview from "../../components/preview/Preview";
 import PreviewHero from "../../components/previewHero/PreviewHero";
-import SideEditor from "../../components/sideEditor/Editor";
+import Editor from "../../components//editor/Editor";
 import TopBar from "../../components/topBar/TopBar";
 import VideoWall from "../../components/videoWall/VideoWall";
 
@@ -59,20 +59,16 @@ const MoviesScreen = () => {
     isEditor
       ? (editor.style = "display: block;")
       : (editor.style = "display: none;");
-    window.dispatchEvent(new Event("resize"));
   }, [isEditor]);
 
   return (
     <div className={styles.container}>
       <TopBar />
       <div className={styles.content}>
-        <div id="editor">
-          <SideEditor />
-        </div>
         <div className={styles.center}>
           <div className={styles.header}>
             <div className={styles.light}>
-              {viewType == 1 && selectedVideo && (
+              {viewType == 1 && selectedVideo && !isEditor && (
                 <video
                   className={styles.light_trailer}
                   autoPlay
@@ -89,7 +85,10 @@ const MoviesScreen = () => {
                   onClick={() => dispatch(selectVideo(null))}
                 ></button>
               )}
-              {selectedVideo ? <Preview /> : <PreviewHero />}
+              <div id="editor">
+                <Editor />
+              </div>
+              {selectedVideo && !isEditor ? <Preview /> : <PreviewHero />}
             </div>
             <ChipSlider />
           </div>

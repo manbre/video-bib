@@ -40,11 +40,11 @@ const TopBar = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.dragBar}></div>
       <button
         className={isEditor ? styles.closeMenuBtn : styles.openMenuBtn}
         onClick={() => dispatch(toggleEditor())}
       ></button>
-      <div className={styles.dragBar}></div>
       <div className={styles.buttonsBar}>
         <button
           className={styles.minBtn}

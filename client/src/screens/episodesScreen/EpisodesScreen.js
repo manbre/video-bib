@@ -7,8 +7,8 @@ import styles from "./EpisodesScreen.module.css";
 import ChipSlider from "../../components/chipSlider/ChipSlider";
 import Preview from "../../components/preview/Preview";
 import PreviewHero from "../../components/previewHero/PreviewHero";
-import SideEditor from "../../components/sideEditor/Editor";
 import SpinLoader from "../../components/spinLoader/SpinLoader";
+import Editor from "../../components//editor/Editor";
 import TopBar from "../../components/topBar/TopBar";
 import VideoWall from "../../components/videoWall/VideoWall";
 
@@ -72,9 +72,6 @@ const EpisodesScreen = () => {
         <SpinLoader />
       </div> */}
       <div className={styles.content}>
-        <div id="editor">
-          <SideEditor />
-        </div>
         <div className={styles.center}>
           <div className={styles.header}>
             <div className={styles.light}></div>
@@ -85,7 +82,10 @@ const EpisodesScreen = () => {
                   onClick={() => dispatch(selectVideo(null))}
                 ></button>
               )}
-              {selectedVideo ? <Preview /> : <PreviewHero />}
+              <div id="editor">
+                <Editor />
+              </div>
+              {selectedVideo && !isEditor ? <Preview /> : <PreviewHero />}
             </div>
             <ChipSlider />
           </div>

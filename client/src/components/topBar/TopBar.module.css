@@ -47,6 +47,7 @@
   width: 4em;
   height: var(--button-height);
   border: none;
+  margin-right: 1em;
   background-size: 20px;
   background-position: center;
   background-repeat: no-repeat;
@@ -74,6 +75,7 @@
 
 .closeMenuBtn {
   background-image: url("../../assets/icons/icon_arrowUp.png");
+  background-color: rgb(var(--back-color));
 }
 
 .minBtn {

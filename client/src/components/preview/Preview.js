@@ -224,13 +224,14 @@ const Preview = () => {
           ></button>
         )}
       </div>
+      <div className={styles.curtain}></div>
       <div className={styles.videoWall}>
         {viewType == 1 && trailer ? (
           <video
             className={styles.trailer}
             autoPlay
             loop
-            muted
+            muted={isMuted}
             src={`file:///${selectedSource}//${trailer}`}
           ></video>
         ) : (

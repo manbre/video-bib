@@ -5,11 +5,8 @@ const MessageBox = ({ message, onDialog }) => {
   return (
     <div className={styles.container}>
       <div className={styles.frame}>
-        <div className={styles.bar}></div>
-        <div className={styles.messageRow}>
-          <label className={styles.symbol}></label>
-          <p className={styles.message}>{message}</p>
-        </div>
+        <label className={styles.symbol}></label>
+        <p className={styles.message}>{message}</p>
         <div className={styles.btnsRow}>
           <button className={styles.btn} onClick={() => onDialog(true)}>
             Yes

@@ -1,0 +1,129 @@
+.container {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc((var(--videoCard-width)) * 13 / 6);
+  background-color: rgb(var(--menu-color));
+}
+
+.tabBar {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+  display: flex;
+  justify-content: flex-start;
+  height: 1.7em;
+  background-color: rgb(var(--back-color));
+}
+
+.tabBar > button {
+  padding: 0.4em;
+  border-style: none;
+  border-top-left-radius: var(--chip-radius);
+  border-top-right-radius: var(--chip-radius);
+  background-color: rgb(var(--top-color));
+  cursor: pointer;
+}
+
+.sourceTab{
+  font-style: italic;
+}
+
+
+.btnsBar {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  height: 2em;
+  padding-right: 0.5em;
+}
+
+.folderChoice{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  left: 50%;
+  margin-top: 3em;
+  font-size: calc((var(--videoCard-width)) * 1 / 9);
+  transform: translate(-50%, 0);
+}
+
+.folderChoice > label {
+  grid-column: 1/1;
+}
+
+.row{
+  display: grid;
+  grid-template-columns: 4em 17em 3em;
+  column-gap: 0.5em;
+  align-items: center;
+  margin: 2em;
+}
+
+.folderInput {
+  grid-column: 2/2;
+  width: 16em;
+  height: 2em;
+  padding-left: 0.5em;
+  border-style: none;
+  border-radius: var(--videoCard-radius);
+  margin-left: 1em;
+  background-color: rgb(var(--back-color));
+  pointer-events: none;
+}
+
+
+.folderBtn {
+  grid-column: 3/3;
+  width: 2em;
+  height: 2em;
+  border-style: none;
+  margin-left: 0.3em;
+  margin-bottom: 0.3em;
+  background-position: center;
+  background-size: 2em;
+  background-repeat: no-repeat;
+  background-image: url("../../assets/icons/icon_open_folder.png");
+  background-color: rgb(var(--menu-color));
+  cursor: pointer;
+}
+
+.deleteBtn,
+.fillBtn,
+.submitBtn {
+  width: 4em;
+  height: 2em;
+  border-style: none;
+  border-radius: var(--videoCard-radius);
+  margin-right: 1em;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  background-position: center;
+  background-size: 1.2em;
+  background-repeat: no-repeat;
+  background-image: url("../../assets/icons/icon_delete.png");
+  background-color: rgb(var(--back-color));
+}
+
+.fillBtn {
+  background-color: rgb(var(--secondary-text));
+  color: rgb(var(--back-color));
+}
+
+.submitBtn {
+  background-color: rgb(var(--back-color));
+  color: rgb(var(--primary-text));
+}
+
+.deleteBtn:hover,
+.submitBtn:hover {
+  background-color: rgb(var(--hover-color));
+}

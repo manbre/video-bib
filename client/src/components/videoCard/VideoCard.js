@@ -47,7 +47,9 @@ const VideoCard = ({ video }) => {
       case 2:
         return (
           <>
-            <p>{video.series} - Season {video.season}</p>
+            <p>
+              {video.series} - Season {video.season}
+            </p>
           </>
         );
     }
